@@ -1,4 +1,4 @@
-import { route } from 'mithril'
+import { route } from 'mithril';
 
 function lazy_load_component(promise_fn) {
     return {

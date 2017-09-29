@@ -24,6 +24,14 @@ describe("map", () => {
     it("should be curried", () => {
         expect(Array.from(map(b => !b)([true, false]))).toEqual([false, true]);
     });
+
+    it("should not call mapping function on empty iterable", () => {
+        let neverCalled = true;
+
+        Array.from(map(n => neverCalled = false, []));
+
+        expect(neverCalled).toEqual(true);
+    });
 });
 
 describe("curry", () => {
@@ -75,25 +83,23 @@ describe("curry", () => {
 
 describe("pipe", () => {
     it("should thread item through functions", () => {
-        const result = pipe([3, 6],
-            map(n => n + 2),
-            map(n => n * 2),
-            Array.from
+        const result = pipe(6,
+            n => n + 2,
+            n => n * 2,
         );
 
-        expect(result).toEqual([10, 16]);
+        expect(result).toEqual(16);
     });
 });
 
 describe("compose", () => {
     it("should join functions", () => {
         const addTwoMultilpyTwo = compose(
-            map(n => n + 2),
-            map(n => n * 2),
-            Array.from
+            n => n + 2,
+            n => n * 2,
         );
 
-        expect(addTwoMultilpyTwo([4, 5])).toEqual([12, 14]);
+        expect(addTwoMultilpyTwo(4)).toEqual(12);
     });
 });
 

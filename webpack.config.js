@@ -6,13 +6,10 @@ const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const debug = process.env.NODE_ENV !== "production";
 
 const common_plugins = [
-    new ExtractTextPlugin("../styles.css"),
     new CleanObsoleteChunks(),
     new webpack.DefinePlugin({
         'process.env': {
@@ -50,7 +47,7 @@ module.exports = {
     },
     resolve: {
         extensions: [
-            ".webpack.js", ".web.js", ".js"
+            ".webpack.js", ".web.js", ".js", ".scss"
         ],
         modules: [
             path.resolve(__dirname, './src/development'),
@@ -70,14 +67,11 @@ module.exports = {
         }, {
             test: /\.scss$/,
             exclude: /node_modules/,
-            loaders: ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: [{
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader"
-                }]
-            })
+            loaders: [
+                { loader: "style-loader" },
+                { loader: "css-loader" },
+                { loader: "sass-loader" }
+            ]
         }]
     },
     devtool: debug ?
@@ -91,9 +85,6 @@ module.exports = {
                     ie8: false,
                     ecma: 5
                 }
-            }),
-            new OptimizeCssAssetsPlugin({
-                cssProcessorOptions: { discardComments: { removeAll: true } },
             })
         ])
 };

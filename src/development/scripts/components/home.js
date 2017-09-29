@@ -19,23 +19,23 @@ export const Home = site_wrapper({
                 console.log(data);
                 m.redraw();
             } catch (e) {
-                alert('There is a problem: ' + e);
+                console.error('There is a problem: ' + e);
             }
         });
     },
-    view: function () {
+    view() {
         const state = this;
 
         return m("section",
             m("h1", "Events"),
-            m("div.overview", [
+            m("div.overview", Array.from(
                 map(data => {
                     return m('div',
                         m('b', data['image-name']),
                         m('span', data['status'])
                     )
                 }, state.socket_data)
-            ])
+            ))
         );
     }
 });
