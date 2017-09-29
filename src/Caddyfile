@@ -1,0 +1,10 @@
+0.0.0.0:2015 {
+    index spa-entry.html
+
+    ext .html
+    errors error.log
+
+	proxy /socket.io cion_api:5000 {
+        websocket
+    }
+}

@@ -1,0 +1,9 @@
+# Webpack dist build
+src/www/**/*.bundle.js
+src/www/**/*.bundle.js.map
+
+# Nmp/yarn
+node_modules
+
+# Webpack analyzer
+reports
