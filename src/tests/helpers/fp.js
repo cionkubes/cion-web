@@ -1,4 +1,16 @@
-import { map, curry, _, pipe, compose, reduce, foldl, foldr, filter, take, first } from '../../development/scripts/helpers/fp';
+import {
+    _,
+    compose,
+    curry,
+    filter,
+    first,
+    foldl,
+    foldr,
+    map,
+    pipe,
+    reduce,
+    take
+} from '../../development/scripts/helpers/fp';
 
 describe("map", () => {
     it("should handle falsy values", () => {

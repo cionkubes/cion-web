@@ -1,7 +1,8 @@
 import m from 'mithril'
 
 export const Search = {
-    controller: () => {},
+    controller: () => {
+    },
     view: () => {
         return m('input', { type: "text" });
     }

@@ -7,7 +7,8 @@ const links = {
 };
 
 export const Menu = {
-    controller: () => {},
+    controller: () => {
+    },
     view: () => {
         return m('ul', pipe(Object.keys(links),
             map(k => m('li', m('a', { href: '/#!/' + k }, links[k]))),

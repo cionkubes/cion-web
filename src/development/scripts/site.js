@@ -4,7 +4,8 @@ import { Search } from 'scripts/components/search'
 
 export function site_wrapper(component) {
     return {
-        controller: () => {},
+        controller: () => {
+        },
         view: () => {
             return m('div', [
                 m('header', m('img', { src: "/resources/images/header.png", alt: "", width: 300 })),

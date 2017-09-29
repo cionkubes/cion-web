@@ -1,13 +1,13 @@
 import m from 'mithril';
 import io from 'socket.io-client';
-import {site_wrapper} from 'scripts/site';
-import {map} from 'scripts/helpers/fp'
+import { site_wrapper } from 'scripts/site';
+import { map } from 'scripts/helpers/fp'
 
 export const component_name = "Home";
 
 const socket = io();
 
-export const Home = {
+export const Home = site_wrapper({
     oninit() {
         const state = this;
         state.socket_data = [];
@@ -15,7 +15,7 @@ export const Home = {
         socket.on('task_update', function (data) {
             try {
                 let id = data.id;
-                state.socket_data.push({key: id, value: data});
+                state.socket_data.push({ key: id, value: data });
                 console.log(data);
                 m.redraw();
             } catch (e) {
@@ -23,7 +23,7 @@ export const Home = {
             }
         });
     },
-    view: function() {
+    view: function () {
         const state = this;
 
         return m("section",
@@ -38,4 +38,4 @@ export const Home = {
             ])
         );
     }
-};
+});

@@ -1,7 +1,4 @@
-'use strict';
-
 import { route } from 'mithril'
-import { Home } from 'scripts/components/home'
 
 function lazy_load_component(promise_fn) {
     return {
@@ -18,8 +15,7 @@ function lazy_load_component(promise_fn) {
 
 route.mode = "hash";
 route(document.body, "/", {
-    // "/": lazy_load_component(() => System.import('scripts/components/home.js')),
-    "/": Home,
+    "/": lazy_load_component(() => System.import('scripts/components/home.js')),
     "/login": lazy_load_component(() => System.import('scripts/components/login.js')),
     "/admin": lazy_load_component(() => System.import('scripts/components/admin.js'))
 });
