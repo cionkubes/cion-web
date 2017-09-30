@@ -1,7 +1,5 @@
-'use strict';
-
-import { route } from 'mithril'
-import { Home } from 'scripts/components/home'
+import { route } from 'mithril';
+import {Home} from 'scripts/components/home';
 
 function lazy_load_component(promise_fn) {
     return {

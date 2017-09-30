@@ -47,7 +47,7 @@ module.exports = {
     },
     resolve: {
         extensions: [
-            ".webpack.js", ".web.js", ".js"
+            ".webpack.js", ".web.js", ".js", ".scss"
         ],
         modules: [
             path.resolve(__dirname, './src/development'),
@@ -64,6 +64,14 @@ module.exports = {
                     ['es2015', { modules: false, loose: true }]
                 ]
             }
+        }, {
+            test: /\.scss$/,
+            exclude: /node_modules/,
+            loaders: [
+                { loader: "style-loader" },
+                { loader: "css-loader" },
+                { loader: "sass-loader" }
+            ]
         }]
     },
     devtool: debug ?

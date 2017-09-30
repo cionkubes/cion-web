@@ -1,37 +1,44 @@
 {
-    "name": "cion",
-    "version": "0.1.0",
-    "description": "Web server for cion",
-    "main": "src/web/app.py",
-    "scripts": {
-        "pack": "webpack --progress --display-error-details",
-        "watch": "webpack --watch",
-        "prebuild": "cross-env NODE_ENV=production webpack --progress",
-        "build:frontend": "docker build -f Dockerfile . --tag tiptk/tipimages:cion-frontend_latest",
-        "build:api": "docker build -f ../api/Dockerfile ../api --tag tiptk/tipimages:cion-api_latest",
-        "build": "run-p build:*",
-        "test": "babel-node --presets node6 src/tests/run.js"
-    },
-    "repository": "https://github.com/haraldfw/quak.git",
-    "author": "Erlend <erlentob@stud.ntnu.no>, Harald <haraldfw@stud.ntnu.no>",
-    "license": "GPL-3.0",
-    "devDependencies": {
-        "babel-cli": "^6.24.1",
-        "babel-core": "^6.25.0",
-        "babel-loader": "^7.1.1",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-preset-node6": "^11.0.0",
-        "circular-dependency-plugin": "^4.2.1",
-        "cross-env": "^5.0.1",
-        "jasmine": "^2.6.0",
-        "npm-run-all": "^4.1.1",
-        "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
-        "webpack": "^3.3.0",
-        "webpack-bundle-analyzer": "^2.8.3",
-        "webpack-clean-obsolete-chunks": "^0.2.0"
-    },
-    "dependencies": {
-        "mithril": "^1.1.3",
-        "socketio": "^1.0.0"
-    }
+  "name": "cion",
+  "version": "0.1.0",
+  "description": "Web server for cion",
+  "main": "src/web/app.py",
+  "scripts": {
+    "pack": "webpack --progress --display-error-details",
+    "watch": "webpack --watch",
+    "prebuild": "cross-env NODE_ENV=production webpack --progress",
+    "build:frontend": "docker build -f Dockerfile . --tag tiptk/tipimages:cion-frontend_latest",
+    "build:api": "docker build -f ../api/Dockerfile ../api --tag tiptk/tipimages:cion-api_latest",
+    "build": "run-p build:*",
+    "test": "babel-node --presets node6 src/tests/run.js"
+  },
+  "repository": "https://github.com/haraldfw/quak.git",
+  "author": "Erlend <erlentob@stud.ntnu.no>, Harald <haraldfw@stud.ntnu.no>",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "cross-env": "^5.0.1",
+    "npm-run-all": "^4.1.1",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-node6": "^11.0.0",
+    "jasmine": "^2.6.0",
+    "css-loader": "^0.28.7",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "circular-dependency-plugin": "^4.2.1",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
+    "webpack": "^3.3.0",
+    "webpack-bundle-analyzer": "^2.8.3",
+    "webpack-clean-obsolete-chunks": "^0.2.0"
+  },
+  "dependencies": {
+    "css-loader": "^0.28.7",
+    "milligram": "^1.3.0",
+    "mithril": "^1.1.3",
+    "socketio": "^1.0.0",
+    "style-loader": "^0.18.2"
+  }
 }

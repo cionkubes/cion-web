@@ -10,6 +10,9 @@ export function compose(...fns) {
     }
 }
 
+// Juxt
+// Zip
+
 export function pipe(item, ...fns) {
     return compose(...fns)(item);
 }
@@ -36,7 +39,7 @@ export const take = curry((n, iterable) => {
 
 export function first(iterable) {
     return iterable[Symbol.iterator]().next().value;
-};
+}
 
 export const each = curry((fn, iterable) => {
     for (let item of iterable) {
@@ -56,11 +59,11 @@ export const map = curry((fn, iterable) => {
             item = iterator.next();
             if (item.done && (typeof item.value === 'undefined')) {
                 return item;
+            } else {
+                item.value = fn(item.value);
+
+                return item;
             }
-
-            item.value = fn(item.value);
-
-            return item;
         },
     };
 });
@@ -76,7 +79,7 @@ export const filter = curry((predicate, iterable) => {
         next() {
             item = iterator.next();
 
-            while (!(item.done || predicate(item.value))) {
+            while (!(item.done || typeof item.value === 'undefined' || predicate(item.value))) {
                 item = iterator.next();
             }
 
@@ -86,15 +89,15 @@ export const filter = curry((predicate, iterable) => {
 });
 
 export function isfunction(obj) {
-    return Object.prototype.toString.call(obj) == '[object Function]';
+    return Object.prototype.toString.call(obj) === '[object Function]';
 }
 
 function _fold_args_pred_type_1(args) {
-    return isfunction(args[0]) && args.length == 2;
+    return isfunction(args[0]) && args.length === 2;
 }
 
 function _fold_combinator(fold_fn) {
-    return curry(fold_fn, args => _fold_args_pred_type_1(args) || args.length == 3, args => {
+    return curry(fold_fn, args => _fold_args_pred_type_1(args) || args.length === 3, args => {
         if (_fold_args_pred_type_1(args)) {
             return fold_fn(undefined, ...args);
         } else {
@@ -112,11 +115,11 @@ const _foldl = (start, fn, iterable) => {
     }
 
     return collector;
-}
+};
 
 const _foldr = (start, fn, iterable) => {
     return _foldl(start, fn, Array.from(iterable).reverse());
-}
+};
 
 export const foldr = _fold_combinator(_foldr);
 export const foldl = _fold_combinator(_foldl);

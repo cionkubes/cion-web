@@ -1,4 +1,16 @@
-import { map, curry, _, pipe, compose, reduce, foldl, foldr, filter, take, first } from '../../development/scripts/helpers/fp';
+import {
+    _,
+    compose,
+    curry,
+    filter,
+    first,
+    foldl,
+    foldr,
+    map,
+    pipe,
+    reduce,
+    take
+} from '../../development/scripts/helpers/fp';
 
 describe("map", () => {
     it("should handle falsy values", () => {
@@ -13,12 +25,12 @@ describe("map", () => {
         expect(Array.from(map(b => !b)([true, false]))).toEqual([false, true]);
     });
 
-    it("should never call mapping function on an empty list", () => {
-        let t = true;
+    it("should not call mapping function on empty iterable", () => {
+        let neverCalled = true;
 
-        Array.from(map(it => t = false, []));
+        Array.from(map(n => neverCalled = false, []));
 
-        expect(t).toEqual(true);
+        expect(neverCalled).toEqual(true);
     });
 });
 
@@ -71,25 +83,23 @@ describe("curry", () => {
 
 describe("pipe", () => {
     it("should thread item through functions", () => {
-        const result = pipe([3, 6],
-            map(n => n + 2),
-            map(n => n * 2),
-            Array.from
+        const result = pipe(6,
+            n => n + 2,
+            n => n * 2,
         );
 
-        expect(result).toEqual([10, 16]);
+        expect(result).toEqual(16);
     });
 });
 
 describe("compose", () => {
     it("should join functions", () => {
         const addTwoMultilpyTwo = compose(
-            map(n => n + 2),
-            map(n => n * 2),
-            Array.from
+            n => n + 2,
+            n => n * 2,
         );
 
-        expect(addTwoMultilpyTwo([4, 5])).toEqual([12, 14]);
+        expect(addTwoMultilpyTwo(4)).toEqual(12);
     });
 });
 

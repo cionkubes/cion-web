@@ -1,25 +1,25 @@
 import m from 'mithril';
 import io from 'socket.io-client';
-import {site_wrapper} from 'scripts/site';
-import {map, pipe} from 'scripts/helpers/fp'
+import { site_wrapper } from 'scripts/site';
+import { map, pipe } from 'scripts/helpers/fp'
 
 export const component_name = "Home";
 
 const socket = io();
 
-export const Home = {
-    oninit(vnode) {
-        const state = vnode.state;
+export const Home = site_wrapper({
+    oninit() {
+        const state = this;
         state.socket_data = {};
 
         socket.on('task_update', function (data) {
             try {
-                console.log(data);
                 let id = data.id;
+                console.log(data);
                 state.socket_data[id] =data;
                 m.redraw();
             } catch (e) {
-                console.log('There is a problem: ' + e);
+                console.error('There is a problem: ' + e);
             }
         });
     },
@@ -40,4 +40,4 @@ export const Home = {
             ))
         );
     }
-};
+});
