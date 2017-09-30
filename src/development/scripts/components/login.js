@@ -9,7 +9,7 @@ export const Login = site_wrapper({
             m('form', [
                 m('label', m('input', { type: "text" })),
                 m('label', m('input', { type: "text" })),
-                m('input.btn.btn-secondary', { type: "submit", value: "Submit" }),
+                m('input', { type: "submit", value: "Submit" }),
             ])
         ]);
     }

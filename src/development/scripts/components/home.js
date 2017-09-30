@@ -29,7 +29,7 @@ export const Home = site_wrapper({
         console.log(state.socket_data);
         return m("section",
             m("h1", "Events"), m(
-                "div.container",
+                "div.overview",
                 pipe(
                     Object.keys(state.socket_data),
                     map(id => {
@@ -37,11 +37,12 @@ export const Home = site_wrapper({
                         let status = state.socket_data[id]['status'];
 
                         return m(
-                            "div.row",
+                            "div.row.task-status-row",
                             [
-                                m("div", {"class": "column column-3em"}, m('div', {"class": "task-processing-loader"})),
-                                m("div", {"class": "column column-50"}, m('span', imageName)),
-                                m("div", {"class": "column column-25"}, m('span', status))
+                                m("div", [
+                                    m('div', {"class": "task-processing-loader"}),
+                                    m('span', imageName + " is " + status)
+                                ])
                             ]
                         )
                     }),

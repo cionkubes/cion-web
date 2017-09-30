@@ -1,5 +1,5 @@
 import m from 'mithril'
-import { map, pipe } from 'scripts/helpers/fp'
+import {map, pipe} from 'scripts/helpers/fp'
 
 const links = {
     '': "Home",
@@ -8,9 +8,12 @@ const links = {
 
 export const Menu = {
     view() {
-        return m('ul', pipe(Object.keys(links),
-            map(k => m('li', m('a', { href: '/#!/' + k }, links[k]))),
-            Array.from
-        ));
+        return m("div.navbar",
+            m('ul', pipe(Object.keys(links),
+                map(k => m('li', m('a', {href: '/#!/' + k}, links[k]))),
+                Array.from
+                )
+            )
+        );
     }
 };
