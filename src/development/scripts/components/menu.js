@@ -9,11 +9,9 @@ const links = {
 export const Menu = {
     view() {
         return m("div.navbar",
-            m('ul', pipe(Object.keys(links),
-                map(k => m('li', m('a', {href: '/#!/' + k}, links[k]))),
-                Array.from
-                )
-            )
+                m('ul', pipe(Object.keys(links),
+                    map(k => m('li', m('a', {href: '/#!/' + k}, links[k]))),
+                    Array.from))
         );
     }
 };

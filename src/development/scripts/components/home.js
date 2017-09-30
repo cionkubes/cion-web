@@ -2,6 +2,7 @@ import m from 'mithril';
 import io from 'socket.io-client';
 import {site_wrapper} from 'scripts/site';
 import {map, pipe} from 'scripts/helpers/fp'
+import style from 'style/home';
 
 export const component_name = "Home";
 
@@ -15,7 +16,6 @@ export const Home = site_wrapper({
         socket.on('task_update', function (data) {
             try {
                 let id = data.id;
-                console.log(data);
                 state.socket_data[id] = data;
                 m.redraw();
             } catch (e) {
@@ -26,8 +26,7 @@ export const Home = site_wrapper({
     view(vnode) {
         const state = vnode.state;
 
-        console.log(state.socket_data);
-        return m("section",
+        return m("div.container.content",
             m("h1", "Events"), m(
                 "div.overview",
                 pipe(

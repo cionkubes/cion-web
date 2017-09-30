@@ -1,0 +1,38 @@
+@import "colors";
+
+.cion-task-update {
+  height: 3em;
+}
+
+.overview {
+  max-height: 20em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.task-status-row {
+  border: 0.1em solid $color-cion-secondary;
+  border-radius: 0.3em;
+  margin: 2px;
+}
+
+.task-processing-loader {
+  float: left;
+  border: 0.3em solid $color-secondary;
+  border-top-color: darken($color-primary, 10%);
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  margin: 0.3em;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
