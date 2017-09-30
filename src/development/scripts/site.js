@@ -5,14 +5,11 @@ import style from 'style/common';
 
 export function site_wrapper(component) {
     return {
-        controller: () => {
-        },
         view: () => {
             return m('div', [
                 m(Menu),
                 m(Search),
-                m(component),
-                // m('footer', "QUaKTM")
+                m(component)
             ]);
         }
     }
