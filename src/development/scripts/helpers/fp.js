@@ -54,6 +54,10 @@ export const map = curry((fn, iterable) => {
         },
         next() {
             item = iterator.next();
+            if (item.done && (typeof item.value === 'undefined')) {
+                return item;
+            }
+
             item.value = fn(item.value);
 
             return item;
@@ -61,7 +65,7 @@ export const map = curry((fn, iterable) => {
     };
 });
 
-export const filter = curry((predecate, iterable) => {
+export const filter = curry((predicate, iterable) => {
     let item;
     const iterator = iterable[Symbol.iterator]();
 
@@ -72,7 +76,7 @@ export const filter = curry((predecate, iterable) => {
         next() {
             item = iterator.next();
 
-            while (!(item.done || predecate(item.value))) {
+            while (!(item.done || predicate(item.value))) {
                 item = iterator.next();
             }
 
@@ -118,7 +122,7 @@ export const foldr = _fold_combinator(_foldr);
 export const foldl = _fold_combinator(_foldl);
 export const reduce = foldl;
 
-function curry_factory(fn, state, predecate, on_completion) {
+function curry_factory(fn, state, predicate, on_completion) {
     return (...innerArgs) => {
         const newState = {
             args: state.args.concat([]),
@@ -146,22 +150,22 @@ function curry_factory(fn, state, predecate, on_completion) {
             newState.placeholders.push(placeholder);
         }
 
-        if (predecate(newState.args)) {
+        if (predicate(newState.args)) {
             return on_completion(newState.args)
         } else if (newState.args.length < fn.length) {
-            return curry_factory(fn, newState, predecate, on_completion);
+            return curry_factory(fn, newState, predicate, on_completion);
         } else {
             throw 'Too many args passed to curried function';
         }
     }
 }
 
-export function curry(fn, predecate, on_completion) {
-    predecate = (typeof predecate !== 'undefined') ? predecate : args => args.length == fn.length;
+export function curry(fn, predicate, on_completion) {
+    predicate = (typeof predicate !== 'undefined') ? predicate : args => args.length === fn.length;
     on_completion = (typeof on_completion !== 'undefined') ? on_completion : args => fn(...args);
 
     return curry_factory(fn, {
         args: [],
         placeholders: [],
-    }, predecate, on_completion);
+    }, predicate, on_completion);
 }

@@ -12,6 +12,14 @@ describe("map", () => {
     it("should be curried", () => {
         expect(Array.from(map(b => !b)([true, false]))).toEqual([false, true]);
     });
+
+    it("should never call mapping function on an empty list", () => {
+        let t = true;
+
+        Array.from(map(it => t = false, []));
+
+        expect(t).toEqual(true);
+    });
 });
 
 describe("curry", () => {
@@ -122,7 +130,7 @@ describe("foldr", () => {
 });
 
 describe("filter", () => {
-    it("should filter out items not passing the predecate", () => {
+    it("should filter out items not passing the predicate", () => {
         expect(Array.from(filter(item => item === 2, [2, 1, 2]))).toEqual([2, 2]);
     });
 

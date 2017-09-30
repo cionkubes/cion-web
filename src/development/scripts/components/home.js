@@ -1,41 +1,43 @@
 import m from 'mithril';
 import io from 'socket.io-client';
 import {site_wrapper} from 'scripts/site';
-import {map} from 'scripts/helpers/fp'
+import {map, pipe} from 'scripts/helpers/fp'
 
 export const component_name = "Home";
 
 const socket = io();
 
 export const Home = {
-    oninit() {
-        const state = this;
-        state.socket_data = [];
+    oninit(vnode) {
+        const state = vnode.state;
+        state.socket_data = {};
 
         socket.on('task_update', function (data) {
             try {
-                let id = data.id;
-                state.socket_data.push({key: id, value: data});
                 console.log(data);
+                let id = data.id;
+                state.socket_data[id] =data;
                 m.redraw();
             } catch (e) {
-                alert('There is a problem: ' + e);
+                console.log('There is a problem: ' + e);
             }
         });
     },
-    view: function() {
-        const state = this;
+    view(vnode) {
+        const state = vnode.state;
 
+        console.log(state.socket_data);
         return m("section",
-            m("h1", "Events"),
-            m("div.overview", [
-                map(data => {
+            m("h1", "Events"), m("div.overview", pipe(
+                Object.keys(state.socket_data),
+                map(id => {
                     return m('div',
-                        m('b', data['image-name']),
-                        m('span', data['status'])
+                        m('b', state.socket_data[id]['image-name']),
+                        m('span', state.socket_data[id]['status'])
                     )
-                }, state.socket_data)
-            ])
+                }),
+                Array.from
+            ))
         );
     }
 };

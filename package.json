@@ -10,7 +10,7 @@
         "build:frontend": "docker build -f Dockerfile . --tag tiptk/tipimages:cion-frontend_latest",
         "build:api": "docker build -f ../api/Dockerfile ../api --tag tiptk/tipimages:cion-api_latest",
         "build": "run-p build:*",
-        "test": "babel-node --presets node6 src/web/tests/run.js"
+        "test": "babel-node --presets node6 src/tests/run.js"
     },
     "repository": "https://github.com/haraldfw/quak.git",
     "author": "Erlend <erlentob@stud.ntnu.no>, Harald <haraldfw@stud.ntnu.no>",
