@@ -1,1 +1,25 @@
 @import "~milligram/dist/milligram";
+
+// (not common) style-code for the events page because I don't know how css-loading works in this setup lololol
+.cion-task-update {
+  height: 3em;
+}
+
+.task-processing-loader {
+  border: 0.3em solid #b7fcff;
+  border-top-color: #3498db;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  margin: 1em;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
