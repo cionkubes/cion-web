@@ -3,7 +3,7 @@
 @import "~milligram/src/milligram";
 
 body {
-  background-color: #E5E5E5;
+  background-color: $color-cion-background;
   font-weight: 200;
 }
 
@@ -38,6 +38,6 @@ body {
 }
 
 .content {
-  padding: 1em;
+  padding: 1rem;
   background-color: #ffffff;
 }

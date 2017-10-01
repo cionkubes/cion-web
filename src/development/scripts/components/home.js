@@ -39,7 +39,7 @@ export const Home = site_wrapper({
                             "div.row.task-status-row",
                             [
                                 m("div", [
-                                    m('div', {"class": "task-processing-loader"}),
+                                    m('div.task-processing-loader'),
                                     m('span', imageName + " is " + status)
                                 ])
                             ]
