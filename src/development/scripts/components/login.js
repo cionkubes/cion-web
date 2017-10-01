@@ -1,5 +1,5 @@
 import m from 'mithril'
-import style from 'style/login';
+import login_style from 'style/login.useable';
 
 let Auth = {
     username: "",
@@ -36,29 +36,29 @@ let Auth = {
 export const component_name = "Login";
 export const Login = {
     view() {
-        return m('div.login-container', [
-            m("div.row",
-                m("div.column.column-40", m('h1.title', "cion")),
-                m("div.column.column-10.separator"),
-                m("div.column.column-10"),
-                m("div.column.column-40",
-                    m('div', {
-                        style: "margin-bottom: 0"
-                    }, [
-                        m("input[type=text]", {
-                            oninput: m.withAttr("value", Auth.setUsername),
-                            value: Auth.username,
-                            placeholder: "username"
-                        }),
-                        m("input[type=password]", {
-                            oninput: m.withAttr("value", Auth.setPassword),
-                            value: Auth.password,
-                            placeholder: "password"
-                        }),
-                        m("button[type=button]", {onclick: Auth.login, style: "width:100%"}, "Login")
-                    ])
-                )
-            )
-        ]);
+        return m('div.login-box', [
+                m('h1.title', "cion"),
+                m("div.separator"),
+                m('form', {onsubmit: Auth.login}, [
+                    m('label', m("input[type=text]", {
+                        oninput: m.withAttr("value", Auth.setUsername),
+                        value: Auth.username,
+                        placeholder: "username"
+                    })),
+                    m('label', m("input[type=password]", {
+                        oninput: m.withAttr("value", Auth.setPassword),
+                        value: Auth.password,
+                        placeholder: "password"
+                    })),
+                    m('input', {type: "submit", value: "Login"}),
+                ])
+            ]
+        );
+    },
+    oncreate() {
+        login_style.ref();
+    },
+    onremove() {
+        login_style.unref();
     }
 };

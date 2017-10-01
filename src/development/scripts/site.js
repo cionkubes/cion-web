@@ -6,15 +6,12 @@ import style from 'style/common';
 
 export function site_wrapper(component) {
     return {
-        controller: () => {
-        },
         view: () => {
             return m('div.container', [
                 m(Header),
                 m(Menu),
                 m("main", {role: "main"}, m(component)),
                 m(Footer)
-                // m('footer', "QUaKTM")
             ]);
         }
     }

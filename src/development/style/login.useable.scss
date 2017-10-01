@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic");
+@import "colors";
+@import "~milligram/src/milligram";
+
+@media (min-width: 55rem) {
+  body {
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 55rem 1fr;
+    grid-template-areas:
+            ". ..... ."
+            ". login ."
+            ". ..... ." !important;
+  }
+
+  .login-box {
+    height: 20rem !important;
+
+    grid-template-columns: 1fr 1px 1fr;
+    grid-template-rows: 3rem 1fr 3rem !important;
+    grid-row-gap: 0 !important;
+
+    grid-template-areas:
+          "..... ......... ...."
+          "title seperator form"
+          "..... ......... ...." !important;
+  }
+
+  .separator {
+    border-right: $color-secondary solid 1px;
+    border-bottom: $color-secondary solid 0px !important;
+  }
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+          "login";
+  height: 100vh;
+
+  background-color: $color-cion-background;
+}
+
+.login-box {
+  display: grid;
+  grid-area: login;
+
+  grid-template-rows: 10rem 1px 1fr;
+  grid-row-gap: 2rem;
+  grid-template-areas:
+          "title"
+          "seperator"
+          "form";
+
+  box-shadow: 0 0 10em #fff;
+  font-weight: 200;
+  background-color: #fff;
+  height: 40rem;
+
+  form {
+    grid-area: form;
+    margin-bottom: 0;
+
+    padding: 0 3rem 0 3rem;
+
+    & > input:last-child {
+      width: 100%;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.separator {
+  grid-area: seperator;
+  border-bottom: $color-secondary solid 1px;
+}
+
+.title {
+  grid-area: title;
+  font-size: 80px;
+  text-align: center;
+  align-self: center;
+}

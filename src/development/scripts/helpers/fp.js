@@ -18,7 +18,6 @@ export function pipe(item, ...fns) {
 }
 
 export const take = curry((n, iterable) => {
-    let item;
     let i = 0;
     const iterator = iterable[Symbol.iterator]();
 

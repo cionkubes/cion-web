@@ -65,10 +65,17 @@ module.exports = {
                 ]
             }
         }, {
-            test: /\.scss$/,
-            exclude: /node_modules/,
+            test: /((?!\.useable).{8}|^.{0,7})\.scss$/,
             loaders: [
                 { loader: "style-loader" },
+                { loader: "css-loader" },
+                { loader: "sass-loader" }
+            ]
+        },
+        {
+            test: /\.useable\.scss$/,
+            loaders: [
+                { loader: "style-loader/useable" },
                 { loader: "css-loader" },
                 { loader: "sass-loader" }
             ]

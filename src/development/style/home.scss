@@ -1,30 +1,30 @@
 @import "colors";
 
 .cion-task-update {
-  height: 3em;
+  height: 3rem;
 }
 
 .overview {
-  max-height: 20em;
+  max-height: 20rem;
   overflow-y: scroll;
   overflow-x: hidden;
   box-sizing: border-box;
 }
 
 .task-status-row {
-  border: 0.1em solid $color-cion-secondary;
-  border-radius: 0.3em;
+  border: 0.1rem solid $color-cion-secondary;
+  border-radius: 0.3rem;
   margin: 2px;
 }
 
 .task-processing-loader {
   float: left;
-  border: 0.3em solid $color-secondary;
+  border: 0.3rem solid $color-secondary;
   border-top-color: darken($color-primary, 10%);
   border-radius: 50%;
-  width: 2em;
-  height: 2em;
-  margin: 0.3em;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.3rem;
   animation: spin 0.6s linear infinite;
 }
 
