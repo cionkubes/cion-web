@@ -36,7 +36,7 @@ let Auth = {
 export const component_name = "Login";
 export const Login = {
     view() {
-        return m('div.container.content.login-container', [
+        return m('div.login-container', [
             m("div.row",
                 m("div.column.column-40", m('h1.title', "cion")),
                 m("div.column.column-10.separator"),

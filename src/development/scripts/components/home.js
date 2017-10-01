@@ -26,7 +26,7 @@ export const Home = site_wrapper({
     view(vnode) {
         const state = vnode.state;
 
-        return m("div.container.content",
+        return m("div",
             m("h1", "Events"), m(
                 "div.overview",
                 pipe(

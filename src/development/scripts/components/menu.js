@@ -1,5 +1,6 @@
-import m from 'mithril'
-import {map, pipe} from 'scripts/helpers/fp'
+import m from 'mithril';
+import {map, pipe} from 'scripts/helpers/fp';
+import style from 'style/nav';
 
 const links = {
     '': "Home",
@@ -8,10 +9,10 @@ const links = {
 
 export const Menu = {
     view() {
-        return m("div.navbar",
-                m('ul', pipe(Object.keys(links),
-                    map(k => m('li', m('a', {href: '/#!/' + k}, links[k]))),
-                    Array.from))
+        return m("nav", {role: "navigation"},
+            pipe(Object.keys(links),
+                map(k => m('a', {href: '/#!/' + k}, links[k])),
+                Array.from)
         );
     }
 };

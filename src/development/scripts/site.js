@@ -1,6 +1,7 @@
 import m from 'mithril'
-import { Menu } from 'scripts/components/menu'
-import { Search } from 'scripts/components/search'
+import {Menu} from 'scripts/components/menu'
+import {Header} from 'scripts/components/header'
+import {Footer} from 'scripts/components/footer'
 import style from 'style/common';
 
 export function site_wrapper(component) {
@@ -8,10 +9,11 @@ export function site_wrapper(component) {
         controller: () => {
         },
         view: () => {
-            return m('div', [
+            return m('div.container', [
+                m(Header),
                 m(Menu),
-                m(Search),
-                m(component),
+                m("main", {role: "main"}, m(component)),
+                m(Footer)
                 // m('footer', "QUaKTM")
             ]);
         }
