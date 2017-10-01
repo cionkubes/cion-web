@@ -4,9 +4,7 @@ import style from 'style/login';
 export const component_name = "Login";
 export const Login = {
     view() {
-        return m('div.container.content.login-container', {
-            style: "max-width: 40em"
-        }, [
+        return m('div.container.content.login-container', [
             m("div.row",
                 m("div.column.column-40", m('h1.title', "cion")),
                 m("div.column.column-10.separator"),
