@@ -7,7 +7,7 @@ import style from 'style/common';
 export function site_wrapper(component) {
     return {
         view: () => {
-            return m('div.container', [
+            return m('div.container', {id: "main-container"}, [
                 m(Header),
                 m(Menu),
                 m("main", {role: "main"}, m(component)),

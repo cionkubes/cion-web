@@ -18,6 +18,10 @@ nav a {
   padding: 1rem 1rem;
 }
 
+nav a .link-icon {
+  float: right;
+}
+
 nav a:hover {
   background-color: #ddd;
   color: black;
