@@ -2,6 +2,10 @@
 @import "colors";
 @import "~milligram/src/milligram";
 
+input {
+  color: $color-cion-text;
+}
+
 @media (min-width: 55rem) {
   body {
     grid-template-rows: 1fr 1fr 1fr;
@@ -38,23 +42,22 @@ body {
           "login";
   height: 100vh;
 
-  background-color: $color-cion-background;
+  background-color: $color-cion-background-primary;
 }
 
 .login-box {
   display: grid;
   grid-area: login;
 
-  grid-template-rows: 10rem 1px 1fr;
+  grid-template-rows: 1fr 1px 1fr;
   grid-row-gap: 2rem;
   grid-template-areas:
           "title"
           "separator"
           "form";
 
-  box-shadow: 0 0 10em #fff;
   font-weight: 200;
-  background-color: #fff;
+  background-color: $color-cion-background-secondary;
   height: 40rem;
 
   form {

@@ -1,43 +1,31 @@
 @import "colors";
 
 nav {
-  background-color: $color-secondary;
+  background-color: $color-cion-background-tertiary;
   transition: 0.5s;
-}
-
-nav ul li {
-  list-style-type: none;
-}
-
-nav a {
-  text-decoration: none;
-  font-size: 25px;
-  color: #f2f2f2;
-  display: block;
-  transition: 0.3s;
-  padding: 1rem 1rem;
-}
-
-nav a .link-icon {
-  float: right;
-}
-
-nav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.sidenav a:hover, .offcanvas a:focus{
-  color: #f1f1f1;
+  a {
+    text-decoration: none;
+    font-size: 25px;
+    color: #f2f2f2;
+    display: block;
+    transition: 0.3s;
+    padding: 1rem 1rem;
+    .link-icon {
+      float: right;
+    }
+  }
+  a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  ul li {
+    list-style-type: none;
+  }
 }
 
 @media (max-width: 768px) {
   .container {
-    grid-template-areas:
-            "header"
-            "nav"
-            "content"
-            "footer";
+    grid-template-areas: "header" "nav" "content" "footer";
   }
 
   nav a {

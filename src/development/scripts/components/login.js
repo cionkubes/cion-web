@@ -38,7 +38,7 @@ export const Login = {
     view() {
         return m('div.login-box', [
                 m("div.title-container",[
-                    m("img", {height: 4*35.27744, width: 4*107.87021, src: "resources/logo.svg"})
+                    m("img", {src: "resources/logo.svg"})
                 ]),
                 m("div.separator"),
                 m('form', {onsubmit: Auth.login}, [
