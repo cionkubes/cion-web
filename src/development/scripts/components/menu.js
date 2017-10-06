@@ -4,7 +4,7 @@ import style from 'style/nav';
 
 
 const links = {
-    '': "Home",
+    '': "Dashboard",
     'admin': "Admin"
 };
 
@@ -14,7 +14,7 @@ export const Menu = {
             pipe(Object.keys(links),
                 map(k => m('a', {href: '/#!/' + k}, [
                         m("span.link-text", links[k]),
-                        m("span.link-icon", "ic")
+                        m("img.link-icon", {src: "resources/nav/" + links[k] + ".svg"})
                     ])
                 ),
                 Array.from)

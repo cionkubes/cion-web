@@ -16,3 +16,14 @@ export function site_wrapper(component) {
         }
     }
 }
+
+export function dashboard_comp_wrapper(title, component) {
+    return {
+        view: () => {
+            return m('div.dash_component', [
+                m("div.title", m("h4", title)),
+                m("div.content", component)
+            ]);
+        }
+    }
+}

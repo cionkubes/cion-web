@@ -25,7 +25,13 @@ body {
 }
 
 footer {
+  grid-area: footer;
+  background-color: $color-cion-quinary;
+  margin: 0;
+  transition: 0.1s;
   a {
+    width: 100%;
+    height: 100%;
     margin: 0;
     * {
       display: inline-block;
@@ -97,7 +103,6 @@ header {
   }
 }
 
-
 nav {
   grid-area: nav;
   transition: 0.1s;
@@ -108,13 +113,6 @@ main {
   margin: 0;
   height: 100%;
   padding: 1em;
-  transition: 0.1s;
-}
-
-footer {
-  grid-area: footer;
-  background-color: $color-cion-quinary;
-  margin: 0;
   transition: 0.1s;
 }
 
@@ -131,5 +129,3 @@ footer {
     grid-template-rows: auto auto 1fr auto;
   }
 }
-
-
