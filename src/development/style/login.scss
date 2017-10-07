@@ -1,0 +1,24 @@
+@import "colors";
+
+.separator {
+  border-right: $color-secondary solid 1px
+}
+
+.login-container {
+  background-color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  padding: 2em;
+  box-shadow: 0 0 10em #fff;
+  max-width: 40em;
+  margin: -1px;
+}
+
+.title {
+  font-size: 80px;
+  text-align: center;
+  margin: auto;
+  padding: 30px;
+}

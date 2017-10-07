@@ -5,10 +5,10 @@
 }
 
 .overview {
-  max-height: 20rem;
   overflow-y: scroll;
   overflow-x: hidden;
   box-sizing: border-box;
+  height: 100%;
 }
 
 .task-status-row {
@@ -20,7 +20,7 @@
 .task-processing-loader {
   float: left;
   border: 0.3rem solid $color-secondary;
-  border-top-color: darken($color-primary, 10%);
+  border-top-color: lighten($color-primary, 60%);
   border-radius: 50%;
   width: 2rem;
   height: 2rem;

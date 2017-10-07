@@ -24,7 +24,7 @@ let Auth = {
             if (status === 200) {
                 let data = response.body;
                 localStorage.setItem("auth-token", data.token);
-                m.route.set("/")
+                m.route.set("/");
             } else {
 
             }
@@ -37,9 +37,11 @@ export const component_name = "Login";
 export const Login = {
     view() {
         return m('div.login-box', [
-                m('h1.title', "cion"),
+                m("div.title-container",[
+                    m("img", {src: "resources/logo.svg"})
+                ]),
                 m("div.separator"),
-                m('form', [
+                m('form', {onsubmit: Auth.login}, [
                     m('label', m("input[type=text]", {
                         oninput: m.withAttr("value", Auth.setUsername),
                         value: Auth.username,
@@ -55,10 +57,10 @@ export const Login = {
             ]
         );
     },
-    oncreate(){
+    oncreate() {
         login_style.ref();
     },
-    onremove(){
+    onremove() {
         login_style.unref();
     }
 };
