@@ -14,17 +14,30 @@ nav {
       margin: 1rem;
       font-size: 1.2em;
     }
-    svg {
-      height: 2em;
-      width: 2em;
-      padding: 0;
-      margin: 0.8rem;
+    .dash-icon {
+      display: block;
+      margin: 0.5rem;
+      width: 2.5em;
+      height: 2.5em;
       float: right;
+      svg {
+         width: 100%;
+         height: 100%;
+      }
+      svg path {
+        stroke: white;
+        fill: white;
+        transition: 0.3s;
+      }
     }
   }
   a:hover {
     background-color: #ddd;
     color: black;
+    svg path {
+      stroke: black;
+      fill: black;
+    }
   }
 }
 
