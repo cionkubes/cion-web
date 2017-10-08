@@ -3,12 +3,14 @@ import {map, pipe} from 'scripts/helpers/fp';
 
 import {DashboardSvg} from 'scripts/components/svg/DashboardSvg';
 import {AdminSvg} from 'scripts/components/svg/adminsvg';
+import {StatusSvg} from 'scripts/components/svg/statussvg';
 import style from 'style/nav';
 
 
 const links = {
     '': ["Dashboard", m(DashboardSvg)],
-    'admin': ["Admin", m(AdminSvg)]
+    'admin': ["Admin", m(AdminSvg)],
+    'status': ["Status", m(StatusSvg)]
 };
 
 export const Menu = {
