@@ -17,6 +17,6 @@ route.mode = "hash";
 route(document.body, "/", {
     "/": lazy_load_component(() => System.import('scripts/components/dashboard.js')),
     "/login": lazy_load_component(() => System.import('scripts/components/login.js')),
-    "/admin": lazy_load_component(() => System.import('scripts/components/admin.js'))
-    // "/status": lazy_load_component(() => System.import('scripts/components/status.js'))
+    "/admin": lazy_load_component(() => System.import('scripts/components/admin.js')),
+    "/logs": lazy_load_component(() => System.import('scripts/components/logs.js'))
 });

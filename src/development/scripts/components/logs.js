@@ -2,16 +2,16 @@ import m from 'mithril';
 import {site_wrapper, dashboard_comp_wrapper} from 'scripts/site';
 import {map, pipe} from 'scripts/helpers/fp';
 import {Tasks} from 'scripts/components/tasks';
-import style from 'style/dashboard';
+import style from 'style/logs';
 
-export const component_name = "Status";
+export const component_name = "Logs";
 
-export const Status = site_wrapper({
-    view() {
+export const Logs = site_wrapper({
+    view: function () {
         return m("div.home", [
-                m("h1", "Status"),
-                m("div.component_container",
-                    m(dashboard_comp_wrapper("Tasks", m(Tasks)))
+                m("h1", "Logs"),
+                m("div",
+                    m("Tasks", m(Tasks))
                 )
             ]
         );

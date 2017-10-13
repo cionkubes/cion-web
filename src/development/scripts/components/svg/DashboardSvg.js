@@ -1,9 +1,8 @@
 import m from 'mithril';
 
 export const DashboardSvg = {
-    // TODO: clean this code up. Simplify svg-file
     view() {
-        return m("div.dash-icon", m("svg", {
+        return m("svg", {
                 viewBox: "0 0 264.81 264.81"
             },
                 m("g", {stroke: "#fff"}, [
@@ -17,6 +16,6 @@ export const DashboardSvg = {
                         d: "m173.65 80.867a10.001 10.001 0 0 0-6.875 3.0254l-42.32 42.32a10.001 10.001 0 1 0 14.143 14.143l42.32-42.32a10.001 10.001 0 0 0-7.2676-17.168z"
                     })
                 ])
-        ));
+        );
     }
 };

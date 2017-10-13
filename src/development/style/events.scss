@@ -11,28 +11,215 @@
   height: 100%;
 }
 
-.task-status-row {
+.task-row {
   border: 0.1rem solid $color-cion-secondary;
   border-radius: 0.3rem;
   margin: 2px;
+  .task-icon {
+    float: left;
+    width: 2rem;
+    height: 2rem;
+    margin: 0.3rem;
+  }
 }
 
-.task-processing-loader {
-  float: left;
-  border: 0.3rem solid $color-secondary;
-  border-top-color: lighten($color-primary, 60%);
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  margin: 0.3rem;
-  animation: spin 0.8s linear infinite;
+.task-row.processing {
+  border-color: $color-cion-primary;
+  color: $color-cion-primary;
+  .task-icon {
+    border: 0.3rem solid;
+    border-top-color: lighten($color-primary, 60%);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-@keyframes spin {
+.task-row.erroneous {
+  border-color: $color-cion-erroneous;
+  color: $color-cion-erroneous;
+  .task-icon {
+    svg path {
+      stroke: $color-cion-erroneous;
+      fill: $color-cion-erroneous;
+    }
+  }
+}
+
+.task-row.ready {
+  border-color: $color-cion-primary;
+  color: $color-cion-primary;
+  .task-icon {
+    animation: done 1s ease-in forwards;
+    stroke-width: 15;
+    stroke-dashoffset: 0;
+  }
+}
+
+.task-row.done {
+  border-color: $color-cion-done;
+  color: $color-cion-done;
+  .task-icon {
+  }
+}
+
+// -----------------------------
+
+.path {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 0;
+  -webkit-animation-name: load, spin;
+  -webkit-animation-duration: 3s, 3s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-name: load, spin;
+  animation-duration: 3s, 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50px 50px;
+}
+
+.path-complete {
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+.check
+{
+	stroke-dasharray: 110;
+	stroke-dashoffset: -110;
+	stroke-width: 0;
+}
+
+.check-complete
+{
+	-webkit-animation: check 1s ease-in forwards;
+	animation: check 1s ease-in forwards;
+	stroke-width: 15;
+	stroke-dashoffset: 0;
+}
+
+.fill
+{
+	stroke-dasharray: 285;
+	stroke-dashoffset: -257;
+	-webkit-animation: spin-fill 3s cubic-bezier(0.700, 0.435, 0.120, 0.600) infinite forwards;
+	animation: spin-fill 3s cubic-bezier(0.700, 0.465, 0.120, 0.600) infinite forwards;
+    -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50px 50px;
+}
+
+.fill-complete
+{
+	-webkit-animation: fill 1s ease-out forwards;
+	animation: fill 1s ease-out forwards;
+}
+
+@-webkit-keyframes load {
+ 0% {
+   stroke-dashoffset: 300;
+   -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+ }
+ 50% {
+	 stroke-dashoffset: 0;
+	 -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+ }
+ 100% {
+   stroke-dashoffset: -300;
+ }
+}
+@keyframes load {
+ 0% {
+   stroke-dashoffset: 285;
+   animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+ }
+ 50% {
+	 stroke-dashoffset: 0;
+	 animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+ }
+ 100% {
+   stroke-dashoffset: -285;
+ }
+}
+
+@-webkit-keyframes check {
+ 0% {
+   stroke-dashoffset: -110;
+}
+ 100% {
+   stroke-dashoffset: 0;
+ }
+}
+@keyframes check {
+ 0% {
+   stroke-dashoffset: -110;
+}
+ 100% {
+   stroke-dashoffset: 0;
+ }
+}
+
+@-webkit-keyframes spin {
   0% {
-    transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+	-webkit-transform: rotate(360deg);
   }
+}
+@keyframes spin {
+  0% {
+	transform: rotate(0deg);
+  }
+  100% {
+	transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin-fill {
+  0% {
+	-webkit-transform: rotate(0deg);
+  }
+  100% {
+	-webkit-transform: rotate(720deg);
+  }
+}
+@keyframes spin-fill {
+  0% {
+	transform: rotate(0deg);
+  }
+  100% {
+	transform: rotate(720deg);
+  }
+}
+
+@-webkit-keyframes fill {
+  0% {
+	stroke-dashoffset: 285;
+  }
+  100% {
+	stroke-dashoffset: 0;
+  }
+}
+@keyframes fill {
+  0% {
+	stroke-dashoffset: 285;
+  }
+  100% {
+	stroke-dashoffset: 0;
+  }
+}
+
+.success
+{
+    stroke: #009900;
+    transition: stroke .6s;
 }
