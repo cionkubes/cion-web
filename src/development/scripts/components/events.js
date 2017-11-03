@@ -1,17 +1,17 @@
 import m from 'mithril';
 import io from 'socket.io-client';
+import {ErrorSvg} from 'scripts/components/svg/errorsvg'
 import {map, pipe} from 'scripts/helpers/fp';
 import style from 'style/events';
 
 export const component_name = "Events";
-
 const socket = io();
 
 export const Events = {
     state: {
         socket_data: {}
     },
-    oninit: function() {
+    oninit: function () {
         const data = this.state.socket_data;
         socket.on("task_update", function (socket_data) {
             try {
@@ -23,7 +23,7 @@ export const Events = {
             }
         });
     },
-    view: function() {
+    view: function () {
         let data = this.state.socket_data;
         return m("div.overview",
             pipe(
@@ -31,11 +31,16 @@ export const Events = {
                 map(id => {
                     let imageName = data[id]["image-name"];
                     let status = data[id]["status"];
-                    return m("div.row.task-status-row",
-                        m("div", [
-                            m("div.task-processing-loader"),
-                            m("span", imageName + " is " + status)
-                        ]))
+                    let icon;
+                    if (status === 'erroneous') {
+                        icon = m("div.task-icon", m(ErrorSvg));
+                    } else {
+                        icon = m("div.task-icon")
+                    }
+                    return m("div.row.task-row." + status, [
+                        icon,
+                        m("span", imageName + " is " + status)
+                    ])
                 }), Array.from
             ));
     }

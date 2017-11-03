@@ -2,12 +2,15 @@ import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 
 import {DashboardSvg} from 'scripts/components/svg/DashboardSvg';
+import {AdminSvg} from 'scripts/components/svg/adminsvg';
+import {LogsSvg} from 'scripts/components/svg/logssvg';
 import style from 'style/nav';
 
 
 const links = {
     '': ["Dashboard", m(DashboardSvg)],
-    'admin': ["Admin", m("p", "@")]
+    'admin': ["Admin", m(AdminSvg)],
+    'logs': ["Logs", m(LogsSvg)]
 };
 
 export const Menu = {
@@ -16,7 +19,7 @@ export const Menu = {
             pipe(Object.keys(links),
                 map(k => m('a', {href: '/#!/' + k}, [
                         m("span.link-text", links[k][0]),
-                        links[k][1]
+                        m("div.dash-icon", links[k][1])
                     ])
                 ),
                 Array.from)
