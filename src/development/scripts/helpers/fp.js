@@ -171,3 +171,14 @@ export function curry(fn, predicate, on_completion) {
         placeholders: [],
     }, predicate, on_completion);
 }
+
+export function memoize(fn) {
+    const cache = {};
+    return function (...args) {
+        if (args in cache){
+            return cache[args];
+        } else {
+            return cache[args] = fn(...args);
+        }
+    };
+}

@@ -1,11 +1,9 @@
 import m from 'mithril';
-import io from 'socket.io-client';
 import {ErrorSvg} from 'scripts/components/svg/errorsvg'
 import {map, pipe} from 'scripts/helpers/fp';
 import style from 'style/events';
 
 export const component_name = "Events";
-const socket = io();
 
 export const Events = {
     state: {

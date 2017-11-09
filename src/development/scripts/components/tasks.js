@@ -1,10 +1,9 @@
 import m from 'mithril';
-import io from 'socket.io-client';
 import {map, pipe} from 'scripts/helpers/fp';
+import { changefeed } from "../api/reactive";
 import style from 'style/tasks';
 
 export const component_name = "Tasks";
-const socket = io();
 
 const State = {
     list: {},
@@ -25,19 +24,21 @@ const State = {
 };
 
 export const Tasks = {
-    oninit: function () {
+    oninit() {
         State.fetch();
-        socket.on("task_update", function (socket_data) {
-            try {
-                let id = socket_data.id;
-                data[id] = socket_data;
-                m.redraw();
-            } catch (e) {
-                console.error('There is a problem: ' + e);
-            }
-        });
+        State.subscription = changefeed('tasks')
+            .map(message => message['new_val'])
+            .subscribe(data => {
+                try {
+                    let id = socket_data.id;
+                    data[id] = socket_data;
+                    m.redraw();
+                } catch (e) {
+                    console.error('There is a problem: ' + e);
+                }
+            });
     },
-    view: function () {
+    view() {
         let data = State.list;
         return m("table", [
                 m("thead", m("tr", [
@@ -60,5 +61,8 @@ export const Tasks = {
                 )
             ]
         );
+    },
+    remove() {
+        State.subscription.unsubscribe();
     }
 };
