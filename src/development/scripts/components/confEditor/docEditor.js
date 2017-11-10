@@ -1,6 +1,6 @@
 import m from 'mithril';
 
-export const component_name = "document";
+export const component_name = "DocEditor";
 
 export const DocEditor = {
     view() {
