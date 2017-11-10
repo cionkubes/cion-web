@@ -1,5 +1,6 @@
-import m from 'mithril'
+import m from 'mithril';
 import style from 'style/footer';
+import {LogoSvg} from './logo/controller';
 
 export const Footer = {
     view() {
@@ -8,7 +9,7 @@ export const Footer = {
                     href: 'https://github.com/Trondheim-kommune/cion'
                 },
                 m("div", [
-                        m("img", {src: "resources/logo.svg"}),
+                        m(LogoSvg),
                         m("h4", "cion 1.0.0")
                     ]
                 ))
