@@ -10,7 +10,7 @@ export const Admin = site_wrapper({
         const state = this;
 
         console.log("Subscribing");
-        state.sub = changefeed('tasks').subscribe(
+        state.sub = changefeed('taskks').subscribe(
             x => console.log(`admin: ${x}`),
             err => console.error(`admin: ${err}`),
             () => console.log("admin: Completed")
@@ -25,7 +25,6 @@ export const Admin = site_wrapper({
     onremove() {
         const state = this;
 
-        console.log("admin: unsub");
         state.sub.unsubscribe();
     }
 });
