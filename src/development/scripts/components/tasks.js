@@ -30,8 +30,8 @@ export const Tasks = {
             .map(message => message['new_val'])
             .subscribe(data => {
                 try {
-                    let id = socket_data.id;
-                    data[id] = socket_data;
+                    let id = data.id;
+                    State.list[id] = data;
                     m.redraw();
                 } catch (e) {
                     console.error('There is a problem: ' + e);

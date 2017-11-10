@@ -1,6 +1,7 @@
 import m from 'mithril';
-import {ErrorSvg} from 'scripts/components/svg/errorsvg'
-import {map, pipe} from 'scripts/helpers/fp';
+import {ErrorSvg} from '../components/svg/errorsvg'
+import {map, pipe} from '../helpers/fp';
+import { changefeed } from "../api/reactive";
 import style from 'style/events';
 
 export const component_name = "Events";
@@ -9,19 +10,23 @@ export const Events = {
     state: {
         socket_data: {}
     },
-    oninit: function () {
-        const data = this.state.socket_data;
-        socket.on("task_update", function (socket_data) {
+    oninit() {
+        const state = this.state;
+
+        this.state.tasks_sub = changefeed('tasks')
+            .debounceTime(500)
+            .map(message => message['new_val'])
+            .subscribe(data => {
             try {
-                let id = socket_data.id;
-                data[id] = socket_data;
+                let id = data.id;
+                state.socket_data[id] = data;
                 m.redraw();
             } catch (e) {
                 console.error('There is a problem: ' + e);
             }
         });
     },
-    view: function () {
+    view() {
         let data = this.state.socket_data;
         return m("div.overview",
             pipe(
@@ -41,5 +46,8 @@ export const Events = {
                     ])
                 }), Array.from
             ));
+    },
+    onremove(){
+        this.state.tasks_sub.unsubscribe();
     }
 };

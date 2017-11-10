@@ -11,7 +11,7 @@ function webSocketObservable(url, input, replay) {
         let inputSubscription;
 
         socket.onopen = () => {
-            for(let msg of replay) {
+            for(const msg of replay) {
                 socket.send(JSON.stringify(msg))
             }
 
@@ -76,7 +76,13 @@ export const changefeed = memoize(table => {
     })
     .map(JSON.parse)
     .filter(data => data.channel === tableChannel)
-    .map(data => data.message)
+    .map(data => {
+        if (data.type === "error") {
+            throw data.message;
+        } else if ( data.type === "next"){
+            return data.message
+        }
+    })
     .finally(() => {
         replayMessages.delete(subscribe);
         input.next({
