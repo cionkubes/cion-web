@@ -11,4 +11,4 @@ jasmine.loadConfig({
     "random": false
 });
 
-jasmine.execute()
+jasmine.execute();

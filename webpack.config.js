@@ -21,7 +21,7 @@ const common_plugins = [
         debug: debug,
         sourceMap: debug
     }),
-    new CircularDependencyPlugin({ failOnError: true }),
+    new CircularDependencyPlugin({failOnError: true}),
     new CommonsChunkPlugin({
         name: 'app',
         children: true,
@@ -55,31 +55,40 @@ module.exports = {
         ]
     },
     module: {
-        loaders: [{
-            test: /\.js$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/,
-            query: {
-                presets: [
-                    ['es2015', { modules: false, loose: true }]
+        loaders: [
+            {
+                test: /\.(svg|ico)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {}
+                    }
                 ]
-            }
-        }, {
-            test: /((?!\.useable).{8}|^.{0,7})\.scss$/,
-            loaders: [
-                { loader: "style-loader" },
-                { loader: "css-loader" },
-                { loader: "sass-loader" }
-            ]
-        },
-        {
-            test: /\.useable\.scss$/,
-            loaders: [
-                { loader: "style-loader/useable" },
-                { loader: "css-loader" },
-                { loader: "sass-loader" }
-            ]
-        }]
+            }, {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                query: {
+                    presets: [
+                        ['es2015', {modules: false, loose: true}]
+                    ]
+                }
+            }, {
+                test: /((?!\.useable).{8}|^.{0,7})\.scss$/,
+                loaders: [
+                    {loader: "style-loader"},
+                    {loader: "css-loader"},
+                    {loader: "sass-loader"}
+                ]
+            },
+            {
+                test: /\.useable\.scss$/,
+                loaders: [
+                    {loader: "style-loader/useable"},
+                    {loader: "css-loader"},
+                    {loader: "sass-loader"}
+                ]
+            }]
     },
     devtool: debug ?
         'source-map' : false,

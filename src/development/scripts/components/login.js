@@ -1,5 +1,6 @@
 import m from 'mithril'
 import login_style from 'style/login.useable';
+import {LogoSvg} from "./logo/controller";
 
 let Auth = {
     username: "",
@@ -38,7 +39,7 @@ export const Login = {
     view() {
         return m('div.login-box', [
                 m("div.title-container",[
-                    m("img", {src: "resources/logo.svg"})
+                    m(LogoSvg)
                 ]),
                 m("div.separator"),
                 m('form', {onsubmit: Auth.login}, [

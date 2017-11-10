@@ -1,5 +1,12 @@
-import { Observable } from 'rxjs-es/Rx';
-import { QueueingSubject } from 'queueing-subject';
+import { Observable } from 'rxjs-es/Observable';
+import 'rxjs-es/add/operator/map';
+import 'rxjs-es/add/operator/retryWhen';
+import 'rxjs-es/add/operator/do';
+import 'rxjs-es/add/operator/share';
+import 'rxjs-es/add/operator/filter';
+import 'rxjs-es/add/operator/finally';
+import 'rxjs-es/add/observable/defer';
+import { QueueingSubject } from '../helpers/queueing-subject';
 import { memoize } from "../helpers/fp";
 
 const retrySeconds = 5;
