@@ -2,7 +2,7 @@ import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {site_wrapper} from "scripts/site";
 import {docEditor} from "./docEditor";
-// import style from 'style/dashboard';
+import style from './conf_editor.scss';
 
 export const component_name = "ConfEditor";
 
@@ -37,7 +37,7 @@ export const ConfEditor = site_wrapper({
     view() {
         return m("div.home", [
                 m("h1", "Configs"),
-                m("div", State.docComps)
+                m("div.scroll", State.docComps)
             ]
         );
     }
