@@ -10,7 +10,7 @@ export const Logs = site_wrapper({
     view: function () {
         return m("div.home", [
                 m("h1", "Logs"),
-                m("div",
+                m("div.scroll",
                     m("Tasks", m(Tasks))
                 )
             ]

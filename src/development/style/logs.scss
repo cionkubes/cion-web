@@ -1,5 +1,11 @@
 @import "colors";
 
-main {
-  background-color: $color-cion-background-secondary;
+.scroll {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.home {
+  overflow: auto;
+  max-height: 100%;
 }
