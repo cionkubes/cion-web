@@ -15,24 +15,21 @@ const State = {
             method: 'GET',
         }).then(function (response) {
             State.data = response;
-            State.parse();
+            State.parse(response);
         }).catch(function (e) {
             console.log(e);
         });
     },
-    parse: function() {
-        let rows = [];
-        console.log(State.data);
-        let data = State.data;
+    parse: function (data) {
         let envs = data.environments;
-        for(let key in envs) {
-            let row = m('tr', [
-                m('td', key),
-                m('td', envs[key])
-            ]);
-            rows.push(row);
-        }
-        State.comps.environments = rows;
+        State.comps.environments =
+            pipe(Object.keys(envs),
+                map(k => m('tr', [
+                        m('td', k),
+                        m('td', envs[k])
+                    ])
+                ),
+                Array.from);
     }
 };
 
@@ -50,8 +47,7 @@ export const Service = site_wrapper({
                         m('th', 'Last deployed image')
                     ]),
                     State.comps.environments
-                ]),
-                m('p', State.service_name)
+                ])
             ]
         );
     }
