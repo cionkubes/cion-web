@@ -5,7 +5,7 @@ import {DashboardSvg} from 'scripts/components/svg/DashboardSvg';
 import {AdminSvg} from 'scripts/components/svg/adminsvg';
 import {LogsSvg} from 'scripts/components/svg/logssvg';
 import {ConfSvg} from 'scripts/components/svg/confeditorsvg';
-import {UploadSvg} from 'scripts/components/svg/uploadsvg';
+import {CloudSvg} from 'scripts/components/cloud-svg/cloud';
 import style from 'style/nav';
 
 
@@ -14,7 +14,7 @@ const links = {
     'admin': ["Admin", m(AdminSvg)],
     'logs': ["Logs", m(LogsSvg)],
     'confeditor': ["Config", m(ConfSvg)],
-    'services': ["Services", m(UploadSvg)]
+    'services': ["Services", m(CloudSvg)]
 };
 
 export const Menu = {
