@@ -8,7 +8,7 @@ export const component_name = "Service";
 const State = {
     service_name: '',
     data: {},
-    comps: {},
+    comps: m(''),
     fetch: function () {
         m.request({
             url: "/api/v1/service/" + State.service_name,
@@ -17,19 +17,24 @@ const State = {
             State.data = response;
             State.parse(response);
         }).catch(function (e) {
-            console.log(e);
+            State.comps = m('p', e.message)
         });
     },
     parse: function (data) {
         let envs = data.environments;
-        State.comps.environments =
+        let rows = [
+            m('tr', [
+                m('th', 'Environment'),
+                m('th', 'Last deployed image')
+            ]),
             pipe(Object.keys(envs),
                 map(k => m('tr', [
                         m('td', k),
                         m('td', envs[k])
                     ])
-                ),
-                Array.from);
+                ), Array.from)
+        ];
+        State.comps = m('table', rows);
     }
 };
 
@@ -41,13 +46,7 @@ export const Service = site_wrapper({
     view(vnode) {
         return m("div.home", [
                 m("h1", State.service_name),
-                m('table', [
-                    m('tr', [
-                        m('th', 'Environment'),
-                        m('th', 'Last deployed image')
-                    ]),
-                    State.comps.environments
-                ])
+                State.comps
             ]
         );
     }
