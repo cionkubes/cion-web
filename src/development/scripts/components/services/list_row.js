@@ -9,8 +9,12 @@ export function listRow(name, envs) {
         }
 
         view(vnode) {
-            return m("tr", [
-                m("td", m('a', {href: '#!/service/' + vnode.service.name} , vnode.service.name)),
+            return m("tr.list_row_click", {
+                onclick: function () {
+                    window.location = '#!/service/' + vnode.service.name
+                }
+            }, [
+                m("td", vnode.service.name),
                 m("td", vnode.service.envs.sort().join(', '))
             ]);
         }

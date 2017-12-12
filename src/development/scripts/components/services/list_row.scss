@@ -1,10 +1,10 @@
 @import "~style/colors";
 
-tr {
+tr.list_row_click {
   background-color: $color-cion-background-secondary;
+  cursor: pointer;
 }
 
-tr:hover {
-  background-color: $color-cion-background-secondary;
+tr.list_row_click:hover {
+  background-color: $color-tertiary;
 }
-
