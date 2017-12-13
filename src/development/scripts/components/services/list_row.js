@@ -11,7 +11,7 @@ export function listRow(name, envs) {
         view(vnode) {
             return m("tr.list_row_click", {
                 onclick: function () {
-                    window.location = '#!/service/' + vnode.service.name
+                    m.route.set('/service/' + vnode.service.name)
                 }
             }, [
                 m("td", vnode.service.name),
