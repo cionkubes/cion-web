@@ -43,19 +43,32 @@ export const Tasks = {
         return m("table", [
                 m("thead", m("tr", [
                     m("th", ""),
+                    m("th", "Environment"),
                     m("th", "Status"),
-                    m("th", "Image")
+                    m("th", "Image"),
+                    m("th", "Time")
                 ])),
                 m("tbody", pipe(
                     Object.keys(data),
                     map(id => {
                         let imageName = data[id]["image-name"];
                         let status = data[id]["status"];
+                        let epoch = data[id]["time"];
+                        let timeString;
+                        if(!epoch){
+                            timeString = 'NA';
+                        } else {
+                            let date = new Date(0);
+                            date.setUTCSeconds(epoch);
+                            timeString = date.toLocaleString();
+                        }
 
                         return m("tr." + status, [
                             m("td.task-icon"),
+                            m("td", data[id]["environment"]),
                             m("td", status),
-                            m("td", m("span", imageName))
+                            m("td", m("span", imageName)),
+                            m("td", timeString)
                         ])
                     }), Array.from)
                 )

@@ -21,17 +21,32 @@ const State = {
         });
     },
     parse: function (data) {
-        let envs = data.environments;
+        let envs = data['environments'];
+        console.log(envs);
         let rows = [
             m('tr', [
                 m('th', 'Environment'),
-                m('th', 'Last deployed image')
+                m('th', 'Last deployed image'),
+                m('th', 'Deployed at')
             ]),
             pipe(Object.keys(envs),
-                map(k => m('tr', [
-                        m('td', k),
-                        m('td', envs[k])
-                    ])
+                map(k => {
+                        let epoch = envs[k]['time'];
+                        let timeString;
+                        if(!epoch){
+                            timeString = 'NA';
+                        } else {
+                            let date = new Date(0);
+                            date.setUTCSeconds(epoch);
+                            timeString = date.toLocaleString();
+                        }
+
+                        return m('tr', [
+                            m('td', k),
+                            m('td', envs[k]['image-name']),
+                            m('td', timeString)
+                        ])
+                    }
                 ), Array.from)
         ];
         State.comps = m('table', rows);
