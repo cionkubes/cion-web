@@ -47,7 +47,7 @@ class State {
         let state = vnode.state;
         m.request({
             method: "POST",
-            url: "/api/v1/create/deploy",
+            url: "/api/v1/create/task",
             data: {
                 environment: state.selectedEnv,
                 image: state.selectedImage
