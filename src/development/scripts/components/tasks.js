@@ -1,6 +1,6 @@
 import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
-import { changefeed } from "../api/reactive";
+import {changefeed} from "../api/reactive";
 import style from 'style/tasks';
 
 export const component_name = "Tasks";
@@ -39,7 +39,6 @@ export const Tasks = {
             });
     },
     view() {
-        let data = State.list;
         return m("table", [
                 m("thead", m("tr", [
                     m("th", ""),
@@ -49,25 +48,18 @@ export const Tasks = {
                     m("th", "Time")
                 ])),
                 m("tbody", pipe(
-                    Object.keys(data),
+                    Object.keys(State.list).sort((fir, sec) => State.list[sec]['time'] - State.list[fir]['time']),
                     map(id => {
-                        let imageName = data[id]["image-name"];
-                        let status = data[id]["status"];
-                        let epoch = data[id]["time"];
-                        let timeString;
-                        if(!epoch){
-                            timeString = 'NA';
-                        } else {
-                            let date = new Date(0);
-                            date.setUTCSeconds(epoch);
-                            timeString = date.toLocaleString();
-                        }
+                        let status = State.list[id]["status"];
+                        let date = new Date(0);
+                        date.setUTCSeconds(State.list[id]["time"]);
+                        let timeString = date.toLocaleString();
 
                         return m("tr." + status, [
                             m("td.task-icon"),
-                            m("td", data[id]["environment"]),
+                            m("td", State.list[id]["environment"]),
                             m("td", status),
-                            m("td", m("span", imageName)),
+                            m("td", m("span", State.list[id]["image-name"])),
                             m("td", timeString)
                         ])
                     }), Array.from)
