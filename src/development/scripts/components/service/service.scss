@@ -1,0 +1,11 @@
+//.deploy_select {
+//  display: inline;
+//  float: left;
+//}
+
+.deploy_grid {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: "select" "select" "button";
+  grid-template-columns: 1fr auto auto;
+}
