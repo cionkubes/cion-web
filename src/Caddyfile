@@ -1,12 +1,13 @@
-0.0.0.0:80 {
-    index spa-entry.html
+0.0.0.0:80
+index spa-entry.html
 
-    ext .html
-    errors error.log
+ext .html
+errors error.log
 
-	proxy /api/v1/socket api:5000 {
-        websocket
-    }
+proxy /api/v1/socket cion_api:5000 {
+    websocket
+}
 
-    proxy /api api:5000
+proxy /api cion_api:5000 {
+    transparent
 }

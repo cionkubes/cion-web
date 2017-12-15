@@ -1,5 +1,6 @@
 import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
+import {req_with_auth} from 'scripts/helpers/requests';
 import {site_wrapper} from "scripts/site";
 import {docEditor} from "./docEditor";
 import style from './conf_editor.scss';
@@ -13,11 +14,12 @@ const State = {
     error: "",
     fetch: function () {
         const docs = State.documents;
-        m.request({
+        req_with_auth({
             url: "/api/v1/documents",
-            method: 'GET',
+            method: 'GET'
         }).then(function (response) {
-            for (let document of response) {
+            let bod = response.body;
+            for (let document of bod) {
                 docs[document.name] = document;
             }
             State.docComps =
