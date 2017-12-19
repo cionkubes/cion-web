@@ -1,3 +1,5 @@
+@import "~style/colors";
+
 //.deploy_select {
 //  display: inline;
 //  float: left;
@@ -8,4 +10,27 @@
   grid-gap: 1rem;
   grid-template-areas: "select" "select" "button";
   grid-template-columns: 1fr auto auto;
+}
+
+.red {
+  //color: $color-cion-erroneous;
+  background-color: $color-cion-erroneous;
+  margin-right: 0.5rem;
+}
+
+.red:hover, .red:focus {
+  background-color: darken($color-cion-erroneous, 10%);
+}
+
+tr td {
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

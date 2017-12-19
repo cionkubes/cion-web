@@ -10,12 +10,12 @@ const State = {
     servicesRows: [],
     fetch: function () {
         m.request({
-            url: "/api/v1/document/images",
+            url: "/api/v1/services",
             method: 'GET',
         }).then(function (response) {
             State.servicesRows =
-                pipe(Object.keys(response.document),
-                    map(d => m(listRow(d, response.document[d]['environments']))),
+                pipe(response,
+                    map(d => m(listRow(d['name'], d['environments']))),
                     Array.from);
         }).catch(function (e) {
             console.log(e);
@@ -29,7 +29,10 @@ export const ConfEditor = site_wrapper({
     },
     view(vnode) {
         return m("div.home", [
-                m("h1", "Services"),
+                m("h1", [
+                    "Services",
+                    m("button", {style: "float: right;", onclick: () => m.route.set('/services/create')}, "Add")
+                ]),
                 m('table', [
                     m('tr', [
                         m('th', 'Service'),

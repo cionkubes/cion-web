@@ -8,3 +8,16 @@ tr.list_row_click {
 tr.list_row_click:hover {
   background-color: $color-tertiary;
 }
+
+tr td {
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

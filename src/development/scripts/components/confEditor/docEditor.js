@@ -24,7 +24,6 @@ export function docEditor(config) {
                         return {status: xhr.status, body: xhr.responseText}
                     }
                 }).then(function (response) {
-                    // let status = response.status;
                     console.log(response)
                 })
             } catch (e) {

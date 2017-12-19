@@ -11,7 +11,7 @@ const State = {
     fetch: function () {
         const data = State.list;
         m.request({
-            url: "/api/v1/tasks",
+            url: "/api/v1/tasks/update-service",
             method: 'GET',
         }).then(function (response) {
             for (let task of response) {

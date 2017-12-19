@@ -1,6 +1,7 @@
 import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {site_wrapper} from "scripts/site";
+import {req_with_auth} from 'scripts/helpers/requests';
 import style from './service.scss';
 
 export const component_name = "Service";
@@ -18,6 +19,23 @@ class State {
         };
     }
 
+    static editService(vnode) {
+        m.route.set("/service/" + vnode.state.service_name + "/edit/");
+    }
+
+    static deleteService(vnode) {
+        let sname = vnode.state.service_name;
+        m.request({
+            url: "/api/v1/service/" + sname,
+            method: "DELETE",
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (e) {
+            console.log(e.message)
+        });
+        m.route.set("/services");
+    }
+
     canDeploy() {
         return this.selectedImage !== '' && this.selectedEnv !== '';
     };
@@ -33,13 +51,13 @@ class State {
 
     fetch() {
         let state = this;
-        m.request({
+        req_with_auth({
             url: "/api/v1/service/" + this.service_name,
             method: 'GET',
         }).then(function (response) {
-            state.data = response;
+            state.data = response.body;
         }).catch(function (e) {
-            console.log(e.message)
+            m.route.set("/services");
         });
     };
 
@@ -71,7 +89,11 @@ export const Service = site_wrapper({
     },
     view(vnode) {
         return m("div.home", [
-                m("h1", vnode.state.service_name),
+                m("h1", [
+                    vnode.state.service_name,
+                    m("button", {style: "float: right;", onclick: () => State.editService(vnode)}, "Edit"),
+                    m("button.red", {style: "float: right;", onclick: () => State.deleteService(vnode)}, "Delete")
+                ]),
                 m('div', [
                     m('table', [
                         m('tr', [
