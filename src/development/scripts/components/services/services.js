@@ -1,6 +1,7 @@
 import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {site_wrapper} from "scripts/site";
+import {createNotification} from "../notifications/panel";
 import {listRow} from "./list_row";
 
 export const component_name = "ConfEditor";
@@ -18,7 +19,7 @@ const State = {
                     map(d => m(listRow(d['name'], d['environments']))),
                     Array.from);
         }).catch(function (e) {
-            console.log(e);
+            createNotification('An error occurred while fetching services', e.message, 'error')
         });
     }
 };

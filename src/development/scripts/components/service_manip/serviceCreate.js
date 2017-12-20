@@ -1,5 +1,6 @@
 import m from 'mithril';
 import {map, pipe, filter} from 'scripts/helpers/fp';
+import {createNotification} from "../notifications/panel";
 import {site_wrapper} from "scripts/site";
 
 export const component_name = "ServiceCreate";
@@ -38,17 +39,16 @@ const State = {
                 );
             State.swarms = response;
         }).catch(function (e) {
-            console.log(e);
+            createNotification('Unable to fetch swarms', 'Check your connection to the server.', 'error');
         });
     },
     submit: function () {
-        console.log(State.swarmsAdded);
         let envs = pipe(
             Object.keys(State.swarmsAdded),
             filter(d => State.swarmsAdded[d]),
             Array.from
         );
-        console.log(envs);
+
         m.request({
             url: "/api/v1/services/create",
             method: 'POST',
@@ -58,9 +58,9 @@ const State = {
                 'image-name': State.imageName
             }
         }).then(function (response) {
-            console.log(response);
+            createNotification('Service \'' + State.serviceName + '\' created', response, 'success');
         }).catch(function (e) {
-            console.log(e);
+            createNotification('Unable to create service', e.message, 'error');
         });
     }
 

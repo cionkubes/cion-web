@@ -2,6 +2,7 @@ import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {req_with_auth} from 'scripts/helpers/requests';
 import {site_wrapper} from "scripts/site";
+import {createNotification} from "../notifications/panel";
 import {docEditor} from "./docEditor";
 import style from './conf_editor.useable';
 
@@ -27,7 +28,7 @@ const State = {
                     map(d => m(docEditor(docs[d]))),
                     Array.from);
         }).catch(function (e) {
-            console.log(e);
+            createNotification('Request error', 'An error occurred while fetching documents', 'error');
         });
     }
 };

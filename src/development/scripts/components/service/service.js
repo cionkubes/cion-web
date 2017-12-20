@@ -1,6 +1,7 @@
 import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {site_wrapper} from "scripts/site";
+import {createNotification} from "../notifications/panel";
 import {req_with_auth} from 'scripts/helpers/requests';
 import service_style from './service.useable';
 
@@ -29,9 +30,9 @@ class State {
             url: "/api/v1/service/" + sname,
             method: "DELETE",
         }).then(function (response) {
-            console.log(response);
+            createNotification('Service ' + sname + ' was deleted', '', 'success');
         }).catch(function (e) {
-            console.log(e.message)
+            createNotification('An error occurred while deleting service', e.message, 'error');
         });
         m.route.set("/services");
     }
@@ -58,6 +59,8 @@ class State {
             state.data = response.body;
         }).catch(function (e) {
             m.route.set("/services");
+            createNotification('An error occurred while fetching the service',
+                'Please confirm that the service exists and that you are connected to the server', 'error');
         });
     };
 
@@ -71,9 +74,9 @@ class State {
                 image: state.selectedImage
             }
         }).then(function (result) {
-            console.log(result)
+            console.log(result);
             // reset select fields
-            // create successful notification
+            createNotification('Success!', 'Update service task created successfully', 'success');
         }).catch(function (e) {
             console.log(e.message);
         });

@@ -1,5 +1,6 @@
 import m from 'mithril';
 import {UploadSvg} from "../upload-icon/controller";
+import {createNotification} from "../notifications/panel";
 import style from './doc_editor.useable';
 
 export function docEditor(config) {
@@ -24,23 +25,24 @@ export function docEditor(config) {
                         return {status: xhr.status, body: xhr.responseText}
                     }
                 }).then(function (response) {
-                    console.log(response)
+                    createNotification('Document saved successfully', '', 'success');
+                }).catch(function (e) {
+                    createNotification('An error occurred when saving the document', e.message, 'error');
                 })
             } catch (e) {
-                console.log(e);
-                console.log('Refusing to send updated document. ' +
-                    `Reason: error occurred while parsing JSON in config '${vnode.config.name}'`)
+                createNotification('Invalid JSON', 'Refusing to send document \'' + vnode.config.name +
+                    '\' due to it being of incorrect format', 'error');
             }
         }
 
         setText(e, vnode) {
-            console.log("set text called");
-            console.log(vnode);
             e.preventDefault();
             vnode.text = e.currentTarget.value;
             try {
                 vnode.config.document = JSON.parse(vnode.text);
+                console.log(`Document '${vnode.config.name}' is correct`);
             } catch (e) {
+                // TODO: set borders of textarea to red
                 console.log(`Error occurred while parsing JSON in config '${vnode.config.name}'`);
             }
         }
@@ -67,9 +69,11 @@ export function docEditor(config) {
                 )
             ]);
         }
+
         oncreate() {
             style.ref();
         }
+
         onremove() {
             style.unref();
         }
