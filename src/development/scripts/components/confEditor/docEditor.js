@@ -1,6 +1,6 @@
 import m from 'mithril';
 import {UploadSvg} from "../upload-icon/controller";
-import style from './doc_editor.scss';
+import style from './doc_editor.useable';
 
 export function docEditor(config) {
     return class {
@@ -66,6 +66,12 @@ export function docEditor(config) {
                     )
                 )
             ]);
+        }
+        oncreate() {
+            style.ref();
+        }
+        onremove() {
+            style.unref();
         }
 
     }

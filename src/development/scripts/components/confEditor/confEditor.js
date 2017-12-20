@@ -3,7 +3,7 @@ import {map, pipe} from 'scripts/helpers/fp';
 import {req_with_auth} from 'scripts/helpers/requests';
 import {site_wrapper} from "scripts/site";
 import {docEditor} from "./docEditor";
-import style from './conf_editor.scss';
+import style from './conf_editor.useable';
 
 export const component_name = "ConfEditor";
 
@@ -42,5 +42,11 @@ export const ConfEditor = site_wrapper({
                 m("div.scroll", State.docComps)
             ]
         );
+    },
+    oncreate() {
+        style.ref();
+    },
+    onremove() {
+        style.unref();
     }
 });

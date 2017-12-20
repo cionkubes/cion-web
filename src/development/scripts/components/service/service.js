@@ -2,7 +2,7 @@ import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {site_wrapper} from "scripts/site";
 import {req_with_auth} from 'scripts/helpers/requests';
-import style from './service.scss';
+import service_style from './service.useable';
 
 export const component_name = "Service";
 
@@ -147,5 +147,12 @@ export const Service = site_wrapper({
                 ])
             ]
         );
+    },
+    oncreate() {
+        service_style.ref();
+    },
+    onremove() {
+        service_style.unref();
     }
+
 });
