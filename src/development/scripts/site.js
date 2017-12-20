@@ -8,12 +8,15 @@ import common_style from 'style/common.useable';
 export function site_wrapper(component) {
     return {
         view: () => {
-            return [m('div.container', {id: "main-container"}, [
-                m(Header),
-                m(Menu),
-                m("main", {role: "main"}, m(component)),
-                m(Footer)
-            ]), m(NotificationPanel)];
+            return [
+                m('div.container', {id: "main-container"}, [
+                    m(Header),
+                    m(Menu),
+                    m("main", {role: "main"}, m(component)),
+                    m(Footer)
+                ]),
+                m(NotificationPanel)
+            ];
         },
         oncreate() {
             common_style.ref();
