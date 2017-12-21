@@ -1,9 +1,9 @@
 import m from 'mithril';
-import {ErrorSvg} from '../components/svg/errorsvg'
-import {map, pipe} from '../helpers/fp';
-import { changefeed } from "../api/reactive";
+import {ErrorSvg} from '../svg/errorsvg'
+import {map, pipe} from '../../helpers/fp';
+import { changefeed } from "../../api/reactive";
 import 'rxjs-es/add/operator/debounceTime';
-import style from 'style/events';
+import style from './events.useable';
 
 export const component_name = "Events";
 
@@ -48,7 +48,11 @@ export const Events = {
                 }), Array.from
             ));
     },
+    oncreate() {
+        style.ref();
+    },
     onremove(){
         this.state.tasks_sub.unsubscribe();
+        style.unref();
     }
 };
