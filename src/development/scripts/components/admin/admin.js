@@ -1,8 +1,10 @@
 import m from 'mithril'
-import { site_wrapper } from '../site'
-import { map, pipe } from '../helpers/fp'
+import { site_wrapper } from '../../site'
+import { map, pipe } from '../../helpers/fp'
 
-import { changefeed } from '../api/reactive'
+import { changefeed } from '../../api/reactive'
+
+import {CreateUserForm} from './createUser';
 
 export const component_name = "Admin";
 export const Admin = site_wrapper({
@@ -16,11 +18,11 @@ export const Admin = site_wrapper({
             () => console.log("admin: Completed")
         );
     },
-    view() {
-        return m('div', pipe(['Hello', 'World!'],
-            map(word => m('h1', word)),
-            Array.from
-        ));
+    view(vnode) {
+        return m('div', [
+            m('h1', 'Admin'),
+            m(CreateUserForm)
+        ]);
     },
     onremove() {
         const state = this;

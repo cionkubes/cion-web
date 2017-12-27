@@ -1,8 +1,8 @@
 import m from 'mithril';
 import {site_wrapper} from 'scripts/site';
 import {map, pipe} from 'scripts/helpers/fp';
-import {Events} from 'scripts/components/events';
-import style from 'style/dashboard';
+import {Events} from './events';
+import style from './dashboard.useable';
 
 export const component_name = "Dashboard";
 
@@ -27,5 +27,11 @@ export const Dashboard = site_wrapper({
                 )
             ]
         );
+    },
+    oncreate() {
+        style.ref();
+    },
+    onremove() {
+        style.unref();
     }
 });

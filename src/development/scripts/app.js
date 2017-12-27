@@ -15,9 +15,9 @@ function lazy_load_component(promise_fn) {
 
 route.mode = "hash";
 route(document.body, "/", {
-    "/": lazy_load_component(() => System.import('scripts/components/dashboard.js')),
+    "/": lazy_load_component(() => System.import('scripts/components/dashboard/dashboard.js')),
     "/login": lazy_load_component(() => System.import('scripts/components/login.js')),
-    "/admin": lazy_load_component(() => System.import('scripts/components/admin.js')),
+    "/admin": lazy_load_component(() => System.import('scripts/components/admin/admin.js')),
     "/logs": lazy_load_component(() => System.import('scripts/components/logs.js')),
     "/confeditor": lazy_load_component(() => System.import('scripts/components/confEditor/confEditor.js')),
     "/services": lazy_load_component(() => System.import('scripts/components/services/services.js')),
