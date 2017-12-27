@@ -19,6 +19,7 @@ const State = {
                     map(d => m(listRow(d['name'], d['environments']))),
                     Array.from);
         }).catch(function (e) {
+            console.error(e);
             createNotification('An error occurred while fetching services', e.message, 'error')
         });
     }
