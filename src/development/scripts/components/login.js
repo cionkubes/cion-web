@@ -2,6 +2,8 @@ import m from 'mithril'
 import login_style from 'style/login.useable';
 import {LogoSvg} from "./logo/controller";
 import {req} from 'scripts/helpers/requests';
+import {NotificationPanel} from './notifications/panel'
+import {createNotification} from "./notifications/panel";
 
 let Auth = {
     username: "",
@@ -13,7 +15,8 @@ let Auth = {
     setPassword(value) {
         Auth.password = value
     },
-    login() {
+    login(e) {
+        e.preventDefault();
         req({
             url: "/api/v1/auth",
             method: 'POST',
@@ -23,14 +26,16 @@ let Auth = {
             let status = response.status;
             if (status === 200) {
                 let data = response.body;
-                console.log(data);
                 localStorage.setItem("auth-token", data['token']);
-                console.log(localStorage);
                 m.route.set("/");
             } else {
 
             }
-        })
+        }).then((e) =>
+            createNotification('Auth success', '', 'success')
+        ).catch((e) =>
+            createNotification('Bad credentials', '', 'error')
+        )
     }
 };
 
@@ -38,8 +43,8 @@ let Auth = {
 export const component_name = "Login";
 export const Login = {
     view() {
-        return m('div.login-box', [
-                m("div.title-container",[
+        return [m('div.login-box', [
+                m("div.title-container", [
                     m(LogoSvg)
                 ]),
                 m("div.separator"),
@@ -57,7 +62,7 @@ export const Login = {
                     m('input', {type: "submit", value: "Login"}),
                 ])
             ]
-        );
+        ), m(NotificationPanel)];
     },
     oncreate() {
         login_style.ref();
