@@ -10,12 +10,10 @@ export class CreateUserForm {
 
     setUsername(username) {
         this.username = username;
-        console.log(this.username);
     }
 
     setPassword(password) {
         this.password = password;
-        console.log(this.password);
     }
 
     send() {
@@ -30,10 +28,8 @@ export class CreateUserForm {
             }
         }).then((e) =>
             createNotification('Success', 'User was created', 'success')
-        ).catch((e) => {
-                console.log(e);
-                createNotification('Error', e['error'], 'error')
-            }
+        ).catch((e) =>
+            createNotification('Error', e['error'], 'error')
         );
     }
 
@@ -50,7 +46,7 @@ export class CreateUserForm {
                 oninput: m.withAttr("value", this.setPassword, this),
                 placeholder: "Password"
             }),
-            m('input[type=button]', {onclick: m.withAttr('', this.send, this)}, 'Submit')
+            m('button', {onclick: this.send.bind(this)}, 'Submit')
         ])
     }
 }
