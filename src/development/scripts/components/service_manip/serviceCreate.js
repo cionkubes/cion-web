@@ -2,6 +2,7 @@ import m from 'mithril';
 import {map, pipe, filter} from 'scripts/helpers/fp';
 import {createNotification} from "../notifications/panel";
 import {site_wrapper} from "scripts/site";
+import {req_with_auth} from 'scripts/helpers/requests';
 
 export const component_name = "ServiceCreate";
 
@@ -23,24 +24,25 @@ const State = {
         State.imageName = v;
     },
     fetch: function () {
-        m.request({
-            url: "/api/v1/document/swarms",
-            method: 'GET',
-        }).then(function (response) {
-            State.swarmCheckBoxes =
-                pipe(
-                    Object.keys(response.document),
-                    map(d => m('div', [
-                            m('input', {type: 'checkbox', onchange: State.checkHandle, id: d}),
-                            m('label.label-inline', {for: d}, d)
-                        ]
-                    )),
-                    Array.from
-                );
-            State.swarms = response;
-        }).catch(function (e) {
-            createNotification('Unable to fetch swarms', 'Check your connection to the server.', 'error');
-        });
+        req_with_auth({
+                url: "/api/v1/document/swarms",
+                method: 'GET',
+                then: function (response) {
+                    State.swarmCheckBoxes =
+                        pipe(
+                            Object.keys(response.document),
+                            map(d => m('div', [
+                                    m('input', {type: 'checkbox', onchange: State.checkHandle, id: d}),
+                                    m('label.label-inline', {for: d}, d)
+                                ]
+                            )),
+                            Array.from
+                        );
+                    State.swarms = response;
+                },
+                catch: (e) => createNotification('Unable to fetch swarms', 'Check your connection to the server.', 'error')
+            }
+        );
     },
     submit: function () {
         let envs = pipe(
@@ -49,19 +51,17 @@ const State = {
             Array.from
         );
 
-        m.request({
+        req_with_auth({
             url: "/api/v1/services/create",
             method: 'POST',
             data: {
                 environments: envs,
                 'service-name': State.serviceName,
                 'image-name': State.imageName
-            }
-        }).then(function (response) {
-            createNotification('Service \'' + State.serviceName + '\' created', response, 'success');
-        }).catch(function (e) {
-            createNotification('Unable to create service', e.message, 'error');
-        });
+            },
+            then: (e) => createNotification('Service \'' + State.serviceName + '\' created', e, 'success'),
+            catch: (e) => createNotification('Unable to create service', e, 'error')
+        })
     }
 
 };

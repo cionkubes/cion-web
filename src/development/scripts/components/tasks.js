@@ -1,6 +1,7 @@
 import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {changefeed} from "../api/reactive";
+import {req_with_auth} from 'scripts/helpers/requests';
 import style from 'style/tasks';
 
 export const component_name = "Tasks";
@@ -10,15 +11,15 @@ const State = {
     error: "",
     fetch: function () {
         const data = State.list;
-        m.request({
+        req_with_auth({
             url: "/api/v1/tasks/update-service",
             method: 'GET',
-        }).then(function (response) {
-            for (let task of response) {
-                data[task.id] = task;
-            }
-        }).catch(function (e) {
-            console.log(e);
+            then: function (response) {
+                for (let task of response) {
+                    data[task.id] = task;
+                }
+            },
+            catch: (e) => console.log(e)
         });
     }
 };

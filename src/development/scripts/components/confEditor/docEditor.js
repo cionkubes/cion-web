@@ -2,6 +2,7 @@ import m from 'mithril';
 import {UploadSvg} from "../upload-icon/controller";
 import {createNotification} from "../notifications/panel";
 import style from './doc_editor.useable';
+import {req_with_auth} from 'scripts/helpers/requests';
 
 export function docEditor(config) {
     return class {
@@ -17,17 +18,14 @@ export function docEditor(config) {
             console.log("update doc called");
             try {
                 vnode.config.document = JSON.parse(vnode.text);
-                m.request({
+                let data = vnode.config;
+                console.log(vnode.config);
+                req_with_auth({
                     url: "/api/v1/documents",
                     method: 'POST',
-                    data: vnode.config,
-                    extract: function (xhr) {
-                        return {status: xhr.status, body: xhr.responseText}
-                    }
-                }).then(function (response) {
-                    createNotification('Document saved successfully', '', 'success');
-                }).catch(function (e) {
-                    createNotification('An error occurred when saving the document', e.message, 'error');
+                    data: data,
+                    then: (e) => createNotification('Document saved successfully', '', 'success'),
+                    catch: (e) => createNotification('An error occurred when saving the document', e, 'error')
                 })
             } catch (e) {
                 createNotification('Invalid JSON', 'Refusing to send document \'' + vnode.config.name +

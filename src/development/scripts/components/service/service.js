@@ -26,13 +26,11 @@ class State {
 
     static deleteService(vnode) {
         let sname = vnode.state.service_name;
-        m.request({
+        req_with_auth({
             url: "/api/v1/service/" + sname,
             method: "DELETE",
-        }).then(function (response) {
-            createNotification('Service ' + sname + ' was deleted', '', 'success');
-        }).catch(function (e) {
-            createNotification('An error occurred while deleting service', e.message, 'error');
+            then: (e) => createNotification('Service ' + sname + ' was deleted', '', 'success'),
+            catch: (e) => createNotification('An error occurred while deleting service', e, 'error')
         });
         m.route.set("/services");
     }
@@ -55,31 +53,32 @@ class State {
         req_with_auth({
             url: "/api/v1/service/" + this.service_name,
             method: 'GET',
-        }).then(function (response) {
-            state.data = response.body;
-        }).catch(function (e) {
-            m.route.set("/services");
-            createNotification('An error occurred while fetching the service',
-                'Please confirm that the service exists and that you are connected to the server', 'error');
+            then: (response) => state.data = response,
+            catch: function (e) {
+                m.route.set("/services");
+                createNotification('An error occurred while fetching the service',
+                    'Please confirm that the service exists and that you are connected to the server', 'error');
+            }
         });
     };
 
     sendDeploy(vnode) {
         let state = vnode.state;
-        m.request({
+        req_with_auth({
             method: "POST",
             url: "/api/v1/create/task",
             data: {
                 environment: state.selectedEnv,
                 image: state.selectedImage
+            },
+            then: function (result) {
+                console.log(result);
+                createNotification('Success!', 'Update service task created successfully', 'success');
+            },
+            catch: function (e) {
+                console.log(e.message);
             }
-        }).then(function (result) {
-            console.log(result);
-            // reset select fields
-            createNotification('Success!', 'Update service task created successfully', 'success');
-        }).catch(function (e) {
-            console.log(e.message);
-        });
+        })
     }
 }
 
@@ -94,7 +93,7 @@ export const Service = site_wrapper({
         return m("div.home", [
                 m("h1", [
                     vnode.state.service_name,
-                    m("button", {style: "float: right;", onclick: () => State.editService(vnode)}, "Edit"),
+                    // m("button", {style: "float: right;", onclick: () => State.editService(vnode)}, "Edit"),
                     m("button.red", {style: "float: right;", onclick: () => State.deleteService(vnode)}, "Delete")
                 ]),
                 m('div', [

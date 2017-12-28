@@ -17,18 +17,20 @@ const State = {
         const docs = State.documents;
         req_with_auth({
             url: "/api/v1/documents",
-            method: 'GET'
-        }).then(function (response) {
-            let bod = response.body;
-            for (let document of bod) {
-                docs[document.name] = document;
+            method: 'GET',
+            then: function (response) {
+                for (let document of response) {
+                    docs[document.name] = document;
+                }
+                State.docComps =
+                    pipe(Object.keys(docs),
+                        map(d => m(docEditor(docs[d]))),
+                        Array.from);
+            },
+            catch: function (e) {
+                console.log(e);
+                createNotification('Request error', e, 'error');
             }
-            State.docComps =
-                pipe(Object.keys(docs),
-                    map(d => m(docEditor(docs[d]))),
-                    Array.from);
-        }).catch(function (e) {
-            createNotification('Request error', 'An error occurred while fetching documents', 'error');
         });
     }
 };
