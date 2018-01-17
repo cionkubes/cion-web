@@ -76,7 +76,7 @@ class State {
                 createNotification('Success!', 'Update service task created successfully', 'success');
             },
             catch: function (e) {
-                console.log(e.message);
+                console.log(e);
             }
         })
     }

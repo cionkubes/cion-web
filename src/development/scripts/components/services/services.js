@@ -14,16 +14,8 @@ const State = {
         req_with_auth({
             url: "/api/v1/services",
             method: 'GET',
-            then: function (response) {
-                State.servicesRows =
-                    pipe(response,
-                        map(d => m(listRow(d['name'], d['environments']))),
-                        Array.from);
-            },
-            catch: function (e) {
-                console.error(e);
-                createNotification('An error occurred while fetching services', e.message, 'error')
-            }
+            then: (e) => State.servicesRows = pipe(e, map(d => m(listRow(d['name'], d['environments']))), Array.from),
+            catch: (e) => createNotification('An error occurred while fetching services', e, 'error')
         });
     }
 };
