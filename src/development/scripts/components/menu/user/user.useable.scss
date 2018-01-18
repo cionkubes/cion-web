@@ -1,0 +1,47 @@
+@import "../../../../style/colors";
+
+div.user_content {
+  display: grid;
+
+  grid-template-areas: "profile username" "profile actions";
+
+  background-color: $color-cion-senery;
+
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 5rem 1fr;
+  grid-gap: 0;
+  width: 100%;
+  height: 5rem;
+  padding: 0;
+  margin: 0;
+  transition: all 0.1s ease-out;
+}
+
+div.profile {
+  grid-area: profile;
+  height: 5rem;
+  width: 5rem;
+  margin: 0;
+  img {
+    margin: auto;
+  }
+}
+
+div.username {
+  grid-area: username;
+  p {
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    margin: 0;
+    color: $color-cion-primary;
+  }
+}
+
+div.actions {
+  grid-area: actions;
+  a {
+    font-size: 1.4rem;
+    line-height: 2.5rem;
+    margin: 0 1rem 0 0;
+  }
+}
