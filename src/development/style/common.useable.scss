@@ -135,7 +135,7 @@ main {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 46rem) {
   .container {
     grid-template-areas: "header" "nav" "content" "user" "footer";
     grid-template-columns: 1fr;

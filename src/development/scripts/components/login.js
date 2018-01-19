@@ -32,12 +32,11 @@ let Auth = {
                 localStorage.setItem("auth-token", data['token']);
                 localStorage.setItem("username", data['user']['username']);
                 m.route.set("/");
+                createNotification('Auth success', '', 'success');
             } else {
-
+                createNotification(status, 'An error occured', 'error');
             }
-        }).then((e) =>
-            createNotification('Auth success', '', 'success')
-        ).catch((e) => {
+        }).catch((e) => {
                 if (e.status === 401) {
                     localStorage.removeItem("auth-token");
                     localStorage.removeItem("user");
