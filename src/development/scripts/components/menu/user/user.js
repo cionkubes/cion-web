@@ -2,8 +2,14 @@ import m from 'mithril';
 import style from './user.useable';
 import {createNotification} from "../../notifications/panel";
 import {req_with_auth} from '../../../helpers/requests';
+import {ProfileSvg} from "./default_profile/controller";
 
 export const User = {
+    username: "",
+    oninit() {
+        this.username = localStorage.getItem("username");
+        console.log(localStorage.getItem("username"));
+    },
     postLogout(e) {
         localStorage.removeItem('auth-token');
         m.route.set("/login");
@@ -18,15 +24,20 @@ export const User = {
         })
     },
     view() {
-        return m("user", {role: "banner"}, m("div.user_content", [
-                m("div.profile"),
+        let t = this;
+        return m("user", {role: "banner"},
+            m("div.user_content", [
+                m("div.profile", m(ProfileSvg)),
                 m("div.username",
-                    m("p", "admin")
+                    m("p", t.username)
                 ),
                 m("div.actions", [
-                    m("a", "profile"),
+                    m("a", {href: "/#!/profile"}, "profile"),
                     m("a",
-                        {onclick: this.logout.bind(this)},
+                        {
+                            href: "#",
+                            onclick: this.logout.bind(this)
+                        },
                         "logout")
                 ])
             ])

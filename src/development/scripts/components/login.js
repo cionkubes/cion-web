@@ -20,21 +20,31 @@ let Auth = {
         req({
             url: "/api/v1/auth",
             method: 'POST',
-            data: {username: Auth.username, password: Auth.password}
+            data: {username: Auth.username, password: Auth.password},
+            extract: (xhr) => {
+                return {status: xhr.status, body: JSON.parse(xhr.responseText)}
+            }
         }).then(function (response) {
             // console.log(response);
             let status = response.status;
             if (status === 200) {
                 let data = response.body;
                 localStorage.setItem("auth-token", data['token']);
+                localStorage.setItem("username", data['user']['username']);
                 m.route.set("/");
             } else {
 
             }
         }).then((e) =>
             createNotification('Auth success', '', 'success')
-        ).catch((e) =>
-            createNotification('Bad credentials', '', 'error')
+        ).catch((e) => {
+                if (e.status === 401) {
+                    localStorage.removeItem("auth-token");
+                    localStorage.removeItem("user");
+                    m.route.set("/login");
+                    createNotification('Invalid credentials', '', 'warning')
+                }
+            }
         )
     }
 };
