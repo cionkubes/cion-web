@@ -31,6 +31,8 @@ let Auth = {
                 let data = response.body;
                 localStorage.setItem("auth-token", data['token']);
                 localStorage.setItem("username", data['user']['username']);
+                localStorage.setItem("gravatar-url", data['user']['gravatar-url']);
+                localStorage.setItem("gravatar-email", data['user']['gravatar-email']);
                 m.route.set("/");
                 createNotification('Auth success', '', 'success');
             } else {
@@ -39,7 +41,10 @@ let Auth = {
         }).catch((e) => {
                 if (e.status === 401) {
                     localStorage.removeItem("auth-token");
-                    localStorage.removeItem("user");
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("gravatar-url");
+                    localStorage.removeItem("gravatar-email");
+
                     m.route.set("/login");
                     createNotification('Invalid credentials', '', 'warning')
                 }

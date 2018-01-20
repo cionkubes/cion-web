@@ -23,5 +23,6 @@ route(document.body, "/", {
     "/services": lazy_load_component(() => System.import('scripts/components/services/services.js')),
     "/service/:service": lazy_load_component(() => System.import('scripts/components/service/service.js')),
     // "/service/:service/edit": lazy_load_component(() => System.import('scripts/components/service_manip/serviceEdit.js')),
-    "/services/create": lazy_load_component(() => System.import('scripts/components/service_manip/serviceCreate.js'))
+    "/services/create": lazy_load_component(() => System.import('scripts/components/service_manip/serviceCreate.js')),
+    "/profile": lazy_load_component(() => System.import('scripts/components/profile/profile.js'))
 });

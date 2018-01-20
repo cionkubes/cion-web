@@ -3,7 +3,13 @@ import {createNotification} from "../components/notifications/panel";
 
 export function req(args) {
     args['extract'] = function (xhr) {
-        return {status: xhr.status, body: JSON.parse(xhr.responseText)}
+        let bod = undefined;
+        try {
+            bod = JSON.parse(xhr.responseText);
+        } catch (err) {
+            bod = xhr.responseText;
+        }
+        return {status: xhr.status, body: bod}
     };
     return m.request(args);
 }
@@ -35,7 +41,12 @@ export function req_with_auth(args) {
             if (thisArg) {
                 erHandler.bind(thisArg);
             }
-            let message = JSON.parse(res.message)['error'];
+            let message = "";
+            try {
+                message = JSON.parse(res.message)['error'];
+            } catch(err) {
+                message = res.message;
+            }
             erHandler(message, res);
         } else {
             throw res;

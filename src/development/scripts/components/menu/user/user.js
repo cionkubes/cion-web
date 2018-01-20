@@ -6,12 +6,19 @@ import {ProfileSvg} from "./default_profile/controller";
 
 export const User = {
     username: "",
+    gravatar: "",
     oninit() {
         this.username = localStorage.getItem("username");
+        this.gravatar = localStorage.getItem("gravatar-url");
         console.log(localStorage.getItem("username"));
+
     },
     postLogout(e) {
-        localStorage.removeItem('auth-token');
+        localStorage.removeItem("auth-token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("gravatar-url");
+        localStorage.removeItem("gravatar-email");
+
         m.route.set("/login");
         createNotification('Success', 'You have been logged out', 'success');
     },
@@ -27,7 +34,7 @@ export const User = {
         let t = this;
         return m("user", {role: "banner"},
             m("div.user_content", [
-                m("div.profile", m(ProfileSvg)),
+                m("div.profile", m('img', {src: t.gravatar})),
                 m("div.username",
                     m("p", t.username)
                 ),
