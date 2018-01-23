@@ -49,7 +49,7 @@ export class CreateUserForm {
 
     view() {
         return m('div', [
-            m('h2', 'Create user'),
+            m('h3', 'Create user'),
             m('label[for=username]', 'Username'),
             m('input#username[type=text]', {
                 oninput: m.withAttr("value", this.setUsername, this),

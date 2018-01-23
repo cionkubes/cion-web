@@ -6,6 +6,8 @@ import { changefeed } from '../../api/reactive'
 
 import {CreateUserForm} from './createUser';
 
+import {UserList} from "./userList";
+
 export const component_name = "Admin";
 export const Admin = site_wrapper({
     oninit() {
@@ -21,7 +23,8 @@ export const Admin = site_wrapper({
     view(vnode) {
         return m('div', [
             m('h1', 'Admin'),
-            m(CreateUserForm)
+            m(CreateUserForm),
+            m(UserList)
         ]);
     },
     onremove() {

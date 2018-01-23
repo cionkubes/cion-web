@@ -51,17 +51,17 @@ export class ResetPasswordForm {
         let t = this;
         return m('div', [
             m('h2', 'Set password'),
-            m('input#oldPassword[type=text]', {
+            m('input#password[type=text]', {
                 oninput: m.withAttr("value", this.setOldPassword, this),
                 placeholder: "Old password",
                 value: t.oldPassword
             }),
             m('hr[style=margin:0 0 1em 0;]'),
-            m('input#password[type=password]', {
+            m('input#new_pw[type=password]', {
                 oninput: m.withAttr("value", this.setNewPassword, this),
                 placeholder: "New password"
             }),
-            m('input#repeat_password[type=password]', {
+            m('input#repeat_new_pw[type=password]', {
                 oninput: m.withAttr("value", this.setRepeatPassword, this),
                 placeholder: "Repeat new password"
             }),
