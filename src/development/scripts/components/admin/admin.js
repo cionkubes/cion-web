@@ -1,8 +1,8 @@
 import m from 'mithril'
-import { site_wrapper } from '../../site'
-import { map, pipe } from '../../helpers/fp'
+import {site_wrapper} from '../../site'
+import {map, pipe} from '../../helpers/fp'
 
-import { changefeed } from '../../api/reactive'
+import {changefeed} from '../../api/reactive'
 
 import {CreateUserForm} from './createUser';
 
@@ -21,10 +21,12 @@ export const Admin = site_wrapper({
         );
     },
     view(vnode) {
-        return m('div', [
-            m('h1', 'Admin'),
-            m(CreateUserForm),
-            m(UserList)
+        return m('div.admin', [
+            m('div.scroll',
+                m('h1', 'Admin'),
+                m(CreateUserForm),
+                m(UserList)
+            )
         ]);
     },
     onremove() {

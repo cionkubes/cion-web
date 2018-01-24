@@ -127,6 +127,8 @@ main {
   height: 100%;
   padding: 1em;
   transition: 0.1s;
+  overflow: auto;
+  max-height: 100%;
 }
 
 @media (max-height: 768px) {
