@@ -23,7 +23,7 @@ export const EditUser = site_wrapper(class EditUser {
             url: "/api/v1/user/" + username,
             method: "DELETE",
             then: (e) => createNotification('User ' + username + ' was deleted', '', 'success'),
-            catch: (e) => createNotification('An error occurred while deleting user', e, 'error')
+            catch: (e) => createNotification(e, '', 'error')
         });
         m.route.set("/admin");
     }
