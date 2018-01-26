@@ -2,6 +2,7 @@ import m from 'mithril';
 import {map, pipe} from 'scripts/helpers/fp';
 import {req_with_auth} from 'scripts/helpers/requests';
 import {createNotification} from "../notifications/panel";
+import {listRow} from "../clickable_tr/list_row";
 
 const State = {
     list: [],
@@ -42,12 +43,7 @@ export const UserList = {
                             date.setUTCSeconds(user["time_created"]);
                             let timeString = date.toLocaleString();
 
-                            return m("tr", [
-                                m("td", username),
-                                m("td", timeString),
-                                m("td", "something")
-                                // m("td", timeString)
-                            ])
+                            return m(listRow("/user/" + username, [username, timeString, 'Something']))
                         }), Array.from)
                     )
                 ]

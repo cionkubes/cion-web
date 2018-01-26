@@ -1,16 +1,12 @@
 import m from 'mithril';
 import {createNotification} from "../notifications/panel";
 import {req_with_auth} from 'scripts/helpers/requests';
+import {site_wrapper} from '../../site'
 
-export class ResetPasswordForm {
+export const component_name = "EditUser";
+export const EditUser = site_wrapper(class EditUser {
     constructor() {
-        this.oldPassword = "";
-        this.newPassword = "";
-        this.repeatPassword = "";
-    }
-
-    setOldPassword(oldPassword) {
-        this.oldPassword = oldPassword;
+        this.username = m.route.param('username');
     }
 
     setNewPassword(password) {
@@ -21,9 +17,19 @@ export class ResetPasswordForm {
         this.repeatPassword = password;
     }
 
+    deleteUser() {
+        let username = this.username;
+        req_with_auth({
+            url: "/api/v1/user/" + username,
+            method: "DELETE",
+            then: (e) => createNotification('User ' + username + ' was deleted', '', 'success'),
+            catch: (e) => createNotification('An error occurred while deleting user', e, 'error')
+        });
+        m.route.set("/admin");
+    }
+
     resetPassword() {
         let t = this;
-        let oldPassword = this.oldPassword;
         let newPassword = this.newPassword;
         let repeatPassword = this.repeatPassword;
         if (newPassword !== repeatPassword) {
@@ -31,15 +37,14 @@ export class ResetPasswordForm {
             return;
         }
         req_with_auth({
-                url: "/api/v1/user/setpassword",
-                method: 'POST',
+                url: "/api/v1/user/" + t.username + "/setpassword",
+                method: 'PUT',
                 data: {
-                    'old-password': oldPassword,
                     'new-password': newPassword,
                     'repeat-password': repeatPassword
                 },
                 then: (e) => {
-                    createNotification('Success', 'User was created', 'success');
+                    createNotification('Success', 'User was updated', 'success');
                 },
                 catch: (e) => createNotification('Error', e, 'error'),
                 this: t
@@ -50,13 +55,14 @@ export class ResetPasswordForm {
     view() {
         let t = this;
         return m('div', [
+            m("h1", [
+                t.username,
+                m("button.red", {
+                    style: "float: right;",
+                    onclick: t.deleteUser.bind(t)
+                }, "Delete")
+            ]),
             m('h2', 'Set password'),
-            m('input#password[type=password]', {
-                oninput: m.withAttr("value", this.setOldPassword, this),
-                placeholder: "Old password",
-                value: t.oldPassword
-            }),
-            m('hr[style=margin:0 0 1em 0;]'),
             m('input#new_pw[type=password]', {
                 oninput: m.withAttr("value", this.setNewPassword, this),
                 placeholder: "New password"
@@ -68,4 +74,4 @@ export class ResetPasswordForm {
             m('button', {onclick: this.resetPassword.bind(this)}, 'Submit')
         ])
     }
-}
+});

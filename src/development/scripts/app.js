@@ -22,6 +22,7 @@ route(document.body, "/", {
     "/confeditor": lazy_load_component(() => System.import('scripts/components/confEditor/confEditor.js')),
     "/services": lazy_load_component(() => System.import('scripts/components/services/services.js')),
     "/service/:service": lazy_load_component(() => System.import('scripts/components/service/service.js')),
+    "/user/:username": lazy_load_component(() => System.import('scripts/components/edit_user/editUser.js')),
     // "/service/:service/edit": lazy_load_component(() => System.import('scripts/components/service_manip/serviceEdit.js')),
     "/services/create": lazy_load_component(() => System.import('scripts/components/service_manip/serviceCreate.js')),
     "/profile": lazy_load_component(() => System.import('scripts/components/profile/profile.js'))
