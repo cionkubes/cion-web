@@ -6,13 +6,18 @@ import style from 'style/tasks';
 
 export const component_name = "Tasks";
 
+const data_map = {
+    "new-image": ["image"],
+    "service-update": ["swarm", "service", "image"]
+};
+
 const State = {
     list: {},
     error: "",
     fetch: function () {
         const data = State.list;
         req_with_auth({
-            url: "/api/v1/tasks/update-service",
+            url: "/api/v1/tasks",
             method: 'GET',
             then: function (response) {
                 for (let task of response) {
@@ -43,10 +48,10 @@ export const Tasks = {
         return m("table", [
                 m("thead", m("tr", [
                     m("th", ""),
-                    m("th", "Environment"),
+                    m("th", "Time"),
+                    m("th", "Type"),
                     m("th", "Status"),
-                    m("th", "Image"),
-                    m("th", "Time")
+                    m("th", "Data")
                 ])),
                 m("tbody", pipe(
                     Object.keys(State.list).sort((fir, sec) => State.list[sec]['time'] - State.list[fir]['time']),
@@ -56,12 +61,17 @@ export const Tasks = {
                         date.setUTCSeconds(State.list[id]["time"]);
                         let timeString = date.toLocaleString();
 
+                        let data = pipe(data_map[State.list[id]["event"]],
+                            map(key => State.list[id][key]),
+                            Array.from
+                        ).join(", ");
+
                         return m("tr." + status, [
                             m("td.task-icon"),
-                            m("td", State.list[id]["environment"]),
+                            m("td", timeString),
+                            m("td", State.list[id]["event"]),
                             m("td", status),
-                            m("td", m("span", State.list[id]["image-name"])),
-                            m("td", timeString)
+                            m("td", data)
                         ])
                     }), Array.from)
                 )
