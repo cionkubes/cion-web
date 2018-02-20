@@ -13,10 +13,11 @@ script: yarn run test
 before_deploy: yarn install
 
 deploy:
+  skip_cleanup: true
   provider: script
   script: bash scripts/deploy.sh latest
   on:
-    branch: master
+    branch: develop
 
 env:
   global:
