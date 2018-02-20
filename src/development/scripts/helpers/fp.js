@@ -10,7 +10,7 @@ export function compose(...fns) {
     }
 }
 
-export const flatMap = curry(fn, iterable => {
+export const flatMap = curry((fn, iterable) => {
     return args => map(args => fn(...args), iterable);
 });
 
