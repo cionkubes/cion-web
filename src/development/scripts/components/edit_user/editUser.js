@@ -1,21 +1,39 @@
 import m from 'mithril';
 import {createNotification} from "../notifications/panel";
 import {req_with_auth} from 'scripts/helpers/requests';
-import {site_wrapper} from '../../site'
+import {PermissionForm} from "../user/permission";
+import {site_wrapper} from '../../site';
 
 export const component_name = "EditUser";
-export const EditUser = site_wrapper(class EditUser {
-    constructor() {
+export const EditUser = site_wrapper({
+    oninit(vnode) {
         this.username = m.route.param('username');
-    }
+        this.permissions = {};
+        req_with_auth({
+                url: "/api/v1/permissions/user/" + this.username,
+                method: 'GET',
+                then: (e) => {
+                    let rPerms = e['permissions'];
+                    for (let key in rPerms) {
+                        if (rPerms.hasOwnProperty(key)) {
+                            this.permissions[key] = rPerms[key];
+                        }
+                    }
+                },
+                catch: (e) => createNotification(
+                    'Failed to get permissions', e, 'error'),
+                this: this
+            }
+        );
+    },
 
     setNewPassword(password) {
         this.newPassword = password;
-    }
+    },
 
     setRepeatPassword(password) {
         this.repeatPassword = password;
-    }
+    },
 
     deleteUser() {
         let username = this.username;
@@ -26,10 +44,9 @@ export const EditUser = site_wrapper(class EditUser {
             catch: (e) => createNotification(e, '', 'error')
         });
         m.route.set("/admin");
-    }
+    },
 
     resetPassword() {
-        let t = this;
         let newPassword = this.newPassword;
         let repeatPassword = this.repeatPassword;
         if (newPassword !== repeatPassword) {
@@ -37,7 +54,7 @@ export const EditUser = site_wrapper(class EditUser {
             return;
         }
         req_with_auth({
-                url: "/api/v1/user/" + t.username + "/setpassword",
+                url: "/api/v1/user/" + this.username + "/setpassword",
                 method: 'PUT',
                 data: {
                     'new-password': newPassword,
@@ -47,19 +64,31 @@ export const EditUser = site_wrapper(class EditUser {
                     createNotification('Success', 'User was updated', 'success');
                 },
                 catch: (e) => createNotification('Error', e, 'error'),
-                this: t
+                this: this
             }
         );
-    }
+    },
+
+    sendPermissions() {
+        let perms = this.permissions;
+        PermissionForm.removeEmptyPermissions(perms);
+        console.log(perms);
+        req_with_auth({
+            url: "/api/v1/permissions/user/" + this.username,
+            method: "PUT",
+            data: {permissions: perms},
+            then: (e) => createNotification('Permissions for user ' + this.username + ' where updated', '', 'success'),
+            catch: (e) => createNotification('Error', e, 'error')
+        });
+    },
 
     view() {
-        let t = this;
         return m('div', [
             m("h1", [
-                t.username,
+                this.username,
                 m("button.red", {
                     style: "float: right;",
-                    onclick: t.deleteUser.bind(t)
+                    onclick: m.withAttr("", this.deleteUser, this)
                 }, "Delete")
             ]),
             m('h2', 'Set password'),
@@ -71,7 +100,10 @@ export const EditUser = site_wrapper(class EditUser {
                 oninput: m.withAttr("value", this.setRepeatPassword, this),
                 placeholder: "Repeat new password"
             }),
-            m('button', {onclick: this.resetPassword.bind(this)}, 'Submit')
+            m('button', {onclick: this.resetPassword.bind(this)}, 'Set Password'),
+            m('h2', 'Permissions'),
+            m(PermissionForm, {permissions: this.permissions}),
+            m('button', {onclick: m.withAttr("", this.sendPermissions, this)}, "Set permissions")
         ])
     }
 });

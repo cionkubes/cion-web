@@ -14,11 +14,11 @@ export const Admin = site_wrapper({
         const state = this;
 
         console.log("Subscribing");
-        state.sub = changefeed('tasks').subscribe(
-            x => console.log(`admin: ${x}`),
-            err => console.error(`admin: ${err}`),
-            () => console.log("admin: Completed")
-        );
+        // state.sub = changefeed('tasks').subscribe(
+        //     x => console.log(`admin: ${x}`),
+        //     err => console.error(`admin: ${err}`),
+        //     () => console.log("admin: Completed")
+        // );
     },
     view(vnode) {
         return m('div.admin', [
@@ -32,6 +32,6 @@ export const Admin = site_wrapper({
     onremove() {
         const state = this;
 
-        state.sub.unsubscribe();
+        // state.sub.unsubscribe();
     }
 });

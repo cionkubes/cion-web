@@ -7,8 +7,8 @@ import style from 'style/tasks';
 export const component_name = "Tasks";
 
 const data_map = {
-    "new-image": ["image"],
-    "service-update": ["swarm", "service", "image"]
+    "new-image": ["image-name"],
+    "service-update": ["swarm", "service", "image-name"]
 };
 
 const State = {
