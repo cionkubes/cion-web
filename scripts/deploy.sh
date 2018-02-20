@@ -3,6 +3,7 @@ set -e
 
 docker --version
 
+yarn install
 NODE_ENV=production webpack --progress
 
 docker build . --tag cion/web:latest
