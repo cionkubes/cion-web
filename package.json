@@ -1,17 +1,17 @@
 {
   "name": "cion",
   "version": "0.1.0",
-  "description": "Web server for cion",
+  "description": "Web application for cion",
   "main": "src/web/app.py",
   "scripts": {
     "pack": "webpack --progress --display-error-details",
     "watch": "webpack --watch",
     "prebuild": "cross-env NODE_ENV=production webpack --progress",
-    "build:frontend": "docker build -f Dockerfile . --tag tiptk/tipimages:cion-frontend_latest",
+    "build:frontend": "docker build -f Dockerfile . --tag cion/web:latest",
     "build": "run-p build:*",
     "test": "babel-node --presets node6 src/tests/run.js"
   },
-  "repository": "https://github.com/haraldfw/quak.git",
+  "repository": "https://github.com/cionkubes/cion-web.git",
   "author": "Erlend <erlentob@stud.ntnu.no>, Harald <haraldfw@stud.ntnu.no>",
   "license": "GPL-3.0",
   "devDependencies": {
