@@ -10,6 +10,25 @@ export function compose(...fns) {
     }
 }
 
+export const flatMap = curry((fn, iterable) => {
+    return args => map(args => fn(...args), iterable);
+});
+
+export function iterobj(dict) {
+    const iterator = Object.keys(dict)[Symbol.iterator]();
+
+    return {
+        [Symbol.iterator]() {
+            return this;
+        },
+        next() {
+            const key = iterator.next();
+            return {key: dict[key]};
+            // return [key, dict[key]];
+        },
+    };
+}
+
 // Juxt
 // Zip
 
