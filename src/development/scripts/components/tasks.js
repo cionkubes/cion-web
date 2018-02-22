@@ -17,7 +17,14 @@ export const Tasks = {
             resourceEndpoint: '/api/v1/tasks',
             pageStart: 0,
             pageLength: 20,
-            headers: ["", 'Time', 'Type', 'Status', 'Data'],
+            pageLengthChoices: [10, 20, 50, 100],
+            headers: [
+                ["", 0],
+                ['Time', "time"],
+                ['Type', "event"],
+                ['Status', "status"],
+                ['Data', "event"]
+            ],
             transformFunc(row) {
                 let status = row["status"];
                 let date = new Date(0);
