@@ -1,6 +1,6 @@
 import m from 'mithril';
 import {createNotification} from "../notifications/panel";
-import {map, pipe} from '../../helpers/fp';
+import {map, pipe, filter} from '../../helpers/fp';
 import {req_with_auth} from 'scripts/helpers/requests';
 import permissionsStyle from './permissions.useable';
 
@@ -107,12 +107,8 @@ export const PermissionForm = {
             let checkbox = m("input", {
                 type: 'checkbox',
                 id: pathString,
-                onchange: m.withAttr("checked", val => {
-                    PermissionForm.setPermission(completePath, val, permissions);
-                    // TODO move call to removeEmptyPermissions to call it once when permissions are extracted
-                    // PermissionForm.removeEmptyPermissions(permissions);
-                    console.log('permissions:', permissions);
-                }, this),
+                onchange: m.withAttr("checked", val =>
+                    PermissionForm.setPermission(completePath, val, permissions), this),
                 text: permissionKey,
                 checked: checked
             });
@@ -129,18 +125,11 @@ export const PermissionForm = {
             if (!dict.hasOwnProperty(key)) {
                 continue;
             }
-            let o = dict[key];
-            if (o.constructor === Array) {
-                objs.push(m('div.permission-group', [
-                    m('h' + (pathSoFar.length + 4) + ".checkbox-header", key),
-                    PermissionForm.generateCheckboxes(o, PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
-                ]))
-            } else if (typeof o === 'object') {
-                objs.push(m('div.permission-group', [
-                    m('h' + (pathSoFar.length + 4) + '.zero-margin', key),
-                    PermissionForm.generatePermissionForm(o, PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
-                ]))
-            }
+            const generateFn = dict[key].constructor === Array ? PermissionForm.generateCheckboxes : PermissionForm.generatePermissionForm;
+            objs.push(m('div.permission-group', [
+                m('h' + (pathSoFar.length + 4) + ".zero-margin", key),
+                generateFn(dict[key], PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
+            ]));
         }
         return objs;
     },
@@ -148,10 +137,12 @@ export const PermissionForm = {
     view(vnode) {
         return m('div.permissions', PermissionForm.generatePermissionForm(this.permissionTemplate, [], this.permissions));
     },
+
     oncreate(vnode) {
         this.permissions = vnode.attrs.permissions;
         permissionsStyle.ref();
     },
+
     onremove() {
         permissionsStyle.unref();
     }

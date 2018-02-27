@@ -1,2 +1,78 @@
 @import "~style/colors";
 
+.clickable {
+  cursor: pointer;
+}
+
+.sortedBy {
+  background-color: $color-tertiary;
+}
+
+.cion-table-header {
+  display: grid;
+  grid-template-areas: "search page-length-descriptor page-length";
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 0.5rem;
+  grid-template-rows: auto;
+  div{
+    display: inline-block;
+    input {
+      grid-area: search;
+    }
+    div {
+      grid-area: page-length-descriptor;
+      margin-left: 1.5rem;
+      padding-top: 0.5rem;
+      height: 100%;
+    }
+    select {
+      grid-area: page-length;
+    }
+  }
+}
+
+ul.page-list {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #d7dadb;
+  text-align: center;
+
+  li.page-list-element {
+    border-right: 1px solid #d7dadb;
+    cursor: pointer;
+    list-style-type: none;
+    display: inline-block;
+    transform: scale(1) rotate(19deg) translateX(0px) translateY(0px) skewX(-10deg) skewY(-20deg);
+    margin-right: 0.5rem;
+
+    .page-link {
+      padding: 0.8rem 1.6rem;
+      display: inline-block;
+      //text-decoration: none;
+      color: $color-cion-primary;
+      transform: scale(1) rotate(0deg) translateX(0px) translateY(0px) skewX(20deg) skewY(0deg);
+      user-select: none;
+    }
+  }
+  li.page-list-element-last {
+    border-right: none;
+    margin-right: 0;
+  }
+
+  li.page-list-element:hover, li.page-list-element.active-page:hover {
+    background-color: $color-cion-primary;
+  }
+  li.page-list-element.active-page {
+    background-color: $color-cion-secondary;
+  }
+
+  li.page-list-element:hover,
+  li.page-list-element.active-page {
+    border-right: 1px solid #fff;
+
+    .page-link {
+      color: $color-initial;
+    }
+
+  }
+}
