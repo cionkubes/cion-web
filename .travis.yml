@@ -15,7 +15,7 @@ deploy:
   provider: script
   script: bash scripts/deploy.sh latest
   on:
-    branch: develop
+    branch: master
 
 env:
   global:
