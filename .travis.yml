@@ -10,8 +10,6 @@ cache:
 install: yarn install
 script: yarn run test
 
-before_deploy: yarn install
-
 deploy:
   skip_cleanup: true
   provider: script
