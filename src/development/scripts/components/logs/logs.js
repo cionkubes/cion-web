@@ -23,7 +23,6 @@ export const Logs = site_wrapper({
                         pageLength: 20,
                         pageLengthChoices: [1, 10, 20, 50, 100],
                         headers: [
-                            ["", 0],
                             ['Time', "time"],
                             ['Type', "event"],
                             ['Status', "status"],
@@ -40,7 +39,7 @@ export const Logs = site_wrapper({
                                 Array.from
                             ).join(", ");
 
-                            return ["", timeString, row["event"], status, data]
+                            return [timeString, row["event"], status, data]
                         },
                         rowClassFunc: row => row['status']
                     })
