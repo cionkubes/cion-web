@@ -1,4 +1,4 @@
-@import "~style/colors";
+@import "../../../style/colors";
 
 .clickable {
   cursor: pointer;
@@ -10,24 +10,43 @@
 
 .cion-table-header {
   display: grid;
-  grid-template-areas: "search page-length-descriptor page-length";
-  grid-template-columns: 1fr auto;
-  grid-column-gap: 0.5rem;
+  grid-template-areas: "search search-tooltip page-length-descriptor page-length-selector";
+  grid-template-columns: 1fr auto auto auto auto;
+  grid-column-gap: 1rem;
   grid-template-rows: auto;
-  div{
-    display: inline-block;
+  * {
+    margin-bottom: 0;
+  }
+  div.search-field {
+    grid-area: search;
+
+    display: grid;
+    grid-template-areas: "search-field search-activate";
+    grid-template-columns: 1fr auto;
     input {
-      grid-area: search;
+      grid-area: search-field;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
-    div {
-      grid-area: page-length-descriptor;
-      margin-left: 1.5rem;
-      padding-top: 0.5rem;
-      height: 100%;
+    button {
+      grid-area: search-activate;
+      padding: 0 1.4rem;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
-    select {
-      grid-area: page-length;
-    }
+  }
+  div.search-tooltip {
+    grid-area: search-tooltip;
+  }
+  div.page-length-descriptor {
+    padding-top: 0.5rem;
+    height: 100%;
+    display: inline-block;
+    grid-area: page-length-descriptor;
+  }
+  select {
+    grid-area: page-length-selector;
+    display: inline-block;
   }
 }
 

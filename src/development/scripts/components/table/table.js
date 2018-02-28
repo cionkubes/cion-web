@@ -3,21 +3,27 @@ import {iterobj, flatMap, map, pipe, isfunction} from 'scripts/helpers/fp';
 import {req_with_auth} from 'scripts/helpers/requests';
 import {createNotification} from "../notifications/panel";
 import tableStyle from './table.useable';
-
-export const component_name = "Tasks";
+import helpStyle from 'style/help.useable';
 
 const PageSelector = {
     oninit(vnode) {
-        vnode.state.search = vnode.attrs.search;
         vnode.state.pagination = vnode.attrs.pagination;
     },
 
     setSearchTerm(term, state) {
         state.term = term;
+        // state.updateTable();
     },
 
     incDecActivePage(delta, state) {
         let nPage = state.activePage + delta;
+        if (nPage >= 0 && nPage < state.totalPages) {
+            state.activePage = nPage;
+        }
+    },
+
+    goToSpecificPage(pageNum, state) {
+        let nPage = pageNum;
         if (nPage >= 0 && nPage < state.totalPages) {
             state.activePage = nPage;
             state.updateTable()
@@ -31,15 +37,35 @@ const PageSelector = {
             totalPages = 0;
         let t = this;
         t.pagination.totalPages = totalPages;
+
+
+        if (t.pagination.activePage + 1 >= t.pagination.totalPages) {
+            t.pagination.activePage = t.pagination.totalPages - 1;
+        }
+
         return m("div", [
                 m("div.cion-table-header", [
-                    m("div", m('input', {
-                        type: 'text',
-                        placeholder: 'Search',
-                        oninput: m.withAttr('value', val => PageSelector.setSearchTerm(val, vnode.state.search))
-                    })),
-                    m("div", m("div", "Row-count:")),
-                    m("div", m("select", {
+                    m("div.search-field",
+                        m('input', {
+                            type: 'text',
+                            placeholder: 'Search',
+                            oninput: m.withAttr('value', val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
+                            onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
+                        }),
+                        m("button", {
+                        onclick: m.withAttr('', val => vnode.state.pagination.updateTable(), this)
+                    }, ">"),
+                    ),
+                    m('div.search-tooltip', m('div.tooltip', [
+                        m('div.tooltip-content', '?'),
+                        m('div.tooltip-text.tooltip-left', [
+                            m('p', 'Search by field from the database using the Lucene query language'),
+                            m('p', 'Apply search: press Enter'),
+                            m('p', 'Time-format: 2017-6-1-16.00.01')
+                        ])
+                    ])),
+                    m("div.page-length-descriptor", "Row-count:"),
+                    m("select.page-length-selector", {
                             onchange: m.withAttr("value", val => {
                                 t.pagination.pageLength = val;
                                 t.pagination.updateTable();
@@ -52,12 +78,18 @@ const PageSelector = {
                                 selected: (t.pagination.pageLength === lengthNum ? "selected" : "")
                             }, lengthNum)),
                             Array.from
-                        )))
+                        )
+                    )
                 ]),
                 m('ul.page-list', [
                     m('li.page-list-element', {
-                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
-                    }, m('span.page-link', '< previous')),
+                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
+                        },
+                        m('span.page-link', '<<')),
+                    m('li.page-list-element', {
+                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
+                        },
+                        m('span.page-link', '<')),
                     pipe(
                         Array(totalPages).keys(),
                         map(i => m('li.page-list-element' + (i === t.pagination.activePage ? ".active-page" : ""), {
@@ -68,9 +100,14 @@ const PageSelector = {
                             },
                             m('span.page-link', i + 1))),
                         Array.from),
+                    m('li.page-list-element', {
+                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
+                        },
+                        m('span.page-link', '>')),
                     m('li.page-list-element.page-list-element-last', {
-                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
-                    }, m('span.page-link', 'next >')),
+                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
+                        },
+                        m('span.page-link', '>>')),
                 ])
             ]
         )
@@ -80,20 +117,36 @@ const PageSelector = {
 export const Table = {
     getTableRows(state) {
         let t = state;
+
+        // TODO: active page larger than total pages. Has to be fixed in backend and frontend
+        if (t.pagination.activePage + 1 >= t.pagination.totalPages) {
+            t.pagination.activePage = t.pagination.totalPages - 1;
+            // m.redraw();
+        }
+        if (t.pagination.activePage < 0) {
+            t.pagination.activePage = 0;
+        }
+
+        console.log('updating table with activePage ', t.pagination.activePage, 'and page length', t.pagination.pageLength);
         req_with_auth({
             url: t.resourceEndpoint + "?" + m.buildQueryString({
                 pageStart: t.pagination.activePage * t.pagination.pageLength,
                 pageLength: t.pagination.pageLength,
                 sortIndex: t.sortIndex,
-                reverseSort: t.reverseSort
+                reverseSort: t.reverseSort,
+                searchTerm: t.pagination.term
             }),
             method: 'GET',
             then: function (response) {
-                t.rows.splice(0, t.rows.length);
+                t.rows = [];
                 response.rows.forEach(row => t.rows.push(row));
                 t.pagination.totalLength = response.totalLength;
             },
-            catch: (e) => console.log(e),
+            catch: (response) => {
+                t.rows = [];
+                t.pagination.totalLength = 0;
+                console.log(response);
+            },
             this: t
         });
     },
@@ -114,7 +167,7 @@ export const Table = {
     view() {
         let t = this;
         return m('div', [
-            m(PageSelector, {pagination: t.pagination, search: t.search}),
+            m(PageSelector, {pagination: t.pagination}),
             m("table", [
                     m("thead",
                         m("tr",
@@ -194,14 +247,13 @@ export const Table = {
         }
 
         this.rows = [];
-        this.search = {};
-        this.search.term = "";
 
         this.sortIndex = -1;
         this.reverseSort = false;
         this.totalLength = -1;
 
         this.pagination = {};
+        this.pagination.term = "";
         this.pagination.pageLengthChoices = vnode.attrs.pageLengthChoices ? vnode.attrs.pageLengthChoices : [10, 20, 50, 100];
         this.pagination.totalLength = -1;
         this.pagination.activePage = 0;
@@ -210,16 +262,18 @@ export const Table = {
             Table.getTableRows(this);
         }.bind(this);
 
-        console.log(this.search.term);
+        console.log(this.pagination.term);
 
         Table.getTableRows(this);
     },
 
     oncreate() {
         tableStyle.ref();
+        helpStyle.ref();
     },
 
     onremove() {
         tableStyle.unref();
+        helpStyle.unref();
     }
 };

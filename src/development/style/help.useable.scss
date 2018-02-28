@@ -1,0 +1,44 @@
+@import "colors";
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  color: $color-cion-background-primary;
+  background-color: $color-cion-primary;
+  border-radius: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+
+  div.tooltip-content {
+  }
+  div.tooltip-text {
+    width: 40rem;
+    background-color: black;
+    color: #fff;
+    text-align: left;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+
+  div.tooltip-left {
+    top: -5px;
+    bottom: auto;
+    right: 128%;
+  }
+}
+
+.tooltip:hover {
+  div.tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+}
