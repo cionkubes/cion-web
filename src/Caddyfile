@@ -4,10 +4,10 @@ index spa-entry.html
 ext .html
 errors error.log
 
-proxy /api/v1/socket cion_api:5000 {
+proxy /api/v1/socket {$API_HOST}:{$API_PORT} {
     websocket
 }
 
-proxy /api cion_api:5000 {
+proxy /api {$API_HOST}:{$API_PORT} {
     transparent
 }
