@@ -1,7 +1,12 @@
 linters:
-  csslint: {  }
   shellcheck:
-    shell: bash
+    shell: sh
+  jshint: {}
+  eslint:
+    config: '.eslintrc.json'
+    fixer: true
+  sasslint: {}
+
 files:
   ignore:
     - 'bower_components/*'
