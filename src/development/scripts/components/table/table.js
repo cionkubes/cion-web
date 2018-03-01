@@ -4,8 +4,9 @@ import {req_with_auth} from 'scripts/helpers/requests';
 import {createNotification} from "../notifications/panel";
 import tableStyle from './table.useable';
 import helpStyle from 'style/help.useable';
+import {LoadingIcon} from '../loading/LoadingIcon';
 
-const GoToPageField = {
+const GoToEntryField = {
     oninit(vnode) {
         vnode.state.pagination = vnode.attrs.pagination;
     },
@@ -17,25 +18,19 @@ const GoToPageField = {
             m('div.go-to-descriptor', 'Go to:'),
             m('input.go-to-input', {
                 type: 'number',
-                oninput: m.withAttr('value', val => GoToPageField.setGoToNumber(val, vnode.state.pagination)),
+                oninput: m.withAttr('value', val => GoToEntryField.setGoToNumber(val, vnode.state.pagination)),
                 onkeypress: val => {
                     if (val.keyCode === 13) {
-                        vnode.state.pagination.updateTable(vnode.state.pagination.goToNumber - 1);
-                        vnode.state.pagination.goToNumber = undefined;
+                        if (vnode.state.pagination.goToNumber) {
+                            console.log((parseInt(vnode.state.pagination.goToNumber - 1)) / vnode.state.pagination.pageLength);
+                            vnode.state.pagination.updateTable(Math.floor((parseInt(vnode.state.pagination.goToNumber - 1)) / vnode.state.pagination.pageLength));
+                        }
                     }
                     return true;
                 }
             })
         ])
-    },
-
-    goToSpecificPage(pageNum, state) {
-        let nPage = pageNum + 1;
-        if (nPage >= 0 && nPage < state.totalPages) {
-            state.activePage = nPage;
-            state.updateTable();
-        }
-    },
+    }
 };
 
 const RowCountSelector = {
@@ -141,7 +136,7 @@ const PageSelector = {
                                 })
                             },
                             // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
-                            m('span', t.pagination.pageStart + " - " + t.pagination.pageEnd + ' of ' + t.pagination.totalLength.toLocaleString())
+                            m('span', t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + ' of ' + t.pagination.totalLength.toLocaleString())
                         ),
                         m('li.page-list-element.page-list-element-link', {
                                 onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
@@ -152,7 +147,7 @@ const PageSelector = {
                             },
                             m('span.page-link', '>>')),
                     ]),
-                    m(GoToPageField, {pagination: t.pagination}),
+                    m(GoToEntryField, {pagination: t.pagination}),
                     m(RowCountSelector, {pagination: t.pagination}),
                 ]),
             ]
@@ -163,20 +158,28 @@ const PageSelector = {
 export const Table = {
     getTableRows(state, wantedPage) {
         let t = state;
-        if (wantedPage) {
-            t.pagination.activePage = wantedPage;
+        let acPage = t.pagination.activePage;
+
+        if (wantedPage !== undefined) {
+            acPage = wantedPage;
+        } else {
+            acPage = 0;
         }
         // TODO: active page larger than total pages. Has to be fixed in backend and frontend
-        if (t.pagination.activePage + 1 >= t.pagination.totalPages) {
-            t.pagination.activePage = t.pagination.totalPages - 1;
+        if (acPage + 1 >= t.pagination.totalPages) {
+            acPage = t.pagination.totalPages - 1;
         }
-        if (t.pagination.activePage < 0) {
-            t.pagination.activePage = 0;
+        if (acPage < 0) {
+            acPage = 0;
         }
+
+        t.pagination.activePage = acPage;
 
         console.log('updating table with activePage ', t.pagination.activePage, 'and page length', t.pagination.pageLength);
         let pageStart = t.pagination.activePage * t.pagination.pageLength;
 
+        t.rows = [];
+        t.loading = true;
         req_with_auth({
             url: t.resourceEndpoint + "?" + m.buildQueryString({
                 pageStart: pageStart,
@@ -187,18 +190,25 @@ export const Table = {
             }),
             method: 'GET',
             then: function (response) {
-                t.rows = [];
                 response.rows.forEach(row => t.rows.push(row));
                 t.pagination.totalLength = response.totalLength;
 
                 // TODO: not accurate, use resultset to calculate pageEnd accurately
-                t.pagination.pageStart = pageStart + 1;
-                t.pagination.pageEnd = t.pagination.pageStart + t.pagination.pageLength;
+                t.pagination.pageStart = parseInt(pageStart) + 1;
+                t.pagination.pageEnd = pageStart + t.pagination.pageLength;
+                let resLength = parseInt(response.totalLength);
+                if (t.pagination.pageEnd > resLength) {
+                    t.pagination.pageEnd = resLength;
+                }
+
+                t.loading = false;
             },
             catch: (response) => {
                 t.rows = [];
                 t.pagination.totalLength = 0;
                 console.log(response);
+
+                t.loading = false;
             },
             this: t
         });
@@ -221,56 +231,59 @@ export const Table = {
         let t = this;
         return m('div', [
             m(PageSelector, {pagination: t.pagination}),
-            m("table", [
-                    m("thead",
-                        m("tr",
+            // m(LoadingIcon)
+            t.loading ? m(LoadingIcon) :
+                m("table", [
+                        m("thead",
+                            m("tr",
+                                pipe(
+                                    t.headers,
+                                    map(headerIndex => {
+                                        let c = ["th.thead"];
+                                        if (headerIndex[1]) {
+                                            c.push('clickable')
+                                        }
+                                        if (headerIndex[1] === this.sortIndex) {
+                                            c.push('sortedBy')
+                                        }
+                                        return m(c.join("."), {
+                                            onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
+                                        }, headerIndex[0])
+                                    }),
+                                    Array.from
+                                )
+                            )
+                        ),
+                        m("tbody",
                             pipe(
-                                t.headers,
-                                map(headerIndex => {
-                                    let c = ["th.thead"];
-                                    if (headerIndex[1]) {
-                                        c.push('clickable')
-                                    }
-                                    if (headerIndex[1] === this.sortIndex) {
-                                        c.push('sortedBy')
-                                    }
-                                    return m(c.join("."), {
-                                        onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
-                                    }, headerIndex[0])
-                                }),
+                                this.rows, // list of dictionaries, where each dict is a row
+                                map(row => m("tr",
+                                    {class: this.rowClassFunc(row)},
+                                    pipe(
+                                        row,
+                                        this.transformFunc,
+                                        (row) => {
+                                            let i = 0;
+                                            let cs = [];
+                                            row.forEach(
+                                                data => {
+                                                    let cssClass = "";
+                                                    if (this.sortIndex === this.headers[i][1]) {
+                                                        cssClass = ".sortedBy";
+                                                    }
+                                                    i++;
+                                                    cs.push(m('td.tdat' + cssClass, data))
+                                                }
+                                            );
+                                            return cs;
+                                        },
+                                        Array.from))),
                                 Array.from
                             )
                         )
-                    ),
-                    m("tbody",
-                        pipe(
-                            this.rows, // list of dictionaries, where each dict is a row
-                            map(row => m("tr",
-                                {class: this.rowClassFunc(row)},
-                                pipe(
-                                    row,
-                                    this.transformFunc,
-                                    (row) => {
-                                        let i = 0;
-                                        let cs = [];
-                                        row.forEach(
-                                            data => {
-                                                let cssClass = "";
-                                                if (this.sortIndex === this.headers[i][1]) {
-                                                    cssClass = ".sortedBy";
-                                                }
-                                                i++;
-                                                cs.push(m('td.tdat' + cssClass, data))
-                                            }
-                                        );
-                                        return cs;
-                                    },
-                                    Array.from))),
-                            Array.from
-                        )
-                    )
-                ]
-            )]);
+                    ]
+                )
+        ]);
     },
 
     oninit(vnode) {

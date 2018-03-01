@@ -1,0 +1,53 @@
+@keyframes loadingIconAnim {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+div.loading-icon-container {
+  width: 100%;
+  height: 100%;
+}
+
+svg#loadingIcon {
+  display: block;
+  margin: 10rem auto;
+  width: 10rem;
+  height: 10rem;
+}
+
+svg#loadingIcon path {
+  opacity: 0;
+  animation-name: loadingIconAnim;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+}
+
+
+#topRight1 {
+  opacity: 0.5;
+  animation-delay: 0s;
+}
+
+#topRight2 {
+  opacity: 1;
+  animation-delay: 0.1s;
+}
+
+#botRight {
+  animation-delay: 0.2s;
+}
+
+#botLeft {
+  animation-delay: 0.3s;
+}
+
+#topLeft {
+  animation-delay: 0.4s;
+}
