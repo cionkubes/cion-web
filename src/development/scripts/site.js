@@ -7,24 +7,24 @@ import { NotificationPanel } from "scripts/components/notifications/panel";
 import common_style from "style/common.useable";
 
 export function site_wrapper(component) {
-  return {
-    view: () => {
-      return [
-        m("div.container", { id: "main-container" }, [
-          m(Header),
-          m(Menu),
-          m("main", { role: "main" }, m(component)),
-          m(User),
-          m(Footer)
-        ]),
-        m(NotificationPanel)
-      ];
-    },
-    oncreate() {
-      common_style.ref();
-    },
-    onremove() {
-      common_style.unref();
-    }
-  };
+    return {
+        view: () => {
+            return [
+                m("div.container", { id: "main-container" }, [
+                    m(Header),
+                    m(Menu),
+                    m("main", { role: "main" }, m(component)),
+                    m(User),
+                    m(Footer)
+                ]),
+                m(NotificationPanel)
+            ];
+        },
+        oncreate() {
+            common_style.ref();
+        },
+        onremove() {
+            common_style.unref();
+        }
+    };
 }
