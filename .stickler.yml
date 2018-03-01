@@ -7,6 +7,9 @@ linters:
     fixer: true
   sasslint: {}
 
+fixers:
+    enable: true
+
 files:
   ignore:
     - 'bower_components/*'
