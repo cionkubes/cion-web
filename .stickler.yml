@@ -1,0 +1,16 @@
+linters:
+  shellcheck:
+    shell: sh
+  jshint: {}
+  eslint:
+    config: '.eslintrc.json'
+    fixer: true
+  sasslint: {}
+
+fixers:
+    enable: true
+
+files:
+  ignore:
+    - 'bower_components/*'
+    - 'node_modules/*'
