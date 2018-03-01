@@ -1,29 +1,27 @@
-import m from 'mithril';
-import {createNotification} from "../notifications/panel";
-import {map, pipe} from '../../helpers/fp';
-import {req_with_auth} from 'scripts/helpers/requests';
-import permissionsStyle from './permissions.useable';
+import m from "mithril";
+import { createNotification } from "../notifications/panel";
+import { req_with_auth } from "scripts/helpers/requests";
+import permissionsStyle from "./permissions.useable";
 
 export const PermissionForm = {
-    oninit(vnode) {
+    oninit() {
         let t = this;
         req_with_auth({
-                url: "/api/v1/permissions/permission-def",
-                method: 'GET',
-                then: (e) => {
-                    this.permissionTemplate = e;
-                },
-                catch: (e) => createNotification(
-                    'Failed to get permission template', e, 'error'),
-                this: t
-            }
-        );
+            url: "/api/v1/permissions/permission-def",
+            method: "GET",
+            then: e => {
+                this.permissionTemplate = e;
+            },
+            catch: e =>
+                createNotification("Failed to get permission template", e, "error"),
+            this: t
+        });
     },
 
     removeEmptyPermissions(obj) {
         if (obj.constructor === Array) {
             return;
-        } else if (typeof obj === 'object') {
+        } else if (typeof obj === "object") {
             Object.keys(obj).forEach(key => {
                 // console.log('testing', obj);
                 if (obj.hasOwnProperty(key) && !PermissionForm.hasValues(obj[key])) {
@@ -40,7 +38,7 @@ export const PermissionForm = {
             // console.log('testing', tree);
             return tree.length > 0;
         } else {
-            return Object.keys(tree).some((key) => PermissionForm.hasValues(tree[key]));
+            return Object.keys(tree).some(key => PermissionForm.hasValues(tree[key]));
         }
     },
 
@@ -49,12 +47,13 @@ export const PermissionForm = {
         let k = path[0];
         if (dict.constructor === Array) {
             if (val) {
-                dict.push(k)
+                dict.push(k);
             } else {
                 dict.splice(dict.indexOf(k), 1);
             }
         } else {
-            if (val) { // add permission
+            if (val) {
+                // add permission
                 if (!(k in dict)) {
                     if (path.length > 2) {
                         dict[k] = {};
@@ -79,7 +78,7 @@ export const PermissionForm = {
                 return dict.indexOf(path[0]) > -1;
             }
         } else {
-            return PermissionForm.getValueFromPath(dict[path[0]], path.slice(1))
+            return PermissionForm.getValueFromPath(dict[path[0]], path.slice(1));
         }
     },
 
@@ -90,11 +89,11 @@ export const PermissionForm = {
     },
 
     getPathAsString(pathSoFar) {
-        return pathSoFar.join('/');
+        return pathSoFar.join("/");
     },
 
     getPathStringAsPath(pathString) {
-        return pathString.split('/');
+        return pathString.split("/");
     },
 
     generateCheckboxes(arr, pathSoFar, permissions) {
@@ -105,20 +104,25 @@ export const PermissionForm = {
             let pathString = PermissionForm.getPathAsString(completePath);
             let checked = PermissionForm.getValueFromPath(permissions, completePath);
             let checkbox = m("input", {
-                type: 'checkbox',
+                type: "checkbox",
                 id: pathString,
-                onchange: m.withAttr("checked", val => {
-                    PermissionForm.setPermission(completePath, val, permissions);
-                    // TODO move call to removeEmptyPermissions to call it once when permissions are extracted
-                    // PermissionForm.removeEmptyPermissions(permissions);
-                    console.log('permissions:', permissions);
-                }, this),
+                onchange: m.withAttr(
+                    "checked",
+                    val => {
+                        PermissionForm.setPermission(completePath, val, permissions);
+                        // TODO move call to removeEmptyPermissions to call it once when permissions are extracted
+                        // PermissionForm.removeEmptyPermissions(permissions);
+                    },
+                    this
+                ),
                 text: permissionKey,
                 checked: checked
             });
-            checkboxes.push(m('div.permission', [
-                m('label.permission-label', [checkbox, permissionKey])
-            ]));
+            checkboxes.push(
+                m("div.permission", [
+                    m("label.permission-label", [checkbox, permissionKey])
+                ])
+            );
         }
         return checkboxes;
     },
@@ -131,22 +135,41 @@ export const PermissionForm = {
             }
             let o = dict[key];
             if (o.constructor === Array) {
-                objs.push(m('div.permission-group', [
-                    m('h' + (pathSoFar.length + 4) + ".checkbox-header", key),
-                    PermissionForm.generateCheckboxes(o, PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
-                ]))
-            } else if (typeof o === 'object') {
-                objs.push(m('div.permission-group', [
-                    m('h' + (pathSoFar.length + 4) + '.zero-margin', key),
-                    PermissionForm.generatePermissionForm(o, PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
-                ]))
+                objs.push(
+                    m("div.permission-group", [
+                        m("h" + (pathSoFar.length + 4) + ".checkbox-header", key),
+                        PermissionForm.generateCheckboxes(
+                            o,
+                            PermissionForm.joinPath(pathSoFar, key).slice(0),
+                            permissions
+                        )
+                    ])
+                );
+            } else if (typeof o === "object") {
+                objs.push(
+                    m("div.permission-group", [
+                        m("h" + (pathSoFar.length + 4) + ".zero-margin", key),
+                        PermissionForm.generatePermissionForm(
+                            o,
+                            PermissionForm.joinPath(pathSoFar, key).slice(0),
+                            permissions
+                        )
+                    ])
+                );
             }
         }
         return objs;
     },
 
-    view(vnode) {
-        return m('div.permissions', PermissionForm.generatePermissionForm(this.permissionTemplate, [], this.permissions));
+    view() {
+        return m(
+            "div.permissions",
+            PermissionForm.generatePermissionForm(
+                this.permissionTemplate,
+                [],
+                this.permissions
+            )
+        );
     },
     oncreate(vnode) {
         this.permissions = vnode.attrs.permissions;

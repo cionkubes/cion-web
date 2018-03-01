@@ -1,11 +1,11 @@
-import m from 'mithril';
-import {map, pipe} from 'scripts/helpers/fp';
-import style from './panel.useable';
+import m from "mithril";
+import { map, pipe } from "scripts/helpers/fp";
+import style from "./panel.useable";
 
 const State = {
     notifications: [],
     delNotif(notif) {
-        State.notifications.splice(State.notifications.indexOf(notif), 1)
+        State.notifications.splice(State.notifications.indexOf(notif), 1);
         m.redraw();
     }
 };
@@ -29,16 +29,20 @@ export function createNotification(title, message, type) {
 
 export const NotificationPanel = {
     view() {
-        return m('div.panel',
-            m('div.colwrap',
-                pipe(State.notifications,
+        return m(
+            "div.panel",
+            m(
+                "div.colwrap",
+                pipe(
+                    State.notifications,
                     map(notif =>
-                        m('blockquote', {class: notif.type}, [
-                            m('h6', notif.title),
-                            m('p', notif.message)
+                        m("blockquote", { class: notif.type }, [
+                            m("h6", notif.title),
+                            m("p", notif.message)
                         ])
                     ),
-                    Array.from)
+                    Array.from
+                )
             )
         );
     },

@@ -1,8 +1,7 @@
-import m from 'mithril';
-import {iterobj, flatMap, map, pipe} from 'scripts/helpers/fp';
-import {req_with_auth} from 'scripts/helpers/requests';
-import {createNotification} from "../notifications/panel";
-import tableStyle from './table.useable';
+import m from "mithril";
+import { map, pipe } from "scripts/helpers/fp";
+import { req_with_auth } from "scripts/helpers/requests";
+import tableStyle from "./table.useable";
 
 export const component_name = "Tasks";
 
@@ -11,12 +10,12 @@ export const Table = {
         let t = this;
         req_with_auth({
             url: t.resourceEndpoint,
-            method: 'GET',
+            method: "GET",
             then: function (response) {
                 t.rows.splice(0, t.rows.length);
                 response.forEach(row => t.rows.push(row));
             },
-            catch: (e) => console.log(e),
+            catch: e => console.error(e),
             this: t
         });
     },
@@ -24,36 +23,38 @@ export const Table = {
     view() {
         let t = this;
         return m("table", [
-                m("thead",
-                    m("tr",
-                        pipe(
-                            t.headers,
-                            map(header => m("th", header)),
-                            Array.from
-                        )
-                    )
-                ),
-                m("tbody",
-                    pipe(
-                        this.rows, // list of dictionaries, where each dict is a row
-                        map(row => m("tr", {class: this.rowClassFunc(row)},
+            m(
+                "thead",
+                m("tr", pipe(t.headers, map(header => m("th", header)), Array.from))
+            ),
+            m(
+                "tbody",
+                pipe(
+                    this.rows, // list of dictionaries, where each dict is a row
+                    map(row =>
+                        m(
+                            "tr",
+                            { class: this.rowClassFunc(row) },
                             pipe(
                                 row,
                                 this.transformFunc,
-                                map(data => m('td', data)),
-                                Array.from))),
-                        Array.from
-                    )
+                                map(data => m("td", data)),
+                                Array.from
+                            )
+                        )
+                    ),
+                    Array.from
                 )
-            ]
-        );
+            )
+        ]);
     },
 
     oninit(vnode) {
         if (!vnode.attrs.resourceEndpoint) {
             throw new Error(
                 "Unable to create table without any content. Make sure to " +
-                "specify the attribute 'resourceEndpoint' for the table.");
+                "specify the attribute 'resourceEndpoint' for the table."
+            );
         }
 
         this.resourceEndpoint = vnode.attrs.resourceEndpoint;
@@ -65,11 +66,7 @@ export const Table = {
 
         this.transformFunc = vnode.attrs.transformFunc
             ? vnode.attrs.transformFunc
-            : (row) => pipe(
-                Object.keys(row),
-                map(key => row[key]),
-                Array.from
-            );
+            : row => pipe(Object.keys(row), map(key => row[key]), Array.from);
 
         if (vnode.attrs.rowClassFunc) {
             this.rowClassFunc = vnode.attrs.rowClassFunc;

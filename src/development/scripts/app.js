@@ -1,4 +1,4 @@
-import { route } from 'mithril';
+import { route } from "mithril";
 
 function lazy_load_component(promise_fn) {
     return {
@@ -15,15 +15,35 @@ function lazy_load_component(promise_fn) {
 
 route.mode = "hash";
 route(document.body, "/", {
-    "/": lazy_load_component(() => System.import('scripts/components/dashboard/dashboard.js')),
-    "/login": lazy_load_component(() => System.import('scripts/components/login.js')),
-    "/admin": lazy_load_component(() => System.import('scripts/components/admin/admin.js')),
-    "/logs": lazy_load_component(() => System.import('scripts/components/logs.js')),
-    "/confeditor": lazy_load_component(() => System.import('scripts/components/confEditor/confEditor.js')),
-    "/services": lazy_load_component(() => System.import('scripts/components/services/services.js')),
-    "/service/:service": lazy_load_component(() => System.import('scripts/components/service/service.js')),
-    "/user/:username": lazy_load_component(() => System.import('scripts/components/edit_user/editUser.js')),
+    "/": lazy_load_component(() =>
+        System.import("scripts/components/dashboard/dashboard.js")
+    ),
+    "/login": lazy_load_component(() =>
+        System.import("scripts/components/login.js")
+    ),
+    "/admin": lazy_load_component(() =>
+        System.import("scripts/components/admin/admin.js")
+    ),
+    "/logs": lazy_load_component(() =>
+        System.import("scripts/components/logs.js")
+    ),
+    "/confeditor": lazy_load_component(() =>
+        System.import("scripts/components/confEditor/confEditor.js")
+    ),
+    "/services": lazy_load_component(() =>
+        System.import("scripts/components/services/services.js")
+    ),
+    "/service/:service": lazy_load_component(() =>
+        System.import("scripts/components/service/service.js")
+    ),
+    "/user/:username": lazy_load_component(() =>
+        System.import("scripts/components/edit_user/editUser.js")
+    ),
     // "/service/:service/edit": lazy_load_component(() => System.import('scripts/components/service_manip/serviceEdit.js')),
-    "/services/create": lazy_load_component(() => System.import('scripts/components/service_manip/serviceCreate.js')),
-    "/profile": lazy_load_component(() => System.import('scripts/components/profile/profile.js'))
+    "/services/create": lazy_load_component(() =>
+        System.import("scripts/components/service_manip/serviceCreate.js")
+    ),
+    "/profile": lazy_load_component(() =>
+        System.import("scripts/components/profile/profile.js")
+    )
 });
