@@ -6,7 +6,7 @@ export const Footer = {
     view() {
         return m("footer", {role: "banner"},
             m("a", {
-                    href: 'https://github.com/Trondheim-kommune/cion'
+                    href: 'https://github.com/cionkubes/cion'
                 },
                 m("div", [
                         m(LogoSvg),
