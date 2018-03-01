@@ -3,7 +3,7 @@ linters:
     shell: sh
   jshint: {}
   eslint:
-    config: '.eslintrc.json'
+    config: './.eslintrc.json'
     fixer: true
   sasslint: {}
 
