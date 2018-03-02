@@ -1,12 +1,11 @@
-import m from 'mithril';
-import {map, pipe} from 'scripts/helpers/fp';
-import {req_with_auth} from 'scripts/helpers/requests';
-import {site_wrapper} from "scripts/site";
-import {createNotification} from "../notifications/panel";
-import {docEditor} from "./docEditor";
+import m from "mithril";
+import { map, pipe } from "scripts/helpers/fp";
+import { req_with_auth } from "scripts/helpers/requests";
+import { site_wrapper } from "scripts/site";
+import { createNotification } from "../notifications/panel";
+import { docEditor } from "./docEditor";
 
 export const component_name = "ConfEditor";
-
 
 const State = {
     docComps: [],
@@ -16,19 +15,20 @@ const State = {
         const docs = State.documents;
         req_with_auth({
             url: "/api/v1/documents",
-            method: 'GET',
+            method: "GET",
             then: function (response) {
                 for (let document of response) {
                     docs[document.name] = document;
                 }
-                State.docComps =
-                    pipe(Object.keys(docs),
-                        map(d => m(docEditor(docs[d]))),
-                        Array.from);
+                State.docComps = pipe(
+                    Object.keys(docs),
+                    map(d => m(docEditor(docs[d]))),
+                    Array.from
+                );
             },
             catch: function (e) {
-                console.log(e);
-                createNotification('Request error', e, 'error');
+                console.error(e);
+                createNotification("Request error", e, "error");
             }
         });
     }
@@ -39,10 +39,6 @@ export const ConfEditor = site_wrapper({
         State.fetch();
     },
     view() {
-        return m("div.home", [
-                m("h1", "Configs"),
-                m("div.scroll", State.docComps)
-            ]
-        );
+        return m("div.home", [m("h1", "Configs"), m("div.scroll", State.docComps)]);
     }
 });

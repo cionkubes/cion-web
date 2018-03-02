@@ -5,6 +5,8 @@ src/www/**/*.bundle.js.map
 
 # Nmp/yarn
 node_modules
+npm-debug.log
+yarn-error.log
 
 # Webpack analyzer
 reports

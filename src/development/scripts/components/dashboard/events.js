@@ -1,9 +1,9 @@
-import m from 'mithril';
-import {ErrorSvg} from '../svg/errorsvg'
-import {map, pipe} from '../../helpers/fp';
+import m from "mithril";
+import { ErrorSvg } from "../svg/errorsvg";
+import { map, pipe } from "../../helpers/fp";
 import { changefeed } from "../../api/reactive";
-import 'rxjs-es/add/operator/debounceTime';
-import style from './events.useable';
+import "rxjs-es/add/operator/debounceTime";
+import style from "./events.useable";
 
 export const component_name = "Events";
 
@@ -14,44 +14,47 @@ export const Events = {
     oninit() {
         const state = this.state;
 
-        this.state.tasks_sub = changefeed('tasks')
+        this.state.tasks_sub = changefeed("tasks")
             .debounceTime(500)
-            .map(message => message['new_val'])
+            .map(message => message["new_val"])
             .subscribe(data => {
-            try {
-                let id = data.id;
-                state.socket_data[id] = data;
-                m.redraw();
-            } catch (e) {
-                console.error('There is a problem: ' + e);
-            }
-        });
+                try {
+                    let id = data.id;
+                    state.socket_data[id] = data;
+                    m.redraw();
+                } catch (e) {
+                    console.error("There is a problem: " + e);
+                }
+            });
     },
     view() {
         let data = this.state.socket_data;
-        return m("div.overview",
+        return m(
+            "div.overview",
             pipe(
                 Object.keys(data),
                 map(id => {
                     let imageName = data[id]["image-name"];
                     let status = data[id]["status"];
                     let icon;
-                    if (status === 'erroneous') {
+                    if (status === "erroneous") {
                         icon = m("div.task-icon", m(ErrorSvg));
                     } else {
-                        icon = m("div.task-icon")
+                        icon = m("div.task-icon");
                     }
                     return m("div.row.task-row." + status, [
                         icon,
                         m("span", imageName + " is " + status)
-                    ])
-                }), Array.from
-            ));
+                    ]);
+                }),
+                Array.from
+            )
+        );
     },
     oncreate() {
         style.ref();
     },
-    onremove(){
+    onremove() {
         this.state.tasks_sub.unsubscribe();
         style.unref();
     }

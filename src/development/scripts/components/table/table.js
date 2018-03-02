@@ -200,14 +200,11 @@ export const Table = {
                 if (t.pagination.pageEnd > resLength) {
                     t.pagination.pageEnd = resLength;
                 }
-
                 t.loading = false;
             },
             catch: (response) => {
-                t.rows = [];
                 t.pagination.totalLength = 0;
-                console.log(response);
-
+                console.error(response);
                 t.loading = false;
             },
             this: t
@@ -290,7 +287,8 @@ export const Table = {
         if (!vnode.attrs.resourceEndpoint) {
             throw new Error(
                 "Unable to create table without any content. Make sure to " +
-                "specify the attribute 'resourceEndpoint' for the table.");
+                "specify the attribute 'resourceEndpoint' for the table."
+            );
         }
 
         this.resourceEndpoint = vnode.attrs.resourceEndpoint;
@@ -299,11 +297,7 @@ export const Table = {
 
         this.transformFunc = vnode.attrs.transformFunc
             ? vnode.attrs.transformFunc
-            : (row) => pipe(
-                Object.keys(row),
-                map(key => row[key]),
-                Array.from
-            );
+            : row => pipe(Object.keys(row), map(key => row[key]), Array.from);
 
         if (vnode.attrs.rowClassFunc) {
             this.rowClassFunc = vnode.attrs.rowClassFunc;

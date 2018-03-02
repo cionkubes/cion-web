@@ -1,4 +1,4 @@
-export const _ = Symbol('placeholder');
+export const _ = Symbol("placeholder");
 
 export function compose(...fns) {
     return item => {
@@ -7,11 +7,11 @@ export function compose(...fns) {
         }
 
         return item;
-    }
+    };
 }
 
 export const flatMap = curry((fn, iterable) => {
-    return args => map(args => fn(...args), iterable);
+    return map(args => fn(...args), iterable);
 });
 
 export function iterobj(dict) {
@@ -23,9 +23,9 @@ export function iterobj(dict) {
         },
         next() {
             const key = iterator.next();
-            return {key: dict[key]};
+            return { key: dict[key] };
             // return [key, dict[key]];
-        },
+        }
     };
 }
 
@@ -51,7 +51,7 @@ export const take = curry((n, iterable) => {
 
             i++;
             return iterator.next();
-        },
+        }
     };
 });
 
@@ -75,14 +75,14 @@ export const map = curry((fn, iterable) => {
         },
         next() {
             item = iterator.next();
-            if (item.done && (typeof item.value === 'undefined')) {
+            if (item.done && typeof item.value === "undefined") {
                 return item;
             } else {
                 item.value = fn(item.value);
 
                 return item;
             }
-        },
+        }
     };
 });
 
@@ -97,17 +97,23 @@ export const filter = curry((predicate, iterable) => {
         next() {
             item = iterator.next();
 
-            while (!(item.done || typeof item.value === 'undefined' || predicate(item.value))) {
+            while (
+                !(
+                    item.done ||
+                    typeof item.value === "undefined" ||
+                    predicate(item.value)
+                )
+            ) {
                 item = iterator.next();
             }
 
             return item;
-        },
+        }
     };
 });
 
 export function isfunction(obj) {
-    return Object.prototype.toString.call(obj) === '[object Function]';
+    return Object.prototype.toString.call(obj) === "[object Function]";
 }
 
 function _fold_args_pred_type_1(args) {
@@ -115,13 +121,17 @@ function _fold_args_pred_type_1(args) {
 }
 
 function _fold_combinator(fold_fn) {
-    return curry(fold_fn, args => _fold_args_pred_type_1(args) || args.length === 3, args => {
-        if (_fold_args_pred_type_1(args)) {
-            return fold_fn(undefined, ...args);
-        } else {
-            return fold_fn(...args);
+    return curry(
+        fold_fn,
+        args => _fold_args_pred_type_1(args) || args.length === 3,
+        args => {
+            if (_fold_args_pred_type_1(args)) {
+                return fold_fn(undefined, ...args);
+            } else {
+                return fold_fn(...args);
+            }
         }
-    })
+    );
 }
 
 const _foldl = (start, fn, iterable) => {
@@ -147,7 +157,7 @@ function curry_factory(fn, state, predicate, on_completion) {
     return (...innerArgs) => {
         const newState = {
             args: state.args.concat([]),
-            placeholders: state.placeholders.concat([]),
+            placeholders: state.placeholders.concat([])
         };
 
         let pIndex;
@@ -155,7 +165,11 @@ function curry_factory(fn, state, predicate, on_completion) {
 
         for (let arg of innerArgs) {
             if (arg === _) {
-                tmpPlaceholders.push(newState.args.length + tmpPlaceholders.length + newState.placeholders.length);
+                tmpPlaceholders.push(
+                    newState.args.length +
+                    tmpPlaceholders.length +
+                    newState.placeholders.length
+                );
                 continue;
             }
 
@@ -172,32 +186,41 @@ function curry_factory(fn, state, predicate, on_completion) {
         }
 
         if (predicate(newState.args)) {
-            return on_completion(newState.args)
+            return on_completion(newState.args);
         } else if (newState.args.length < fn.length) {
             return curry_factory(fn, newState, predicate, on_completion);
         } else {
-            throw 'Too many args passed to curried function';
+            throw "Too many args passed to curried function";
         }
-    }
+    };
 }
 
 export function curry(fn, predicate, on_completion) {
-    predicate = (typeof predicate !== 'undefined') ? predicate : args => args.length === fn.length;
-    on_completion = (typeof on_completion !== 'undefined') ? on_completion : args => fn(...args);
+    predicate =
+        typeof predicate !== "undefined"
+            ? predicate
+            : args => args.length === fn.length;
+    on_completion =
+        typeof on_completion !== "undefined" ? on_completion : args => fn(...args);
 
-    return curry_factory(fn, {
-        args: [],
-        placeholders: [],
-    }, predicate, on_completion);
+    return curry_factory(
+        fn,
+        {
+            args: [],
+            placeholders: []
+        },
+        predicate,
+        on_completion
+    );
 }
 
 export function memoize(fn) {
     const cache = {};
     return function (...args) {
-        if (args in cache){
+        if (args in cache) {
             return cache[args];
         } else {
-            return cache[args] = fn(...args);
+            return (cache[args] = fn(...args));
         }
     };
 }
