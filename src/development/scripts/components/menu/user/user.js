@@ -1,5 +1,5 @@
 import m from "mithril";
-import style from "./user.useable";
+import style from "./user.use";
 import { createNotification } from "../../notifications/panel";
 import { req_with_auth } from "../../../helpers/requests";
 

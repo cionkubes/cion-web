@@ -1,7 +1,7 @@
 import m from "mithril";
 import { UploadSvg } from "../upload-icon/controller";
 import { createNotification } from "../notifications/panel";
-import style from "./doc_editor.useable";
+import style from "./doc_editor.use";
 import { req_with_auth } from "scripts/helpers/requests";
 
 export function docEditor(config) {

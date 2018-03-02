@@ -1,6 +1,6 @@
 import m from "mithril";
 import { map, pipe } from "scripts/helpers/fp";
-import style from "./panel.useable";
+import style from "./panel.use";
 
 const State = {
     notifications: [],

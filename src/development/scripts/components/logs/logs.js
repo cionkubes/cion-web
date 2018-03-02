@@ -3,7 +3,7 @@ import {site_wrapper} from "scripts/site";
 import {map, pipe} from "scripts/helpers/fp";
 import {Table} from "../table/table";
 
-import logsStyle from "./logs.useable";
+import logsStyle from "./logs.use";
 
 export const component_name = "Logs";
 

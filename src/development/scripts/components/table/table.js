@@ -1,8 +1,8 @@
 import m from "mithril";
 import {map, pipe} from "scripts/helpers/fp";
 import {req_with_auth} from "scripts/helpers/requests";
-import tableStyle from "./table.useable";
-import helpStyle from "style/help.useable";
+import tableStyle from "./table.use";
+import helpStyle from "style/help.use";
 import {LoadingIcon} from "../loading/LoadingIcon";
 
 const GoToEntryField = {

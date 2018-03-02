@@ -1,7 +1,7 @@
 import m from "mithril";
 import { site_wrapper } from "scripts/site";
 import { Events } from "./events";
-import style from "./dashboard.useable";
+import style from "./dashboard.use";
 
 export const component_name = "Dashboard";
 
