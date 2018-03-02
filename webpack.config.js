@@ -6,10 +6,21 @@ const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const debug = process.env.NODE_ENV !== "production";
 
+
 const common_plugins = [
+    new HtmlWebpackPlugin({
+        title: "cion",
+        filename: "../spa-entry.html",
+        favicon: "res/favicon.ico",
+        minify: {
+            html5: true
+        },
+        cache: true
+    }),
     new CleanObsoleteChunks(),
     new webpack.DefinePlugin({
         'process.env': {
@@ -36,21 +47,21 @@ const common_plugins = [
 ];
 
 module.exports = {
-    context: path.resolve(__dirname, "./src/development"),
+    context: path.resolve(__dirname, "./src"),
     entry: {
-        app: path.join("scripts", "app.js")
+        app: path.join("app.js")
     },
     output: {
-        path: path.resolve(__dirname, "./src/www/resources/scripts"),
-        publicPath: "/resources/scripts/",
-        filename: "[name].bundle.js"
+        path: path.resolve(__dirname, "./lib/resources"),
+        publicPath: "/resources/",
+        filename: "[name]-[chunkhash:8].bundle.js"
     },
     resolve: {
         extensions: [
-            ".webpack.js", ".web.js", ".js", ".scss"
+            ".js", ".scss", ".html"
         ],
         modules: [
-            path.resolve(__dirname, './src/development'),
+            path.resolve(__dirname, './src'),
             "node_modules"
         ]
     },
@@ -67,12 +78,7 @@ module.exports = {
             }, {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
-                query: {
-                    presets: [
-                        ['es2015', {modules: false, loose: true}]
-                    ]
-                }
+                exclude: /node_modules/
             }, {
                 test: /((?!\.use).{4}|^.{0,3})\.scss$/,
                 loaders: [
