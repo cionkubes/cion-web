@@ -134,8 +134,8 @@ export const PermissionForm = {
                 continue;
             }
             const generateFn = dict[key].constructor === Array ? PermissionForm.generateCheckboxes : PermissionForm.generatePermissionForm;
-            objs.push(m('div.permission-group', [
-                m('h' + (pathSoFar.length + 4) + ".zero-margin", key),
+            objs.push(m("div.permission-group", [
+                m("h" + (pathSoFar.length + 4) + ".zero-margin", key),
                 generateFn(dict[key], PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
             ]));
         }
