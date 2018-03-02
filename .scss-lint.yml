@@ -79,10 +79,10 @@ linters:
     enabled: true
 
   IdSelector:
-    enabled: true
+    enabled: false
 
   ImportantRule:
-    enabled: true
+    enabled: false
 
   ImportPath:
     enabled: true
@@ -110,7 +110,7 @@ linters:
 
   NestingDepth:
     enabled: true
-    max_depth: 4
+    max_depth: 7
     ignore_parent_selectors: false
 
   PlaceholderInExtend:
@@ -123,7 +123,7 @@ linters:
   PropertyCount:
     enabled: true
     include_nested: false
-    max_properties: 10
+    max_properties: 20
 
   PropertySortOrder:
     enabled: true
@@ -139,8 +139,7 @@ linters:
   PropertyUnits:
     enabled: true
     global: [
-      'ch', 'em', 'ex', 'rem',                 # Font-relative lengths
-      'cm', 'in', 'mm', 'pc', 'pt', 'px', 'q', # Absolute lengths
+      'fr', 'ch', 'em', 'ex', 'rem',           # Font-relative lengths
       'vh', 'vw', 'vmin', 'vmax',              # Viewport-percentage lengths
       'deg', 'grad', 'rad', 'turn',            # Angle
       'ms', 's',                               # Duration

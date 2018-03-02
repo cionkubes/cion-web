@@ -11,7 +11,7 @@ export function listRow(route, cols) {
 
         view(vnode) {
             return m(
-                "tr.list_row_click",
+                "tr.list-row-click",
                 { onclick: () => m.route.set(vnode.route) },
                 pipe(vnode.cols, map(d => m("td", d)), Array.from)
             );

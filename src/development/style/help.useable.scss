@@ -1,44 +1,37 @@
 @import "colors";
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-  color: $color-cion-background-primary;
+div.tooltip {
   background-color: $color-cion-primary;
-  border-radius: .4rem;
-  width: 3rem;
+  border-radius: 0.4rem;
+  color: $color-cion-background-primary;
+  display: inline-block;
   height: 3rem;
+  position: relative;
   text-align: center;
+  width: 3rem;
 
-  div.tooltip-content {
-  }
   div.tooltip-text {
-    width: 40rem;
-    background-color: black;
-    color: #fff;
-    text-align: left;
-    padding: 1rem;
+    background-color: $black;
     border-radius: 1rem;
-
-    visibility: hidden;
+    color: $white;
     opacity: 0;
-    transition: opacity .2s;
-
-    /* Position the tooltip text - see examples below! */
+    padding: 1rem;
     position: absolute;
+    text-align: left;
+    transition: opacity 0.2s;
+    visibility: hidden;
+    width: 40rem;
     z-index: 1;
   }
 
   div.tooltip-left {
-    top: -5px;
     bottom: auto;
     right: 128%;
+    top: -5px;
   }
 }
 
-.tooltip:hover {
-  div.tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
+div.tooltip:hover div.tooltip-text {
+  opacity: 1;
+  visibility: visible;
 }

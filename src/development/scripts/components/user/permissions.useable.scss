@@ -7,16 +7,16 @@ div.permissions {
 
 div.permission-group {
   border-left: $color-quinary solid 1px;
+  display: inline-block;
   margin: 1rem;
   padding: 0 0.5rem 0.5rem;
-  display: inline-block;
   vertical-align: top;
 }
 
 label.permission-label {
-  margin: 0;
   display: inline-block;
   font-weight: 500;
+  margin: 0;
 }
 
 .zero-margin {

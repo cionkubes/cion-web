@@ -32,7 +32,7 @@ export const User = {
         return m(
             "user",
             { role: "banner" },
-            m("div.user_content", [
+            m("div.user-content", [
                 m("div.profile", m("img", { src: t.gravatar })),
                 m("div.username", m("p", t.username)),
                 m("div.actions", [

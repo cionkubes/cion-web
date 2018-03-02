@@ -2,52 +2,53 @@
   0% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
 }
 
 div.loading-icon-container {
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
-svg#loadingIcon {
+#loading-icon {
   display: block;
+  height: 10rem;
   margin: 10rem auto;
   width: 10rem;
-  height: 10rem;
+
+  path {
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-name: loadingIconAnim;
+    opacity: 0;
+  }
 }
 
-svg#loadingIcon path {
-  opacity: 0;
-  animation-name: loadingIconAnim;
-  animation-duration: 0.5s;
-  animation-iteration-count: infinite;
-}
-
-
-#topRight1 {
-  opacity: 0.5;
+#top-right-1 {
   animation-delay: 0s;
+  opacity: 0.5;
 }
 
-#topRight2 {
-  opacity: 1;
+#top-right-2 {
   animation-delay: 0.1s;
+  opacity: 1;
 }
 
-#botRight {
+#bot-right {
   animation-delay: 0.2s;
 }
 
-#botLeft {
+#bot-left {
   animation-delay: 0.3s;
 }
 
-#topLeft {
+#top-left {
   animation-delay: 0.4s;
 }

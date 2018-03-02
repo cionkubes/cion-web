@@ -1,11 +1,11 @@
 @import "~style/colors";
 
-tr.list_row_click {
+tr.list-row-click {
   background-color: $color-cion-background-secondary;
   cursor: pointer;
 }
 
-tr.list_row_click:hover {
+tr.list-row-click:hover {
   background-color: $color-tertiary;
 }
 
@@ -17,6 +17,7 @@ tr td {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

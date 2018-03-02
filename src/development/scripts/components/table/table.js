@@ -238,7 +238,7 @@ export const Table = {
                                         c.push("clickable");
                                     }
                                     if (headerIndex[1] === this.sortIndex) {
-                                        c.push("sortedBy");
+                                        c.push("sorted-by");
                                     }
                                     return m(c.join("."), {
                                         onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
@@ -263,7 +263,7 @@ export const Table = {
                                             data => {
                                                 let cssClass = "";
                                                 if (this.sortIndex === this.headers[i][1]) {
-                                                    cssClass = ".sortedBy";
+                                                    cssClass = ".sorted-by";
                                                 }
                                                 i++;
                                                 cs.push(m("td.tdat" + cssClass, data));
