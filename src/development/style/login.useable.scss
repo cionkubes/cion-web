@@ -8,90 +8,78 @@ input {
 
 @media (min-width: 46rem) {
   body {
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: ". ..... ." ". login ." ". ..... ." !important;
     grid-template-columns: 1fr 55rem 1fr;
-    grid-template-areas:
-            ". ..... ."
-            ". login ."
-            ". ..... ." !important;
+    grid-template-rows: 1fr 1fr 1fr;
     margin: 0;
   }
 
   .login-box {
-    height: 20rem !important;
-
-    grid-template-columns: 1fr 1px 1fr;
-    grid-template-rows: 3rem 1fr 3rem !important;
+    // scss-lint:disable PropertyUnits
     grid-row-gap: 0 !important;
 
-    grid-template-areas:
-          "..... ......... ...."
-          "title separator form"
-          "..... ......... ...." !important;
+    grid-template-areas: "..... ......... ...." "title separator form" "..... ......... ...." !important;
+    grid-template-columns: 1fr 1px 1fr;
+    grid-template-rows: 3rem 1fr 3rem !important;
+
+    height: 20rem !important;
   }
 
   .separator {
+    // scss-lint:disable PropertyUnits
+    border-bottom: $color-secondary solid 0 !important;
     border-right: $color-secondary solid 1px;
-    border-bottom: $color-secondary solid 0px !important;
   }
 }
 
 body {
-  display: grid;
-  grid-template-areas:
-          "login";
-  height: 100vh;
-
   background-color: $color-cion-background-primary;
+  display: grid;
+  grid-template-areas: "login";
+
+  height: 100vh;
 }
 
 .login-box {
+  background-color: $color-cion-background-secondary;
   display: grid;
-  grid-area: login;
-
-  grid-template-rows: 1fr 1px 1fr;
-  grid-row-gap: 2rem;
-  grid-template-areas:
-          "title"
-          "separator"
-          "form";
 
   font-weight: 200;
-  background-color: $color-cion-background-secondary;
+  grid-area: login;
+  grid-row-gap: 2rem;
+
+  // scss-lint:disable PropertyUnits
+  grid-template-areas: "title" "separator" "form";
+  grid-template-rows: 1fr 1px 1fr;
   height: 40rem;
 
   form {
     grid-area: form;
     margin-bottom: 0;
 
-    padding: 0 3rem 0 3rem;
+    padding: 0 3rem;
 
-    & > input:last-child {
-      width: 100%;
+    input:last-child {
       margin-bottom: 0;
+      width: 100%;
     }
   }
 }
 
 .separator {
-  grid-area: separator;
   border-bottom: $color-secondary solid 1px;
+  grid-area: separator;
 }
 
 .title-container {
-  text-align: center;
   align-self: center;
   grid-area: title;
+  text-align: center;
 }
 
 img {
   display: inline-block;
   margin-right: 1em;
-  width: 10rem;
   max-width: 50%;
-}
-
-.title {
-  font-size: 80px;
-  display: inline-block;
+  width: 10rem;
 }

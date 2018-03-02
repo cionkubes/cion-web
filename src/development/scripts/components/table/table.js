@@ -1,51 +1,282 @@
 import m from "mithril";
-import { map, pipe } from "scripts/helpers/fp";
-import { req_with_auth } from "scripts/helpers/requests";
+import {map, pipe} from "scripts/helpers/fp";
+import {req_with_auth} from "scripts/helpers/requests";
 import tableStyle from "./table.useable";
+import helpStyle from "style/help.useable";
+import {LoadingIcon} from "../loading/LoadingIcon";
 
-export const component_name = "Tasks";
+const GoToEntryField = {
+    oninit(vnode) {
+        vnode.state.pagination = vnode.attrs.pagination;
+    },
+    setGoToNumber(val, state) {
+        state.goToNumber = val;
+    },
+    view(vnode) {
+        return m("div.go-to-container", [
+            m("div.go-to-descriptor", "Go to:"),
+            m("input.go-to-input", {
+                type: "number",
+                oninput: m.withAttr("value", val => GoToEntryField.setGoToNumber(val, vnode.state.pagination)),
+                onkeypress: val => {
+                    if (val.keyCode === 13) {
+                        if (vnode.state.pagination.goToNumber) {
+                            vnode.state.pagination.updateTable(Math.floor((parseInt(vnode.state.pagination.goToNumber - 1)) / vnode.state.pagination.pageLength));
+                        }
+                    }
+                    return true;
+                }
+            })
+        ]);
+    }
+};
+
+const RowCountSelector = {
+    oninit(vnode) {
+        vnode.state.pagination = vnode.attrs.pagination;
+    },
+    view() {
+        let t = this;
+        return m("div.page-length-container", [
+            m("div.page-length-descriptor", "Row-count:"),
+            m("select.page-length-selector", {
+                onchange: m.withAttr("value", val => {
+                    t.pagination.pageLength = val;
+                    t.pagination.updateTable();
+                }, this)
+            },
+            pipe(
+                t.pagination.pageLengthChoices,
+                map(lengthNum => m("option", {
+                    value: lengthNum,
+                    selected: (t.pagination.pageLength === lengthNum ? "selected" : "")
+                }, lengthNum)),
+                Array.from
+            )
+            )
+        ]);
+    }
+};
+
+const PageSelector = {
+    oninit(vnode) {
+        vnode.state.pagination = vnode.attrs.pagination;
+    },
+
+    setSearchTerm(term, state) {
+        state.term = term;
+        // state.updateTable();
+    },
+
+    incDecActivePage(delta, state) {
+        let nPage = state.activePage + delta;
+        this.goToSpecificPage(nPage, state);
+    },
+
+    goToSpecificPage(pageNum, state) {
+        let nPage = pageNum;
+        if (nPage >= 0 && nPage < state.totalPages) {
+            state.activePage = nPage;
+            state.updateTable(nPage);
+        }
+    },
+
+    view(vnode) {
+        // console.log(this.pagination);
+        let totalPages = Math.ceil(this.pagination.totalLength / this.pagination.pageLength);
+        if (isNaN(totalPages))
+            totalPages = 0;
+        let t = this;
+        t.pagination.totalPages = totalPages;
+
+        if (t.pagination.totalPages === 0) {
+            t.pagination.activePage = 0;
+        } else if (t.pagination.activePage + 1 >= t.pagination.totalPages) {
+            t.pagination.activePage = t.pagination.totalPages - 1;
+        }
+
+        return m("div", [
+            m("div.cion-table-header", [
+                m("div.search-container", [
+                    m("div.search-field", [
+                        m("input", {
+                            type: "text",
+                            placeholder: "Search",
+                            oninput: m.withAttr("value", val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
+                            onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
+                        }),
+                        m("button", {
+                            onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
+                        }, ">"),
+                        m("div.search-tooltip", m("div.tooltip", [
+                            m("div.tooltip-content", "?"),
+                            m("div.tooltip-text.tooltip-left", [
+                                m("p", "Search by field from the database using the Lucene query language"),
+                                m("p", "Apply search: press Enter"),
+                                m("p", "Time-format: 2017-6-1-16.00.01")
+                            ])
+                        ])
+                        ),
+                    ]),
+                ]),
+                m("ul.page-list", [
+                    m("li.page-list-element.page-list-element-link.page-list-element-first", {
+                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
+                    },
+                    m("span.page-link", "<<")),
+                    m("li.page-list-element.page-list-element-link", {
+                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
+                    },
+                    m("span.page-link", "<")),
+                    m("li.page-list-element.active-page", {
+                        onclick: m.withAttr("", () => {
+                            t.pagination.updateTable();
+                        })
+                    },
+                        // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
+                    m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
+                    ),
+                    m("li.page-list-element.page-list-element-link", {
+                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
+                    },
+                    m("span.page-link", ">")),
+                    m("li.page-list-element.page-list-element-last.page-list-element-link", {
+                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
+                    },
+                    m("span.page-link", ">>")),
+                ]),
+                m(GoToEntryField, {pagination: t.pagination}),
+                m(RowCountSelector, {pagination: t.pagination}),
+            ]),
+        ]
+        );
+    }
+};
 
 export const Table = {
-    getTableRows() {
-        let t = this;
+    getTableRows(state, wantedPage) {
+        let t = state;
+        let acPage = t.pagination.activePage;
+
+        if (wantedPage !== undefined) {
+            acPage = wantedPage;
+        } else {
+            acPage = 0;
+        }
+        // TODO: active page larger than total pages. Has to be fixed in backend and frontend
+        if (acPage + 1 >= t.pagination.totalPages) {
+            acPage = t.pagination.totalPages - 1;
+        }
+        if (acPage < 0) {
+            acPage = 0;
+        }
+
+        t.pagination.activePage = acPage;
+
+        let pageStart = t.pagination.activePage * t.pagination.pageLength;
+
+        t.rows = [];
+        t.loading = true;
         req_with_auth({
-            url: t.resourceEndpoint,
+            url: t.resourceEndpoint + "?" + m.buildQueryString({
+                pageStart: pageStart,
+                pageLength: t.pagination.pageLength,
+                sortIndex: t.sortIndex,
+                reverseSort: t.reverseSort,
+                searchTerm: t.pagination.term
+            }),
             method: "GET",
             then: function (response) {
-                t.rows.splice(0, t.rows.length);
-                response.forEach(row => t.rows.push(row));
+                response.rows.forEach(row => t.rows.push(row));
+                t.pagination.totalLength = response.totalLength;
+
+                // TODO: not accurate, use resultset to calculate pageEnd accurately
+                t.pagination.pageStart = parseInt(pageStart) + 1;
+                t.pagination.pageEnd = pageStart + t.pagination.pageLength;
+                let resLength = parseInt(response.totalLength);
+                if (t.pagination.pageEnd > resLength) {
+                    t.pagination.pageEnd = resLength;
+                }
+                t.loading = false;
             },
-            catch: e => console.error(e),
+            catch: (response) => {
+                t.pagination.totalLength = 0;
+                console.error(response);
+                t.loading = false;
+            },
             this: t
         });
     },
 
+    sortTable(index, searchState) {
+        let prevIndex = searchState.sortIndex;
+        searchState.sortIndex = index;
+        if (prevIndex === index) {
+            searchState.reverseSort = !searchState.reverseSort;
+            // table.reverse();
+        } else {
+            searchState.reverseSort = false;
+        }
+
+        Table.getTableRows(searchState);
+    },
+
     view() {
         let t = this;
-        return m("table", [
-            m(
-                "thead",
-                m("tr", pipe(t.headers, map(header => m("th", header)), Array.from))
-            ),
-            m(
-                "tbody",
-                pipe(
-                    this.rows, // list of dictionaries, where each dict is a row
-                    map(row =>
-                        m(
-                            "tr",
-                            { class: this.rowClassFunc(row) },
+        return m("div", [
+            m(PageSelector, {pagination: t.pagination}),
+            // m(LoadingIcon)
+            t.loading ? m(LoadingIcon) :
+                m("table", [
+                    m("thead",
+                        m("tr",
                             pipe(
-                                row,
-                                this.transformFunc,
-                                map(data => m("td", data)),
+                                t.headers,
+                                map(headerIndex => {
+                                    let c = ["th.thead"];
+                                    if (headerIndex[1]) {
+                                        c.push("clickable");
+                                    }
+                                    if (headerIndex[1] === this.sortIndex) {
+                                        c.push("sorted-by");
+                                    }
+                                    return m(c.join("."), {
+                                        onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
+                                    }, headerIndex[0]);
+                                }),
                                 Array.from
                             )
                         )
                     ),
-                    Array.from
+                    m("tbody",
+                        pipe(
+                            this.rows, // list of dictionaries, where each dict is a row
+                            map(row => m("tr",
+                                {class: this.rowClassFunc(row)},
+                                pipe(
+                                    row,
+                                    this.transformFunc,
+                                    (row) => {
+                                        let i = 0;
+                                        let cs = [];
+                                        row.forEach(
+                                            data => {
+                                                let cssClass = "";
+                                                if (this.sortIndex === this.headers[i][1]) {
+                                                    cssClass = ".sorted-by";
+                                                }
+                                                i++;
+                                                cs.push(m("td.tdat" + cssClass, data));
+                                            }
+                                        );
+                                        return cs;
+                                    },
+                                    Array.from))),
+                            Array.from
+                        )
+                    )
+                ]
                 )
-            )
         ]);
     },
 
@@ -58,9 +289,6 @@ export const Table = {
         }
 
         this.resourceEndpoint = vnode.attrs.resourceEndpoint;
-
-        this.pageStart = vnode.attrs.pageStart ? vnode.attrs.pageStart : 0;
-        this.pageLength = vnode.attrs.pageLength ? vnode.attrs.pageLength : 20;
 
         this.headers = vnode.attrs.headers;
 
@@ -75,14 +303,34 @@ export const Table = {
         }
 
         this.rows = [];
-        Table.getTableRows.bind(this)();
+
+        this.sortIndex = vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time";
+        this.reverseSort = false;
+
+        this.pagination = {};
+        this.pagination.term = "";
+        this.pagination.pageLengthChoices = vnode.attrs.pageLengthChoices ? vnode.attrs.pageLengthChoices : [10, 20, 50, 100];
+        this.pagination.totalLength = 0;
+        this.pagination.activePage = 0;
+        this.pagination.pageLength = vnode.attrs.pageLength ? vnode.attrs.pageLength : 20;
+
+        this.pagination.pageStart = this.pagination.activePage * this.pagination.pageLength + 1;
+        this.pagination.pageEnd = this.pagination.pageStart + this.pagination.pageLength;
+
+        this.pagination.updateTable = function (wantedPage) {
+            Table.getTableRows(this, wantedPage);
+        }.bind(this);
+
+        Table.getTableRows(this);
     },
 
     oncreate() {
         tableStyle.ref();
+        helpStyle.ref();
     },
 
     onremove() {
         tableStyle.unref();
+        helpStyle.unref();
     }
 };

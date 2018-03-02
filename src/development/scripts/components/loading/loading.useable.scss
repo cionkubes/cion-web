@@ -1,0 +1,54 @@
+@keyframes loadingIconAnim {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+div.loading-icon-container {
+  height: 100%;
+  width: 100%;
+}
+
+#loading-icon {
+  display: block;
+  height: 10rem;
+  margin: 10rem auto;
+  width: 10rem;
+
+  path {
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-name: loadingIconAnim;
+    opacity: 0;
+  }
+}
+
+#top-right-1 {
+  animation-delay: 0s;
+  opacity: 0.5;
+}
+
+#top-right-2 {
+  animation-delay: 0.1s;
+  opacity: 1;
+}
+
+#bot-right {
+  animation-delay: 0.2s;
+}
+
+#bot-left {
+  animation-delay: 0.3s;
+}
+
+#top-left {
+  animation-delay: 0.4s;
+}

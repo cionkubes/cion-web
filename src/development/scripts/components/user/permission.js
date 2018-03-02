@@ -133,30 +133,11 @@ export const PermissionForm = {
             if (!dict.hasOwnProperty(key)) {
                 continue;
             }
-            let o = dict[key];
-            if (o.constructor === Array) {
-                objs.push(
-                    m("div.permission-group", [
-                        m("h" + (pathSoFar.length + 4) + ".checkbox-header", key),
-                        PermissionForm.generateCheckboxes(
-                            o,
-                            PermissionForm.joinPath(pathSoFar, key).slice(0),
-                            permissions
-                        )
-                    ])
-                );
-            } else if (typeof o === "object") {
-                objs.push(
-                    m("div.permission-group", [
-                        m("h" + (pathSoFar.length + 4) + ".zero-margin", key),
-                        PermissionForm.generatePermissionForm(
-                            o,
-                            PermissionForm.joinPath(pathSoFar, key).slice(0),
-                            permissions
-                        )
-                    ])
-                );
-            }
+            const generateFn = dict[key].constructor === Array ? PermissionForm.generateCheckboxes : PermissionForm.generatePermissionForm;
+            objs.push(m("div.permission-group", [
+                m("h" + (pathSoFar.length + 4) + ".zero-margin", key),
+                generateFn(dict[key], PermissionForm.joinPath(pathSoFar, key).slice(0), permissions)
+            ]));
         }
         return objs;
     },
@@ -171,10 +152,12 @@ export const PermissionForm = {
             )
         );
     },
+
     oncreate(vnode) {
         this.permissions = vnode.attrs.permissions;
         permissionsStyle.ref();
     },
+
     onremove() {
         permissionsStyle.unref();
     }
