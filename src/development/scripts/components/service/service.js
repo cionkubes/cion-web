@@ -3,7 +3,7 @@ import { map, pipe } from "scripts/helpers/fp";
 import { site_wrapper } from "scripts/site";
 import { createNotification } from "../notifications/panel";
 import { req_with_auth } from "scripts/helpers/requests";
-import service_style from "./service.useable";
+import service_style from "./service.use";
 
 export const component_name = "Service";
 

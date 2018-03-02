@@ -74,15 +74,14 @@ module.exports = {
                     ]
                 }
             }, {
-                test: /((?!\.useable).{8}|^.{0,7})\.scss$/,
+                test: /((?!\.use).{4}|^.{0,3})\.scss$/,
                 loaders: [
                     {loader: "style-loader"},
                     {loader: "css-loader"},
                     {loader: "sass-loader"}
                 ]
-            },
-            {
-                test: /\.useable\.scss$/,
+            }, {
+                test: /\.use\.scss$/,
                 loaders: [
                     {loader: "style-loader/useable"},
                     {loader: "css-loader"},

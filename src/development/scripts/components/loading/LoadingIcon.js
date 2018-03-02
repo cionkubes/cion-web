@@ -1,7 +1,7 @@
 import m from "mithril";
-import iconStyle from "./loading.useable";
+import iconStyle from "./loading.use";
 
-export const loadingIcon = {
+export const LoadingIcon = {
     view() {
         return m("div.loading-icon-container", m("svg", {
                 id: "loading-icon",

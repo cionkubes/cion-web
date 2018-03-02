@@ -1,7 +1,7 @@
 import m from "mithril";
 import { createNotification } from "../notifications/panel";
 import { req_with_auth } from "scripts/helpers/requests";
-import permissionsStyle from "./permissions.useable";
+import permissionsStyle from "./permissions.use";
 
 export const PermissionForm = {
     oninit() {

@@ -1,5 +1,5 @@
 import m from "mithril";
-import list_row_style from "./list_row.useable";
+import list_row_style from "./list_row.use";
 import { map, pipe } from "../../helpers/fp";
 
 export function listRow(route, cols) {

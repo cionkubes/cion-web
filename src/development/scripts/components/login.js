@@ -1,5 +1,5 @@
 import m from "mithril";
-import login_style from "style/login.useable";
+import login_style from "style/login.use";
 import { LogoSvg } from "./logo/controller";
 import { req } from "scripts/helpers/requests";
 import { NotificationPanel } from "./notifications/panel";

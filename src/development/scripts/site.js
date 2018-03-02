@@ -4,7 +4,7 @@ import { Header } from "scripts/components/header";
 import { Footer } from "scripts/components/footer";
 import { User } from "scripts/components/menu/user/user";
 import { NotificationPanel } from "scripts/components/notifications/panel";
-import common_style from "style/common.useable";
+import common_style from "style/common.use";
 
 export function site_wrapper(component) {
     return {

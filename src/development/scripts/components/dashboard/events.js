@@ -3,7 +3,7 @@ import { ErrorSvg } from "../svg/errorsvg";
 import { map, pipe } from "../../helpers/fp";
 import { changefeed } from "../../api/reactive";
 import "rxjs-es/add/operator/debounceTime";
-import style from "./events.useable";
+import style from "./events.use";
 
 export const component_name = "Events";
 
