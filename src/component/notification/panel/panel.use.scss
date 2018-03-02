@@ -1,0 +1,32 @@
+@import "~src/style/colors";
+
+.panel {
+  pointer-events: none;
+  position: absolute;
+  width: 100vw;
+  bottom: 0;
+  div.colwrap {
+    float: right;
+    blockquote {
+      width: 25rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      h6 {
+        margin-bottom: 0.5rem;
+      }
+      p {
+        font-size: 1.2rem;
+      }
+    }
+
+    blockquote.success {
+      border-color: $color-cion-done;
+    }
+    blockquote.error {
+      border-color: $color-cion-erroneous;
+    }
+    blockquote.warning {
+      border-color: $color-cion-warning;
+    }
+  }
+}

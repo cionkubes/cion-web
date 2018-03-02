@@ -9,7 +9,7 @@
     "prebuild": "cross-env NODE_ENV=production webpack --progress",
     "build:frontend": "docker build -f Dockerfile . --tag cion/web:latest",
     "build": "run-p build:*",
-    "test": "babel-node --presets node6 src/tests/run.js"
+    "test": "babel-node --presets node6 tests/run.js"
   },
   "repository": "https://github.com/cionkubes/cion-web.git",
   "author": "Erlend <erlentob@stud.ntnu.no>, Harald <haraldfw@stud.ntnu.no>",

@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic");
+@import "../../style/colors";
+@import "~milligram/src/milligram";
+
+input {
+  color: $color-cion-text;
+}
+
+@media (min-width: 46rem) {
+  body {
+    grid-template-areas: ". ..... ." ". login ." ". ..... ." !important;
+    grid-template-columns: 1fr 55rem 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    margin: 0;
+  }
+
+  .login-box {
+    // scss-lint:disable PropertyUnits
+    grid-row-gap: 0 !important;
+
+    grid-template-areas: "..... ......... ...." "title separator form" "..... ......... ...." !important;
+    grid-template-columns: 1fr 1px 1fr;
+    grid-template-rows: 3rem 1fr 3rem !important;
+
+    height: 20rem !important;
+  }
+
+  .separator {
+    // scss-lint:disable PropertyUnits
+    border-bottom: $color-secondary solid 0 !important;
+    border-right: $color-secondary solid 1px;
+  }
+}
+
+body {
+  background-color: $color-cion-background-primary;
+  display: grid;
+  grid-template-areas: "login";
+
+  height: 100vh;
+}
+
+.login-box {
+  background-color: $color-cion-background-secondary;
+  display: grid;
+
+  font-weight: 200;
+  grid-area: login;
+  grid-row-gap: 2rem;
+
+  // scss-lint:disable PropertyUnits
+  grid-template-areas: "title" "separator" "form";
+  grid-template-rows: 1fr 1px 1fr;
+  height: 40rem;
+
+  form {
+    grid-area: form;
+    margin-bottom: 0;
+
+    padding: 0 3rem;
+
+    input:last-child {
+      margin-bottom: 0;
+      width: 100%;
+    }
+  }
+}
+
+.separator {
+  border-bottom: $color-secondary solid 1px;
+  grid-area: separator;
+}
+
+.title-container {
+  align-self: center;
+  grid-area: title;
+  text-align: center;
+}
+
+img {
+  display: inline-block;
+  margin-right: 1em;
+  max-width: 50%;
+  width: 10rem;
+}

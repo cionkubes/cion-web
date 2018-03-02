@@ -1,0 +1,24 @@
+@import "~src/style/colors";
+
+tr.list-row-click {
+  background-color: $color-cion-background-secondary;
+  cursor: pointer;
+}
+
+tr.list-row-click:hover {
+  background-color: $color-tertiary;
+}
+
+tr td {
+  animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

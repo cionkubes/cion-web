@@ -1,0 +1,37 @@
+@import "~src/style/colors";
+
+textarea {
+  resize: vertical;
+  width: 100%;
+}
+
+.erroneous {
+  border-color: $color-cion-erroneous;
+}
+
+.save-button {
+  display: inline-block;
+  margin: 0;
+
+  img {
+    display: inline-block;
+    filter: invert(1);
+    height: 100%;
+    margin-right: 1rem;
+    vertical-align: middle;
+    width: 3rem;
+  }
+
+  p {
+    display: inline-block;
+  }
+}
+
+.bot {
+  margin: 0;
+  margin-bottom: 1.5rem;
+}
+
+main {
+  background-color: $color-cion-background-secondary;
+}
