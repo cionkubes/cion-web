@@ -1,7 +1,7 @@
 import m from "mithril";
-import { site_wrapper } from "../../site";
-import { GravatarEmailForm } from "./gravatarEmailForm";
-import { ResetPasswordForm } from "./resetPasswordForm";
+import { site_wrapper } from "component/site/site-wrapper";
+import { GravatarEmailForm } from "./gravatar-email";
+import { ResetPasswordForm } from "./reset-pw";
 
 export const component_name = "Profile";
 export const Profile = site_wrapper({

@@ -1,9 +1,9 @@
 import m from "mithril";
-import { ErrorSvg } from "../../../../components/graphics/error/error";
-import { map, pipe } from "../../helpers/fp";
-import { changefeed } from "../../api/reactive";
+import { ErrorSvg } from "component/graphic/error/error";
+import { map, pipe } from "utils/fp";
+import { changefeed } from "services/api/reactive";
 import "rxjs-es/add/operator/debounceTime";
-import style from "./events.use";
+import style from "./events.use.scss";
 
 export const component_name = "Events";
 

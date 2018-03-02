@@ -1,13 +1,13 @@
 import m from "mithril";
-import { createNotification } from "../../../../component/notifications/panel";
-import { req_with_auth } from "src/services/api/requests";
-import permissionsStyle from "./permissions.use";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
+import permissionsStyle from "./permission.use.scss";
 
 export const PermissionForm = {
     oninit() {
         let t = this;
         req_with_auth({
-            url: "/api/v1/permissions/permission-def",
+            url: "/api/v1/permission/permission-def",
             method: "GET",
             then: e => {
                 this.permissionTemplate = e;
@@ -110,8 +110,8 @@ export const PermissionForm = {
                     "checked",
                     val => {
                         PermissionForm.setPermission(completePath, val, permissions);
-                        // TODO move call to removeEmptyPermissions to call it once when permissions are extracted
-                        // PermissionForm.removeEmptyPermissions(permissions);
+                        // TODO move call to removeEmptyPermissions to call it once when permission are extracted
+                        // PermissionForm.removeEmptyPermissions(permission);
                     },
                     this
                 ),

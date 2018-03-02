@@ -1,5 +1,5 @@
 import m from "mithril";
-import { createNotification } from "../../../component/notifications/panel";
+import { createNotification } from "component/notification/panel/panel";
 
 export function req(args) {
     args["extract"] = function (xhr) {
@@ -9,7 +9,7 @@ export function req(args) {
         } catch (err) {
             bod = xhr.responseText;
         }
-        return { status: xhr.status, body: bod };
+        return {status: xhr.status, body: bod};
     };
     return m.request(args);
 }

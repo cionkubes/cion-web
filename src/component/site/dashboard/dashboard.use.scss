@@ -20,7 +20,7 @@
     }
   }
   .content {
-    border-radius: 0 0 0.5rem 0.5rem ;
+    border-radius: 0 0 0.5rem 0.5rem;
     height: auto;
     margin: 0;
   }
@@ -30,11 +30,7 @@
 
 @media (max-width: 70rem) {
   .component_container {
-    grid-template-areas:
-            "events"
-            "asdf"
-            "asdf2"
-            "asdf3";
+    grid-template-areas: "events" "asdf" "asdf2" "asdf3";
   }
   .dash_component {
     height: 40rem;
@@ -43,9 +39,7 @@
 
 @media (min-width: 70rem) {
   .component_container {
-    grid-template-areas:
-            "events asdf"
-            "asdf2 asdf3";
+    grid-template-areas: "events asdf" "asdf2 asdf3";
     .dash_component {
       height: 50rem;
     }

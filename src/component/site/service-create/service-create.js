@@ -1,8 +1,8 @@
 import m from "mithril";
-import { map, pipe, filter } from "src/utils/fp";
-import { createNotification } from "../notifications/panel";
-import { site_wrapper } from "src/component/site/site-wrapper";
-import { req_with_auth } from "src/services/api/requests";
+import { map, pipe, filter } from "utils/fp";
+import { createNotification } from "component/notification/panel/panel";
+import { site_wrapper } from "component/site/site-wrapper";
+import { req_with_auth } from "services/api/requests";
 
 export const component_name = "ServiceCreate";
 
@@ -36,7 +36,7 @@ const State = {
                                 onchange: State.checkHandle,
                                 id: d
                             }),
-                            m("label.label-inline", { for: d }, d)
+                            m("label.label-inline", {for: d}, d)
                         ])
                     ),
                     Array.from
@@ -94,7 +94,7 @@ export const ServiceCreate = site_wrapper({
             m("input#imagename[type=text]", {
                 oninput: m.withAttr("value", State.setImageName)
             }),
-            m("button", { onclick: State.submit }, "Create service")
+            m("button", {onclick: State.submit}, "Create service")
         ]);
     }
 });

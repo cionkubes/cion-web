@@ -3,6 +3,6 @@ import svgpath from "./logo.svg";
 
 export const LogoSvg = {
     view() {
-        return m("img", { src: svgpath });
+        return m("img", {src: svgpath});
     }
 };

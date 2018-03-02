@@ -1,9 +1,9 @@
 import m from "mithril";
-import {map, pipe} from "src/utils/fp";
-import {req_with_auth} from "src/services/api/requests";
-import tableStyle from "./table.use";
-import helpStyle from "src/style/help.use";
-import {LoadingIcon} from "../loading/LoadingIcon";
+import { map, pipe } from "utils/fp";
+import { req_with_auth } from "services/api/requests";
+import tableStyle from "./table.use.scss";
+import helpStyle from "component/tooltip/tooltip.use.scss";
+import { LoadingIcon } from "component/graphic/loading/loading";
 
 const GoToEntryField = {
     oninit(vnode) {
@@ -40,19 +40,19 @@ const RowCountSelector = {
         return m("div.page-length-container", [
             m("div.page-length-descriptor", "Row-count:"),
             m("select.page-length-selector", {
-                onchange: m.withAttr("value", val => {
-                    t.pagination.pageLength = val;
-                    t.pagination.updateTable();
-                }, this)
-            },
-            pipe(
-                t.pagination.pageLengthChoices,
-                map(lengthNum => m("option", {
-                    value: lengthNum,
-                    selected: (t.pagination.pageLength === lengthNum ? "selected" : "")
-                }, lengthNum)),
-                Array.from
-            )
+                    onchange: m.withAttr("value", val => {
+                        t.pagination.pageLength = val;
+                        t.pagination.updateTable();
+                    }, this)
+                },
+                pipe(
+                    t.pagination.pageLengthChoices,
+                    map(lengthNum => m("option", {
+                        value: lengthNum,
+                        selected: (t.pagination.pageLength === lengthNum ? "selected" : "")
+                    }, lengthNum)),
+                    Array.from
+                )
             )
         ]);
     }
@@ -96,59 +96,59 @@ const PageSelector = {
         }
 
         return m("div", [
-            m("div.cion-table-header", [
-                m("div.search-container", [
-                    m("div.search-field", [
-                        m("input", {
-                            type: "text",
-                            placeholder: "Search",
-                            oninput: m.withAttr("value", val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
-                            onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
-                        }),
-                        m("button", {
-                            onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
-                        }, ">"),
-                        m("div.search-tooltip", m("div.tooltip", [
-                            m("div.tooltip-content", "?"),
-                            m("div.tooltip-text.tooltip-left", [
-                                m("p", "Search by field from the database using the Lucene query language"),
-                                m("p", "Apply search: press Enter"),
-                                m("p", "Time-format: 2017-6-1-16.00.01")
-                            ])
-                        ])
-                        ),
+                m("div.cion-table-header", [
+                    m("div.search-container", [
+                        m("div.search-field", [
+                            m("input", {
+                                type: "text",
+                                placeholder: "Search",
+                                oninput: m.withAttr("value", val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
+                                onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
+                            }),
+                            m("button", {
+                                onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
+                            }, ">"),
+                            m("div.search-tooltip", m("div.tooltip", [
+                                    m("div.tooltip-content", "?"),
+                                    m("div.tooltip-text.tooltip-left", [
+                                        m("p", "Search by field from the database using the Lucene query language"),
+                                        m("p", "Apply search: press Enter"),
+                                        m("p", "Time-format: 2017-6-1-16.00.01")
+                                    ])
+                                ])
+                            ),
+                        ]),
                     ]),
+                    m("ul.page-list", [
+                        m("li.page-list-element.page-list-element-link.page-list-element-first", {
+                                onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
+                            },
+                            m("span.page-link", "<<")),
+                        m("li.page-list-element.page-list-element-link", {
+                                onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
+                            },
+                            m("span.page-link", "<")),
+                        m("li.page-list-element.active-page", {
+                                onclick: m.withAttr("", () => {
+                                    t.pagination.updateTable();
+                                })
+                            },
+                            // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
+                            m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
+                        ),
+                        m("li.page-list-element.page-list-element-link", {
+                                onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
+                            },
+                            m("span.page-link", ">")),
+                        m("li.page-list-element.page-list-element-last.page-list-element-link", {
+                                onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
+                            },
+                            m("span.page-link", ">>")),
+                    ]),
+                    m(GoToEntryField, {pagination: t.pagination}),
+                    m(RowCountSelector, {pagination: t.pagination}),
                 ]),
-                m("ul.page-list", [
-                    m("li.page-list-element.page-list-element-link.page-list-element-first", {
-                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
-                    },
-                    m("span.page-link", "<<")),
-                    m("li.page-list-element.page-list-element-link", {
-                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
-                    },
-                    m("span.page-link", "<")),
-                    m("li.page-list-element.active-page", {
-                        onclick: m.withAttr("", () => {
-                            t.pagination.updateTable();
-                        })
-                    },
-                        // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
-                    m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
-                    ),
-                    m("li.page-list-element.page-list-element-link", {
-                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
-                    },
-                    m("span.page-link", ">")),
-                    m("li.page-list-element.page-list-element-last.page-list-element-link", {
-                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
-                    },
-                    m("span.page-link", ">>")),
-                ]),
-                m(GoToEntryField, {pagination: t.pagination}),
-                m(RowCountSelector, {pagination: t.pagination}),
-            ]),
-        ]
+            ]
         );
     }
 };
@@ -227,54 +227,54 @@ export const Table = {
             // m(LoadingIcon)
             t.loading ? m(LoadingIcon) :
                 m("table", [
-                    m("thead",
-                        m("tr",
+                        m("thead",
+                            m("tr",
+                                pipe(
+                                    t.headers,
+                                    map(headerIndex => {
+                                        let c = ["th.thead"];
+                                        if (headerIndex[1]) {
+                                            c.push("clickable");
+                                        }
+                                        if (headerIndex[1] === this.sortIndex) {
+                                            c.push("sorted-by");
+                                        }
+                                        return m(c.join("."), {
+                                            onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
+                                        }, headerIndex[0]);
+                                    }),
+                                    Array.from
+                                )
+                            )
+                        ),
+                        m("tbody",
                             pipe(
-                                t.headers,
-                                map(headerIndex => {
-                                    let c = ["th.thead"];
-                                    if (headerIndex[1]) {
-                                        c.push("clickable");
-                                    }
-                                    if (headerIndex[1] === this.sortIndex) {
-                                        c.push("sorted-by");
-                                    }
-                                    return m(c.join("."), {
-                                        onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
-                                    }, headerIndex[0]);
-                                }),
+                                this.rows, // list of dictionaries, where each dict is a row
+                                map(row => m("tr",
+                                    {class: this.rowClassFunc(row)},
+                                    pipe(
+                                        row,
+                                        this.transformFunc,
+                                        (row) => {
+                                            let i = 0;
+                                            let cs = [];
+                                            row.forEach(
+                                                data => {
+                                                    let cssClass = "";
+                                                    if (this.sortIndex === this.headers[i][1]) {
+                                                        cssClass = ".sorted-by";
+                                                    }
+                                                    i++;
+                                                    cs.push(m("td.tdat" + cssClass, data));
+                                                }
+                                            );
+                                            return cs;
+                                        },
+                                        Array.from))),
                                 Array.from
                             )
                         )
-                    ),
-                    m("tbody",
-                        pipe(
-                            this.rows, // list of dictionaries, where each dict is a row
-                            map(row => m("tr",
-                                {class: this.rowClassFunc(row)},
-                                pipe(
-                                    row,
-                                    this.transformFunc,
-                                    (row) => {
-                                        let i = 0;
-                                        let cs = [];
-                                        row.forEach(
-                                            data => {
-                                                let cssClass = "";
-                                                if (this.sortIndex === this.headers[i][1]) {
-                                                    cssClass = ".sorted-by";
-                                                }
-                                                i++;
-                                                cs.push(m("td.tdat" + cssClass, data));
-                                            }
-                                        );
-                                        return cs;
-                                    },
-                                    Array.from))),
-                            Array.from
-                        )
-                    )
-                ]
+                    ]
                 )
         ]);
     },

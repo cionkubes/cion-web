@@ -3,6 +3,6 @@ import svgpath from "./profile.svg";
 
 export const ProfileSvg = {
     view() {
-        return m("img", { src: svgpath });
+        return m("img", {src: svgpath});
     }
 };

@@ -1,5 +1,11 @@
-<svg width="90.336mm" height="90.336mm" version="1.1" viewBox="0 0 90.336 90.336" xmlns="http://www.w3.org/2000/svg">
- <g transform="translate(-53.861 -98.752)">
-  <path transform="scale(.26458)" d="m374.28 373.24c-94.164 0-170.71 76.548-170.71 170.71 0 94.164 76.548 170.71 170.71 170.71 94.164 0 170.71-76.548 170.71-170.71 0-94.164-76.55-170.71-170.71-170.71zm0 19.996c83.356 0 150.72 67.361 150.72 150.72 0 29.849-8.6403 57.645-23.557 81.033a140.71 140.71 0 0 0-91.717-76.285 58.714 58.714 0 0 0 23.273-46.75 58.714 58.714 0 0 0-58.715-58.713 58.714 58.714 0 0 0-58.713 58.713 58.714 58.714 0 0 0 23.305 46.744 140.71 140.71 0 0 0-91.738 76.314c-14.925-23.393-23.57-51.198-23.57-81.057 0-83.356 67.359-150.72 150.71-150.72z" color="#000000" color-rendering="auto" dominant-baseline="auto" fill="#fff" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;isolation:auto;mix-blend-mode:normal;paint-order:normal;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal"/>
- </g>
+<svg width="90.336mm" height="90.336mm" version="1.1"
+     viewBox="0 0 90.336 90.336" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(-53.861 -98.752)">
+        <path transform="scale(.26458)"
+              d="m374.28 373.24c-94.164 0-170.71 76.548-170.71 170.71 0 94.164 76.548 170.71 170.71 170.71 94.164 0 170.71-76.548 170.71-170.71 0-94.164-76.55-170.71-170.71-170.71zm0 19.996c83.356 0 150.72 67.361 150.72 150.72 0 29.849-8.6403 57.645-23.557 81.033a140.71 140.71 0 0 0-91.717-76.285 58.714 58.714 0 0 0 23.273-46.75 58.714 58.714 0 0 0-58.715-58.713 58.714 58.714 0 0 0-58.713 58.713 58.714 58.714 0 0 0 23.305 46.744 140.71 140.71 0 0 0-91.738 76.314c-14.925-23.393-23.57-51.198-23.57-81.057 0-83.356 67.359-150.72 150.71-150.72z"
+              color="#000000" color-rendering="auto" dominant-baseline="auto"
+              fill="#fff" image-rendering="auto" shape-rendering="auto"
+              solid-color="#000000"
+              style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;isolation:auto;mix-blend-mode:normal;paint-order:normal;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal"/>
+    </g>
 </svg>

@@ -1,6 +1,6 @@
 import m from "mithril";
-import list_row_style from "./list_row.use";
-import { map, pipe } from "../../helpers/fp";
+import list_row_style from "./table-row.use.scss";
+import { map, pipe } from "utils/fp";
 
 export function listRow(route, cols) {
     return class {
@@ -12,7 +12,7 @@ export function listRow(route, cols) {
         view(vnode) {
             return m(
                 "tr.list-row-click",
-                { onclick: () => m.route.set(vnode.route) },
+                {onclick: () => m.route.set(vnode.route)},
                 pipe(vnode.cols, map(d => m("td", d)), Array.from)
             );
         }

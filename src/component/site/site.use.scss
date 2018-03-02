@@ -1,7 +1,8 @@
-@import "colors";
+@import "~style/colors";
+@import "~style/common";
 
 body {
-  background-color: #E5E5E5;
+  background-color: $color-cion-background-primary;
   height: 100vh;
   margin: 0;
   padding: 0;

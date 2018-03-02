@@ -1,9 +1,9 @@
 import m from "mithril";
-import { map, pipe } from "src/utils/fp";
-import { site_wrapper } from "src/component/site/site-wrapper";
-import { createNotification } from "../notifications/panel";
-import { req_with_auth } from "src/services/api/requests";
-import service_style from "./service.use";
+import { map, pipe } from "utils/fp";
+import { site_wrapper } from "component/site/site-wrapper";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
+import service_style from "./service-edit.use.scss";
 
 export const component_name = "Service";
 
@@ -39,10 +39,6 @@ class State {
         m.route.set("/services");
     }
 
-    canDeploy() {
-        return this.selectedImage !== "" && this.selectedEnv !== "";
-    }
-
     static setSelImage(img, vnode) {
         // this is too hacky, but until I find a better way it has to be this way
         vnode.state.selectedImage = img;
@@ -50,6 +46,10 @@ class State {
 
     static setSelEnv(env, vnode) {
         vnode.state.selectedEnv = env;
+    }
+
+    canDeploy() {
+        return this.selectedImage !== "" && this.selectedEnv !== "";
     }
 
     fetch() {
@@ -106,7 +106,10 @@ export const Service = site_wrapper({
                 // m("button", {style: "float: right;", onclick: () => State.editService(vnode)}, "Edit"),
                 m(
                     "button.red",
-                    { style: "float: right;", onclick: () => State.deleteService(vnode) },
+                    {
+                        style: "float: right;",
+                        onclick: () => State.deleteService(vnode)
+                    },
                     "Delete"
                 )
             ]),
@@ -150,10 +153,10 @@ export const Service = site_wrapper({
                                 )
                             },
                             [
-                                m("option", { value: "" }, "Image"),
+                                m("option", {value: ""}, "Image"),
                                 pipe(
                                     vnode.state.data["images-deployed"],
-                                    map(img => m("option", { value: img }, img)),
+                                    map(img => m("option", {value: img}, img)),
                                     Array.from
                                 )
                             ]
@@ -166,10 +169,10 @@ export const Service = site_wrapper({
                                 )
                             },
                             [
-                                m("option", { value: "" }, "Environment"),
+                                m("option", {value: ""}, "Environment"),
                                 pipe(
                                     Object.keys(vnode.state.data.environments),
-                                    map(k => m("option", { value: k }, k)),
+                                    map(k => m("option", {value: k}, k)),
                                     Array.from
                                 )
                             ]

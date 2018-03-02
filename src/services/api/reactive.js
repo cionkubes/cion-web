@@ -6,8 +6,8 @@ import "rxjs-es/add/operator/share";
 import "rxjs-es/add/operator/filter";
 import "rxjs-es/add/operator/finally";
 import "rxjs-es/add/observable/defer";
-import { QueueingSubject } from "../helpers/queueing-subject";
-import { memoize } from "../helpers/fp";
+import { QueueingSubject } from "utils/queueing-subject";
+import { memoize } from "utils/fp";
 
 const retrySeconds = 5;
 

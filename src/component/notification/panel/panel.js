@@ -1,6 +1,7 @@
 import m from "mithril";
-import { map, pipe } from "src/utils/fp";
-import style from "./panel.use";
+import { Notification } from "../notification";
+import { map, pipe } from "utils/fp";
+import style from "./panel.use.scss";
 
 const State = {
     notifications: [],
@@ -9,14 +10,6 @@ const State = {
         m.redraw();
     }
 };
-
-class Notification {
-    constructor(title, message, type) {
-        this.title = title;
-        this.message = message;
-        this.type = type;
-    }
-}
 
 /**
  * Valid types: success, warning, error
@@ -36,7 +29,7 @@ export const NotificationPanel = {
                 pipe(
                     State.notifications,
                     map(notif =>
-                        m("blockquote", { class: notif.type }, [
+                        m("blockquote", {class: notif.type}, [
                             m("h6", notif.title),
                             m("p", notif.message)
                         ])

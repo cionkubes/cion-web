@@ -1,6 +1,6 @@
 import m from "mithril";
-import { createNotification } from "../notifications/panel";
-import { req_with_auth } from "src/services/api/requests";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
 
 export class ResetPasswordForm {
     constructor() {
@@ -68,7 +68,7 @@ export class ResetPasswordForm {
                 oninput: m.withAttr("value", this.setRepeatPassword, this),
                 placeholder: "Repeat new password"
             }),
-            m("button", { onclick: this.resetPassword.bind(this) }, "Submit")
+            m("button", {onclick: this.resetPassword.bind(this)}, "Submit")
         ]);
     }
 }

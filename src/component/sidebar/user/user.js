@@ -1,7 +1,7 @@
 import m from "mithril";
-import style from "./user.use";
-import { createNotification } from "../../notifications/panel";
-import { req_with_auth } from "../../../helpers/requests";
+import style from "./user.use.scss";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
 
 export const User = {
     username: "",
@@ -31,12 +31,12 @@ export const User = {
         let t = this;
         return m(
             "user",
-            { role: "banner" },
+            {role: "banner"},
             m("div.user-content", [
-                m("div.profile", m("img", { src: t.gravatar })),
+                m("div.profile", m("img", {src: t.gravatar})),
                 m("div.username", m("p", t.username)),
                 m("div.actions", [
-                    m("a", { href: "/#!/profile" }, "profile"),
+                    m("a", {href: "/#!/profile"}, "profile"),
                     m(
                         "a",
                         {

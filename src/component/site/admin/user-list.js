@@ -1,18 +1,18 @@
 import m from "mithril";
-import { map, pipe } from "src/utils/fp";
-import { req_with_auth } from "src/services/api/requests";
-import { createNotification } from "../notifications/panel";
-import { listRow } from "../clickable_tr/list_row";
+import { map, pipe } from "utils/fp";
+import { req_with_auth } from "services/api/requests";
+import { createNotification } from "component/notification/panel/panel";
+import { listRow } from "component/clickable-table-row/table-row";
 
 const State = {
     list: [],
-    fetch: function() {
+    fetch: function () {
         State.list = [];
         const data = State.list;
         req_with_auth({
             url: "/api/v1/users",
             method: "GET",
-            then: function(response) {
+            then: function (response) {
                 for (let user of response) {
                     data.push(user);
                 }

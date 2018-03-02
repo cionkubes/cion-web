@@ -14,9 +14,12 @@ let Collapser = {
 
 export const Header = {
     view() {
-        return m("header", { role: "banner" }, [
+        return m("header", {role: "banner"}, [
             m("h2", "cion"),
-            m("span", { onclick: Collapser.toggleCollapse, id: "toggle-button" }, "<")
+            m("span", {
+                onclick: Collapser.toggleCollapse,
+                id: "toggle-button"
+            }, "<")
         ]);
     }
 };

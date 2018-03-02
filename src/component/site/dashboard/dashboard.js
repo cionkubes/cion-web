@@ -1,7 +1,7 @@
 import m from "mithril";
-import { site_wrapper } from "src/component/site/site-wrapper";
+import { site_wrapper } from "component/site/site-wrapper";
 import { Events } from "./events";
-import style from "./dashboard.use";
+import style from "./dashboard.use.scss";
 
 export const component_name = "Dashboard";
 

@@ -1,8 +1,8 @@
 import m from "mithril";
-import { createNotification } from "../notifications/panel";
-import { req_with_auth } from "src/services/api/requests";
-import { PermissionForm } from "../user/permission";
-import { site_wrapper } from "../../site";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
+import { PermissionForm } from "component/permission/permission";
+import { site_wrapper } from "component/site/site-wrapper";
 
 export const component_name = "EditUser";
 export const EditUser = site_wrapper({
@@ -10,7 +10,7 @@ export const EditUser = site_wrapper({
         this.username = m.route.param("username");
         this.permissions = {};
         req_with_auth({
-            url: "/api/v1/permissions/user/" + this.username,
+            url: "/api/v1/permission/user/" + this.username,
             method: "GET",
             then: e => {
                 let rPerms = e["permissions"];
@@ -20,7 +20,7 @@ export const EditUser = site_wrapper({
                     }
                 }
             },
-            catch: e => createNotification("Failed to get permissions", e, "error"),
+            catch: e => createNotification("Failed to get permission", e, "error"),
             this: this
         });
     },
@@ -75,9 +75,9 @@ export const EditUser = site_wrapper({
         let perms = this.permissions;
         PermissionForm.removeEmptyPermissions(perms);
         req_with_auth({
-            url: "/api/v1/permissions/user/" + this.username,
+            url: "/api/v1/permission/user/" + this.username,
             method: "PUT",
-            data: { permissions: perms },
+            data: {permissions: perms},
             then: () =>
                 createNotification(
                     "Permissions for user " + this.username + " where updated",
@@ -110,13 +110,13 @@ export const EditUser = site_wrapper({
                 oninput: m.withAttr("value", this.setRepeatPassword, this),
                 placeholder: "Repeat new password"
             }),
-            m("button", { onclick: this.resetPassword.bind(this) }, "Set Password"),
+            m("button", {onclick: this.resetPassword.bind(this)}, "Set Password"),
             m("h2", "Permissions"),
-            m(PermissionForm, { permissions: this.permissions }),
+            m(PermissionForm, {permissions: this.permissions}),
             m(
                 "button",
-                { onclick: m.withAttr("", this.sendPermissions, this) },
-                "Set permissions"
+                {onclick: m.withAttr("", this.sendPermissions, this)},
+                "Set permission"
             )
         ]);
     }

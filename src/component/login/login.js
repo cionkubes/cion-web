@@ -1,9 +1,9 @@
 import m from "mithril";
-import login_style from "src/style/login.use";
-import { LogoSvg } from "./logo/controller";
-import { req } from "src/services/api/requests";
-import { NotificationPanel } from "./notifications/panel";
-import { createNotification } from "./notifications/panel";
+import login_style from "./login.use.scss";
+import { LogoSvg } from "component/graphic/logo/logo";
+import { req } from "services/api/requests";
+import { NotificationPanel } from "component/notification/panel/panel";
+import { createNotification } from "component/notification/panel/panel";
 
 let Auth = {
     username: "",
@@ -20,12 +20,15 @@ let Auth = {
         req({
             url: "/api/v1/auth",
             method: "POST",
-            data: { username: Auth.username, password: Auth.password },
+            data: {username: Auth.username, password: Auth.password},
             extract: xhr => {
-                return { status: xhr.status, body: JSON.parse(xhr.responseText) };
+                return {
+                    status: xhr.status,
+                    body: JSON.parse(xhr.responseText)
+                };
             }
         })
-            .then(function(response) {
+            .then(function (response) {
                 // console.log(response);
                 let status = response.status;
                 if (status === 200) {
@@ -64,7 +67,7 @@ export const Login = {
             m("div.login-box", [
                 m("div.title-container", [m(LogoSvg)]),
                 m("div.separator"),
-                m("form", { onsubmit: Auth.login }, [
+                m("form", {onsubmit: Auth.login}, [
                     m(
                         "label",
                         m("input[type=text]", {
@@ -81,7 +84,7 @@ export const Login = {
                             placeholder: "password"
                         })
                     ),
-                    m("input", { type: "submit", value: "Login" })
+                    m("input", {type: "submit", value: "Login"})
                 ])
             ]),
             m(NotificationPanel)

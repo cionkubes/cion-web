@@ -1,9 +1,9 @@
 import m from "mithril";
-import { map, pipe } from "src/utils/fp";
-import { site_wrapper } from "src/component/site/site-wrapper";
-import { createNotification } from "../notifications/panel";
-import { listRow } from "../clickable_tr/list_row";
-import { req_with_auth } from "src/services/api/requests";
+import { map, pipe } from "utils/fp";
+import { site_wrapper } from "component/site/site-wrapper";
+import { createNotification } from "component/notification/panel/panel";
+import { listRow } from "component/clickable-table-row/table-row";
+import { req_with_auth } from "services/api/requests";
 
 export const component_name = "ConfEditor";
 

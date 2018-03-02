@@ -1,7 +1,7 @@
 import m from "mithril";
-import { createNotification } from "../notifications/panel";
-import { req_with_auth } from "src/services/api/requests";
-import { PermissionForm } from "../user/permission";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
+import { PermissionForm } from "component/permission/permission";
 
 export class CreateUserForm {
     constructor() {
@@ -73,7 +73,7 @@ export class CreateUserForm {
                 placeholder: "Repeat Password"
             }),
             m("label", "Permissions"),
-            m(PermissionForm, { permissions: this.permissions }),
+            m(PermissionForm, {permissions: this.permissions}),
             m(
                 "button",
                 {

@@ -1,12 +1,12 @@
 import m from "mithril";
-import style from "src/style/footer";
-import { LogoSvg } from "./logo/controller";
+import style from "./footer.use.scss";
+import { LogoSvg } from "component/graphic/logo/logo";
 
 export const Footer = {
     view() {
         return m(
             "footer",
-            { role: "banner" },
+            {role: "banner"},
             m(
                 "a",
                 {
@@ -15,5 +15,13 @@ export const Footer = {
                 m("div", [m(LogoSvg), m("h4", "cion 1.0.0")])
             )
         );
+    },
+
+    oncreate() {
+        style.ref();
+    },
+
+    onremove() {
+        style.unref();
     }
 };

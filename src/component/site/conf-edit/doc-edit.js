@@ -1,8 +1,8 @@
 import m from "mithril";
-import { UploadSvg } from "../upload-icon/controller";
-import { createNotification } from "../notifications/panel";
-import style from "./doc_editor.use";
-import { req_with_auth } from "src/services/api/requests";
+import { UploadSvg } from "component/graphic/upload/upload";
+import { createNotification } from "component/notification/panel/panel";
+import style from "./doc-edit.use.scss";
+import { req_with_auth } from "services/api/requests";
 
 export function docEditor(config) {
     return class {

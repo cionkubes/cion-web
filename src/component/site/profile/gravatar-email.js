@@ -1,6 +1,6 @@
 import m from "mithril";
-import { createNotification } from "../notifications/panel";
-import { req_with_auth } from "src/services/api/requests";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
 
 export class GravatarEmailForm {
     constructor() {
@@ -41,7 +41,7 @@ export class GravatarEmailForm {
                 placeholder: "Gravatar email",
                 value: t.gravatarEmail
             }),
-            m("button", { onclick: this.sendNewGravatarEmail.bind(this) }, "Submit")
+            m("button", {onclick: this.sendNewGravatarEmail.bind(this)}, "Submit")
         ]);
     }
 }

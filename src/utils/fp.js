@@ -23,7 +23,7 @@ export function iterobj(dict) {
         },
         next() {
             const key = iterator.next();
-            return { key: dict[key] };
+            return {key: dict[key]};
             // return [key, dict[key]];
         }
     };
@@ -46,7 +46,7 @@ export const take = curry((n, iterable) => {
         },
         next() {
             if (i >= n) {
-                return { done: true };
+                return {done: true};
             }
 
             i++;
@@ -103,7 +103,7 @@ export const filter = curry((predicate, iterable) => {
                     typeof item.value === "undefined" ||
                     predicate(item.value)
                 )
-            ) {
+                ) {
                 item = iterator.next();
             }
 
