@@ -28,7 +28,7 @@ export function req_with_auth(args) {
         .then(res => {
             if (then) {
                 if (thisArg) {
-                    then.bind(thisArg);
+                    then = then.bind(thisArg);
                 }
                 then(res.body, res);
             }
@@ -39,12 +39,12 @@ export function req_with_auth(args) {
                 m.route.set("/login");
                 createNotification(
                     "Invalid credentials",
-                    "The server returned a 401. Please re-authenticate",
+                    "The server did not recognize your credentials.",
                     "warning"
                 );
             } else if (erHandler) {
                 if (thisArg) {
-                    erHandler.bind(thisArg);
+                    erHandler = erHandler.bind(thisArg);
                 }
                 let message = "";
                 try {
