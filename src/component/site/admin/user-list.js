@@ -2,33 +2,26 @@ import m from "mithril";
 import { map, pipe } from "utils/fp";
 import { req_with_auth } from "services/api/requests";
 import { createNotification } from "component/notification/panel/panel";
-import { listRow } from "component/clickable-table-row/table-row";
+import { ListRow } from "component/clickable-table-row/table-row";
 
-const State = {
-    list: [],
-    fetch: function () {
-        State.list = [];
-        const data = State.list;
+export const UserList = {
+    oninit() {
+        this.user_list = [];
         req_with_auth({
             url: "/api/v1/users",
             method: "GET",
             then: function (response) {
                 for (let user of response) {
-                    data.push(user);
+                    this.user_list.push(user);
                 }
             },
-            catch: e => createNotification("Error", e, "error")
+            catch: e => createNotification("Error", e, "error"),
+            this: this
         });
-    }
-};
 
-export const UserList = {
-    oninit() {
-        State.fetch();
     },
-    view() {
+    view(vnode) {
         return m("div", [
-            m("h3", "Existing users"),
             m("table", [
                 m(
                     "thead",
@@ -41,7 +34,7 @@ export const UserList = {
                 m(
                     "tbody",
                     pipe(
-                        State.list.sort((a, b) =>
+                        vnode.state.user_list.sort((a, b) =>
                             a["username"].localeCompare(b["username"])
                         ),
                         map(user => {
@@ -50,13 +43,14 @@ export const UserList = {
                             date.setUTCSeconds(user["time_created"]);
                             let timeString = date.toLocaleString();
 
-                            return m(
-                                listRow("/user/" + username, [
+                            return m(ListRow, {
+                                route: "/user/" + username,
+                                cols: [
                                     username,
                                     timeString,
                                     "Something"
-                                ])
-                            );
+                                ]
+                            });
                         }),
                         Array.from
                     )
