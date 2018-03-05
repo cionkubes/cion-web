@@ -24,7 +24,6 @@ export class CreateUserForm {
     }
 
     send() {
-        let t = this;
         let username = this.username;
         let password = this.password;
         let repeatPassword = this.repeatPassword;
@@ -36,7 +35,7 @@ export class CreateUserForm {
             );
             return;
         }
-        PermissionForm.removeEmptyPermissions(t.permissions);
+        PermissionForm.removeEmptyPermissions(this.permissions);
         req_with_auth({
             url: "/api/v1/create/user",
             method: "POST",
@@ -44,19 +43,18 @@ export class CreateUserForm {
                 username: username,
                 password: password,
                 "repeat-password": repeatPassword,
-                permissions: t.permissions
+                permissions: this.permissions
             },
             then: () => {
                 createNotification("Success", "User was created", "success");
             },
             catch: e => createNotification("Error", e, "error"),
-            this: t
+            this: this
         });
     }
 
     view() {
         return m("div", [
-            m("h3", "Create user"),
             m("label[for=username]", "Username"),
             m("input#username[type=text]", {
                 oninput: m.withAttr("value", this.setUsername, this),

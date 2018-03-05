@@ -2,7 +2,7 @@ import m from "mithril";
 import { map, pipe } from "utils/fp";
 import { site_wrapper } from "component/site/site-wrapper";
 import { createNotification } from "component/notification/panel/panel";
-import { listRow } from "component/clickable-table-row/table-row";
+import { ListRow } from "component/clickable-table-row/table-row";
 import { req_with_auth } from "services/api/requests";
 
 export const component_name = "ConfEditor";
@@ -17,12 +17,13 @@ const State = {
                 (State.servicesRows = pipe(
                     e,
                     map(d =>
-                        m(
-                            listRow("/service/" + d["name"], [
+                        m(ListRow, {
+                            route: "/service/" + d["name"],
+                            cols: [
                                 d["name"],
                                 d["environments"].join(", ")
-                            ])
-                        )
+                            ]
+                        })
                     ),
                     Array.from
                 )),
