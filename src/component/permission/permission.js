@@ -7,7 +7,7 @@ export const PermissionForm = {
     oninit() {
         let t = this;
         req_with_auth({
-            url: "/api/v1/permissions/permission-def",
+            url: "/api/v1/permission/permission-def",
             method: "GET",
             then: e => {
                 this.permissionTemplate = e;
