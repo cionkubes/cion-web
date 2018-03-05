@@ -6,6 +6,7 @@ div.tooltip {
   color: $color-cion-background-primary;
   display: inline-block;
   height: 3rem;
+  margin: 0.5rem;
   position: relative;
   text-align: center;
   width: 3rem;
@@ -22,6 +23,10 @@ div.tooltip {
     visibility: hidden;
     width: 40rem;
     z-index: 1;
+  }
+
+  div.tooltip-content {
+    margin: 0.2rem 0;
   }
 
   div.tooltip-left {
