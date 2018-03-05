@@ -41,7 +41,7 @@ const common_plugins = [
     }),
     new BundleAnalyzerPlugin({
         analyzerMode: 'static',
-        reportFilename: '../../../../reports/webpack-stats.html',
+        reportFilename: '../../reports/webpack-stats.html',
         openAnalyzer: false
     })
 ];
