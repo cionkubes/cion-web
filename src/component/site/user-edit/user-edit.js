@@ -10,7 +10,7 @@ export const EditUser = site_wrapper({
         this.username = m.route.param("username");
         this.permissions = {};
         req_with_auth({
-            url: "/api/v1/permission/user/" + this.username,
+            url: "/api/v1/permissions/user/" + this.username,
             method: "GET",
             then: e => {
                 let rPerms = e["permissions"];
@@ -75,7 +75,7 @@ export const EditUser = site_wrapper({
         let perms = this.permissions;
         PermissionForm.removeEmptyPermissions(perms);
         req_with_auth({
-            url: "/api/v1/permission/user/" + this.username,
+            url: "/api/v1/permissions/user/" + this.username,
             method: "PUT",
             data: {permissions: perms},
             then: () =>
