@@ -3,25 +3,25 @@ import { createNotification } from "component/notification/panel/panel";
 import { req_with_auth } from "services/api/requests";
 import { PermissionForm } from "component/permission/permission";
 
-export class CreateUserForm {
-    constructor() {
+export const CreateUserForm = {
+    oninit() {
         this.username = "";
         this.password = "";
         this.repeatPassword = "";
         this.permissions = {};
-    }
+    },
 
     setUsername(username) {
         this.username = username;
-    }
+    },
 
     setPassword(password) {
         this.password = password;
-    }
+    },
 
     setRepeatPassword(password) {
         this.repeatPassword = password;
-    }
+    },
 
     send() {
         let username = this.username;
@@ -35,6 +35,7 @@ export class CreateUserForm {
             );
             return;
         }
+
         PermissionForm.removeEmptyPermissions(this.permissions);
         req_with_auth({
             url: "/api/v1/create/user",
@@ -45,13 +46,10 @@ export class CreateUserForm {
                 "repeat-password": repeatPassword,
                 permissions: this.permissions
             },
-            then: () => {
-                createNotification("Success", "User was created", "success");
-            },
-            catch: e => createNotification("Error", e, "error"),
-            this: this
+            then: () => createNotification("Success", "User was created", "success"),
+            catch: e => createNotification("Error", e, "error")
         });
-    }
+    },
 
     view() {
         return m("div", [
@@ -73,12 +71,9 @@ export class CreateUserForm {
             m("label", "Permissions"),
             m(PermissionForm, {permissions: this.permissions}),
             m(
-                "button",
-                {
-                    onclick: m.withAttr("", this.send, this)
-                },
+                "button", {onclick: m.withAttr("", this.send, this)},
                 "Submit"
             )
         ]);
     }
-}
+};

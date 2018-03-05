@@ -5,7 +5,18 @@ div.permissions {
   padding: 0;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 div.permission-group {
+  animation: fade-in 0.25s;
   border-left: $color-quinary solid 1px;
   display: inline-block;
   margin: 1rem;
