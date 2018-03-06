@@ -71,10 +71,10 @@ module.exports = {
                 test: /\.(svg|ico)$/,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: "file-loader",
                         options: {
-                            name: '[name]-[hash:8].[ext]',
-                            outputPath: 'assets/'
+                            name: "[name]-[hash:8].[ext]",
+                            outputPath: "assets/"
                         }
                     }
                 ]
