@@ -32,7 +32,7 @@ const common_plugins = [
         debug: debug,
         sourceMap: debug
     }),
-    new CircularDependencyPlugin({failOnError: true}),
+    new CircularDependencyPlugin({ failOnError: true }),
     new CommonsChunkPlugin({
         name: 'app',
         children: true,
@@ -71,8 +71,11 @@ module.exports = {
                 test: /\.(svg|ico)$/,
                 use: [
                     {
-                        loader: 'file-loader',
-                        options: {}
+                        loader: "file-loader",
+                        options: {
+                            name: "[name]-[hash:8].[ext]",
+                            outputPath: "assets/"
+                        }
                     }
                 ]
             }, {
@@ -82,16 +85,16 @@ module.exports = {
             }, {
                 test: /((?!\.use).{4}|^.{0,3})\.scss$/,
                 loaders: [
-                    {loader: "style-loader"},
-                    {loader: "css-loader"},
-                    {loader: "sass-loader"}
+                    { loader: "style-loader" },
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
                 ]
             }, {
                 test: /\.use\.scss$/,
                 loaders: [
-                    {loader: "style-loader/useable"},
-                    {loader: "css-loader"},
-                    {loader: "sass-loader"}
+                    { loader: "style-loader/useable" },
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
                 ]
             }]
     },
