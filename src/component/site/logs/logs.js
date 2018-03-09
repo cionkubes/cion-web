@@ -8,7 +8,8 @@ export const component_name = "Logs";
 
 const data_map = {
     "new-image": ["image-name"],
-    "service-update": ["swarm", "service", "image-name"]
+    "service-update": ["swarm", "service", "image-name"],
+    "system-error": ["stack-trace"]
 };
 
 export const Logs = site_wrapper({
@@ -22,10 +23,10 @@ export const Logs = site_wrapper({
                         pageLength: 20,
                         pageLengthChoices: [1, 10, 20, 50, 100],
                         headers: [
-                            ["Time", "time"],
-                            ["Type", "event"],
-                            ["Status", "status"],
-                            ["Data", "event"]
+                            ["time", true],
+                            "event",
+                            "status",
+                            "data"
                         ],
                         transformFunc(row) {
                             let status = row["status"];
