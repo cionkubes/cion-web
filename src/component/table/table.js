@@ -216,7 +216,6 @@ export const Table = {
         } else {
             searchState.reverseSort = false;
         }
-
         Table.getTableRows(searchState);
     },
 
@@ -233,15 +232,19 @@ export const Table = {
                                     t.headers,
                                     map(headerIndex => {
                                         let c = ["th.thead"];
-                                        if (headerIndex[1]) {
+                                        let attrs = {};
+                                        let s = headerIndex;
+                                        if (Array.isArray(headerIndex)) {
                                             c.push("clickable");
+                                            if (headerIndex[0] === this.sortIndex) {
+                                                c.push("sorted-by");
+                                            }
+                                            attrs = {
+                                                onclick: m.withAttr("", () => Table.sortTable(headerIndex[0], this), this)
+                                            };
+                                            s = headerIndex[0];
                                         }
-                                        if (headerIndex[1] === this.sortIndex) {
-                                            c.push("sorted-by");
-                                        }
-                                        return m(c.join("."), {
-                                            onclick: m.withAttr("", () => Table.sortTable(headerIndex[1], this), this)
-                                        }, headerIndex[0]);
+                                        return m(c.join("."), attrs, s);
                                     }),
                                     Array.from
                                 )
@@ -261,7 +264,7 @@ export const Table = {
                                             row.forEach(
                                                 data => {
                                                     let cssClass = "";
-                                                    if (this.sortIndex === this.headers[i][1]) {
+                                                    if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
                                                         cssClass = ".sorted-by";
                                                     }
                                                     i++;
