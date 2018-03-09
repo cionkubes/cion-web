@@ -4,6 +4,7 @@ import { LogoSvg } from "component/graphic/logo/logo";
 import { req } from "services/api/requests";
 import { NotificationPanel } from "component/notification/panel/panel";
 import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "../../services/api/requests";
 
 let Auth = {
     username: "",
@@ -62,6 +63,13 @@ let Auth = {
 
 export const component_name = "Login";
 export const Login = {
+    oninit(){
+        req_with_auth({
+            url: "/api/v1/verify-session",
+            method: "GET",
+            then: e => m.route.set("/")
+        });
+    },
     view() {
         return [
             m("div.login-box", [
