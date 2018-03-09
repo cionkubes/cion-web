@@ -5,58 +5,45 @@ import { createNotification } from "component/notification/panel/panel";
 import { ListRow } from "component/clickable-table-row/table-row";
 import { req_with_auth } from "services/api/requests";
 
-export const component_name = "ConfEditor";
+export const component_name = "Services";
 
-const State = {
-    servicesRows: [],
-    fetch: function () {
+export const Services = site_wrapper({
+    oninit() {
+        this.services = [];
         req_with_auth({
             url: "/api/v1/services",
             method: "GET",
-            then: e =>
-                (State.servicesRows = pipe(
-                    e,
-                    map(d =>
-                        m(ListRow, {
-                            route: "/service/" + d["name"],
-                            cols: [
-                                d["name"],
-                                d["environments"].join(", ")
-                            ]
-                        })
-                    ),
-                    Array.from
-                )),
-            catch: e =>
-                createNotification(
-                    "An error occurred while fetching services",
-                    e,
-                    "error"
-                )
+            then: response => this.services = response,
+            catch: response => createNotification(
+                "An error occurred while fetching services", response, "error"
+            ),
+            this: this
         });
-    }
-};
-
-export const ConfEditor = site_wrapper({
-    oninit() {
-        State.fetch();
     },
     view() {
         return m("div.home", [
             m("h1", [
                 "Services",
                 m(
-                    "button",
-                    {
+                    "button", {
                         style: "float: right;",
                         onclick: () => m.route.set("/services/create")
-                    },
-                    "Add"
+                    }, "Create"
                 )
             ]),
             m("table", [
                 m("tr", [m("th", "Service"), m("th", "Environments")]),
-                State.servicesRows
+                pipe(this.services,
+                    map(service =>
+                        m(ListRow, {
+                            route: "/service/" + service["name"],
+                            cols: [
+                                service["name"],
+                                service["environments"].join(", ")
+                            ]
+                        })
+                    ),
+                    Array.from)
             ])
         ]);
     }
