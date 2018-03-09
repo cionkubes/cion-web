@@ -42,6 +42,12 @@ export function req_with_auth(args) {
                     "The server did not recognize your credentials.",
                     "warning"
                 );
+            } else if (res.status === 403) {
+                createNotification(
+                    "Denied",
+                    "You do not have the permission to perform this action or view this item",
+                    "warning"
+                );
             } else if (erHandler) {
                 if (thisArg) {
                     erHandler = erHandler.bind(thisArg);
@@ -53,8 +59,9 @@ export function req_with_auth(args) {
                     message = res.message;
                 }
                 erHandler(message, res);
-            } else {
-                throw res;
+            } else if (res.status === 500) {
+                createNotification("Error", "The server encountered an error",
+                    "error")
             }
         });
 }

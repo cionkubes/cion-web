@@ -48,11 +48,7 @@ nav {
   }
 }
 
-@media (max-width: 768px) {
-  .container {
-    grid-template-areas: "header" "nav" "content" "footer";
-  }
-
+@media (max-width: 46rem) {
   nav a {
     display: inline-block;
     float: left;
