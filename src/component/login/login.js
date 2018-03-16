@@ -2,8 +2,10 @@ import m from "mithril";
 import login_style from "./login.use.scss";
 import { LogoSvg } from "component/graphic/logo/logo";
 import { req } from "services/api/requests";
-import { NotificationPanel } from "component/notification/panel/panel";
-import { createNotification } from "component/notification/panel/panel";
+import {
+    createNotification,
+    NotificationPanel
+} from "component/notification/panel/panel";
 import { req_with_auth } from "../../services/api/requests";
 
 let Auth = {
@@ -41,7 +43,14 @@ let Auth = {
                         "gravatar-email",
                         data["user"]["gravatar-email"]
                     );
-                    m.route.set("/");
+                    let r = localStorage.getItem("previousRoute");
+                    localStorage.removeItem("previousRoute");
+                    console.log('route', r);
+                    if (r) {
+                        m.route.set(r);
+                    } else {
+                        m.route.set("/");
+                    }
                     createNotification("Auth success", "", "success");
                 } else {
                     createNotification(status, "An error occured", "error");
@@ -63,11 +72,13 @@ let Auth = {
 
 export const component_name = "Login";
 export const Login = {
-    oninit(){
+    oninit() {
         req_with_auth({
             url: "/api/v1/verify-session",
             method: "GET",
-            then: e => m.route.set("/")
+            then: e => m.route.set("/"),
+            catch: () => undefined,
+            401: () => undefined
         });
     },
     view() {

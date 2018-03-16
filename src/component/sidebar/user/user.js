@@ -16,6 +16,8 @@ export const User = {
         localStorage.removeItem("gravatar-url");
         localStorage.removeItem("gravatar-email");
 
+        localStorage.setItem("previousRoute", m.route.get());
+
         m.route.set("/login");
         createNotification("Success", "You have been logged out", "success");
     },
