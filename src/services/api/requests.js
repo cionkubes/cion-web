@@ -24,6 +24,8 @@ export function req_with_auth(args) {
     let erHandler = args["catch"];
     let thisArg = args["this"];
 
+    let fourOOneHandler = args[401];
+
     return req(args)
         .then(res => {
             if (then) {
@@ -35,13 +37,21 @@ export function req_with_auth(args) {
         })
         .catch(res => {
             if (res.status === 401) {
-                localStorage.removeItem("auth-token");
-                m.route.set("/login");
-                createNotification(
-                    "Invalid credentials",
-                    "The server did not recognize your credentials.",
-                    "warning"
-                );
+                if (fourOOneHandler) {
+                    if (thisArg) {
+                        fourOOneHandler = erHandler.bind(thisArg);
+                    }
+                    fourOOneHandler(res);
+                } else {
+                    localStorage.removeItem("auth-token");
+                    localStorage.setItem("previousRoute", m.route.get());
+                    m.route.set("/login");
+                    createNotification(
+                        "Invalid credentials",
+                        "The server did not recognize your credentials.",
+                        "warning"
+                    );
+                }
             } else if (res.status === 403) {
                 createNotification(
                     "Denied",
