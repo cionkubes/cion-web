@@ -53,27 +53,32 @@ export const CreateUserForm = {
 
     view() {
         return m("div", [
-            m("label[for=username]", "Username"),
-            m("input#username[type=text]", {
-                oninput: m.withAttr("value", this.setUsername, this),
-                placeholder: "Username"
-            }),
-            m("label[for=password]", "Password"),
-            m("input#password[type=password]", {
-                oninput: m.withAttr("value", this.setPassword, this),
-                placeholder: "Password"
-            }),
-            m("label[for=repeat_password]", "Repeat Password"),
-            m("input#repeat_password[type=password]", {
-                oninput: m.withAttr("value", this.setRepeatPassword, this),
-                placeholder: "Repeat Password"
-            }),
-            m("label", "Permissions"),
-            m(PermissionForm, {permissions: this.permissions}),
-            m(
-                "button", {onclick: m.withAttr("", this.send, this)},
-                "Submit"
-            )
+            m("label", [
+                "Username",
+                m("input[type=text]", {
+                    oninput: m.withAttr("value", this.setUsername, this),
+                    placeholder: "Username"
+                })
+            ]),
+            m("label", [
+                "Password",
+                m("input[type=password]", {
+                    oninput: m.withAttr("value", this.setPassword, this),
+                    placeholder: "Password"
+                })
+            ]),
+            m("label", [
+                "Repeat Password",
+                m("input[type=password]", {
+                    oninput: m.withAttr("value", this.setRepeatPassword, this),
+                    placeholder: "Repeat Password"
+                })
+            ]),
+            m("label", [
+                "Permissions",
+                m(PermissionForm, {permissions: this.permissions}),
+                m("button", {onclick: m.withAttr("", this.send, this)}, "Submit")
+            ]),
         ]);
     }
 };
