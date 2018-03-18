@@ -1,26 +1,31 @@
-@import "../../../style/colors";
+@import "~style/colors";
 
 .cion-task-update {
   height: 3rem;
 }
 
 .overview {
-  box-sizing: border-box;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  height: 40rem;
+  border: 0.1rem solid $color-cion-primary;
+  border-radius: 0.3rem;
 }
 
 .task-row {
   border: 0.1rem solid $color-cion-secondary;
   border-radius: 0.3rem;
+  width: auto;
   margin: 0.2rem;
 
   .task-icon {
-    float: left;
+    display: inline-block;
     height: 2rem;
     margin: 0.3rem;
     width: 2rem;
+  }
+
+  span {
+    display: inline-block;
+    //width: auto;
   }
 
   &.erroneous {

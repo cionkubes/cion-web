@@ -2,28 +2,18 @@ import m from "mithril";
 import { site_wrapper } from "component/site/site-wrapper";
 import { Events } from "./events";
 import style from "./dashboard.use.scss";
+import { MLContainer } from "../../masonry/ml-container";
+import { MLPanel } from "../../masonry/ml-panel";
 
 export const component_name = "Dashboard";
 
-function dashboard_comp_wrapper(title, component) {
-    return {
-        view: () => {
-            return m("div.dash_component", [
-                m("div.title", m("h4", title)),
-                m("div.content", component)
-            ]);
-        }
-    };
-}
-
 export const Dashboard = site_wrapper({
     view() {
-        return m("div.home", [
+        return m("div.scroll", [
             m("h1", "Dashboard"),
-            m(
-                "div.component_container",
-                m(dashboard_comp_wrapper("Events", m(Events)))
-            )
+            m(MLContainer, [
+                m(MLPanel, {class: "events"}, m(Events)),
+            ])
         ]);
     },
     oncreate() {

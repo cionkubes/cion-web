@@ -29,27 +29,28 @@ export const Events = {
     },
     view() {
         let data = this.state.socket_data;
-        return m(
-            "div.overview",
-            pipe(
-                Object.keys(data),
-                map(id => {
-                    let imageName = data[id]["image-name"];
-                    let status = data[id]["status"];
-                    let icon;
-                    if (status === "erroneous") {
-                        icon = m("div.task-icon", m(ErrorSvg));
-                    } else {
-                        icon = m("div.task-icon");
-                    }
-                    return m("div.row.task-row." + status, [
-                        icon,
-                        m("span", imageName + " is " + status)
-                    ]);
-                }),
-                Array.from
-            )
-        );
+        return m("div", [
+            m("h3", "Events"),
+            m("div.overview",
+                pipe(
+                    Object.keys(data).reverse(),
+                    map(id => {
+                        let imageName = data[id]["image-name"];
+                        let status = data[id]["status"];
+                        let icon;
+                        if (status === "erroneous") {
+                            icon = m("div.task-icon", m(ErrorSvg));
+                        } else {
+                            icon = m("div.task-icon");
+                        }
+                        return m("div.row.task-row." + status, [
+                            icon,
+                            m("span", imageName + " is " + status)
+                        ]);
+                    }),
+                    Array.from
+                )
+            )]);
     },
     oncreate() {
         style.ref();
