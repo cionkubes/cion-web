@@ -19,6 +19,7 @@ export const UserList = {
             this: this
         });
 
+
     },
     view(vnode) {
         return m("div", [
@@ -27,8 +28,7 @@ export const UserList = {
                     "thead",
                     m("tr", [
                         m("th", "Username"),
-                        m("th", "Created"),
-                        m("th", "Something")
+                        m("th", "Created")
                     ])
                 ),
                 m(
@@ -47,8 +47,7 @@ export const UserList = {
                                 route: "/user/" + username,
                                 cols: [
                                     username,
-                                    timeString,
-                                    "Something"
+                                    timeString
                                 ]
                             });
                         }),
