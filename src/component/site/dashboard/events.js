@@ -4,6 +4,8 @@ import { map, pipe } from "utils/fp";
 import { changefeed } from "services/api/reactive";
 import "rxjs-es/add/operator/debounceTime";
 import style from "./events.use.scss";
+import { req_with_auth } from "services/api/requests";
+import { createNotification } from "../../notification/panel/panel";
 
 export const component_name = "Events";
 
@@ -12,6 +14,21 @@ export const Events = {
         socket_data: {}
     },
     oninit() {
+
+        req_with_auth({
+            url: "/api/v1/tasks/recent"  + "?" + m.buildQueryString({
+                amount: 15
+            }),
+            method: "GET",
+            then: function (response) {
+                for (let row of response.rows) {
+                    state.socket_data[row['id']] = row;
+                }
+            },
+            catch: () =>
+                createNotification("Unable to fetch tasks", "", "error")
+        });
+
         const state = this.state;
 
         this.state.tasks_sub = changefeed("tasks")
@@ -33,7 +50,7 @@ export const Events = {
             m("h3", "Events"),
             m("div.overview",
                 pipe(
-                    Object.keys(data).reverse(),
+                    Object.keys(data).sort((key1, key2) => data[key2]['time'] - data[key1]['time']),
                     map(id => {
                         let imageName = data[id]["image-name"];
                         let status = data[id]["status"];
