@@ -20,9 +20,9 @@ route(document.body, "/", {
     "/admin":            lazy_load_component(() => System.import("component/site/admin/admin.js")),
     "/logs":             lazy_load_component(() => System.import("component/site/logs/logs.js")),
     "/confeditor":       lazy_load_component(() => System.import("component/site/conf-edit/conf-edit.js")),
-    "/services":         lazy_load_component(() => System.import("component/site/services/services.js")),
-    "/service/:service": lazy_load_component(() => System.import("component/site/service-edit/service-edit.js")),
+    "/services":         lazy_load_component(() => System.import("component/site/service/list/services.js")),
+    "/service/:service": lazy_load_component(() => System.import("component/site/service/edit/service-edit.js")),
     "/user/:username":   lazy_load_component(() => System.import("component/site/user-edit/user-edit.js")),
-    "/services/create":  lazy_load_component(() => System.import("component/site/service-create/service-create.js")),
+    "/services/create":  lazy_load_component(() => System.import("component/site/service/create/service-create.js")),
     "/profile":          lazy_load_component(() => System.import("component/site/profile/profile.js"))
 });
