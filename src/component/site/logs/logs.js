@@ -18,7 +18,7 @@ function get_data_fields(row) {
     const defined = data_map[row.event];
 
     if (defined === undefined) {
-        return filter(key => !excluded.includes(key), Object.keys(row))
+        return filter(key => !excluded.includes(key), Object.keys(row));
     }
 
     return defined;
