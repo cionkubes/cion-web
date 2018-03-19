@@ -15,7 +15,7 @@ export const Services = site_wrapper({
             method: "GET",
             then: response => this.services = response,
             catch: response => createNotification(
-                "An error occurred while fetching services", response, "error"
+                "An error occurred while fetching list", response, "error"
             ),
             this: this
         });

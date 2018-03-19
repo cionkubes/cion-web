@@ -11,27 +11,29 @@
   overflow-y: scroll;
 }
 
-.task-row {
-  border: 0.1rem solid $color-cion-secondary;
-  border-radius: 0.3rem;
-  width: auto;
-  margin: 0.2rem;
+blockquote.event {
+  border-color: $color-cion-secondary;
+  border-bottom: 1px solid;
+  margin: 0.3rem;
+  padding: 0 0 0 0.5rem;
 
   .task-icon {
     display: inline-block;
+    float: right;
     height: 2rem;
     margin: 0.3rem;
     width: 2rem;
   }
 
-  span {
+  span.event-type {
     display: inline-block;
-    //width: auto;
+    float: right;
+    color: $color-cion-secondary;
+    margin-right: 0.2rem;
   }
 
   &.erroneous {
     border-color: $color-cion-erroneous;
-    color: $color-cion-erroneous;
 
     .task-icon {
       svg path {
@@ -43,7 +45,6 @@
 
   &.processing {
     border-color: $color-cion-primary;
-    color: $color-cion-primary;
 
     .task-icon {
       animation: spin 0.8s linear infinite;
@@ -65,7 +66,6 @@
 
   &.ready {
     border-color: $color-cion-primary;
-    color: $color-cion-primary;
 
     .task-icon {
       animation: done 1s ease-in forwards;
@@ -76,106 +76,11 @@
 
   &.done {
     border-color: $color-cion-done;
-    color: $color-cion-done;
+    .task-icon {
+      svg path {
+        fill: $color-cion-done;
+        stroke: $color-cion-done;
+      }
+    }
   }
-}
-
-// -----------------------------
-
-.path {
-  animation-duration: 3s, 3s;
-  animation-iteration-count: infinite;
-  animation-name: load, spin;
-  animation-timing-function: linear;
-  stroke-dasharray: 300;
-  stroke-dashoffset: 0;
-  transform-origin: 50% 50%;
-}
-
-.path-complete {
-  animation-play-state: paused;
-}
-
-.check {
-  stroke-dasharray: 110;
-  stroke-dashoffset: -110;
-  stroke-width: 0;
-}
-
-.check-complete {
-  animation: check 1s ease-in forwards;
-  stroke-dashoffset: 0;
-  stroke-width: 15;
-}
-
-.fill {
-  animation: spin-fill 3s cubic-bezier(0.700, 0.465, 0.120, 0.600) infinite forwards;
-  stroke-dasharray: 285;
-  stroke-dashoffset: -257;
-  transform-origin: 50% 50%;
-}
-
-.fill-complete {
-  animation: fill 1s ease-out forwards;
-}
-
-@keyframes load {
-  0% {
-    animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
-    stroke-dashoffset: 285;
-  }
-
-  50% {
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1);
-    stroke-dashoffset: 0;
-  }
-
-  100% {
-    stroke-dashoffset: -285;
-  }
-}
-
-@keyframes check {
-  0% {
-    stroke-dashoffset: -110;
-  }
-
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin-fill {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(720deg);
-  }
-}
-
-@keyframes fill {
-  0% {
-    stroke-dashoffset: 285;
-  }
-
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-.success {
-  stroke: $color-cion-done;
-  transition: stroke 0.6s;
 }

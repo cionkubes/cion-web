@@ -59,7 +59,7 @@ const State = {
         );
 
         req_with_auth({
-            url: "/api/v1/services/create",
+            url: "/api/v1/list/create",
             method: "POST",
             data: {
                 environments: envs,
