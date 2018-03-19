@@ -79,7 +79,8 @@ export const Events = {
                         console.log(data[id]);
                         let imageName = data[id]["image-name"];
                         let status = data[id]["status"];
-                        return m("blockquote.event." + status, [
+                        return m("a", {href: "/#!/log/" + id},
+                            m("blockquote.event." + status, [
                             status in statusSvgMap
                                 ? m("div.task-icon", m(statusSvgMap[status]))
                                 : m("div.task-icon"),
@@ -87,7 +88,7 @@ export const Events = {
                                 ? m("span", imageName + " -> " + data[id]["environment"])
                                 : m("span", imageName),
                             m("span.event-type", data[id]["event"])
-                        ]);
+                        ]));
                     }),
                     Array.from
                 )
