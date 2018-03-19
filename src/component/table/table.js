@@ -219,6 +219,14 @@ export const Table = {
         Table.getTableRows(searchState);
     },
 
+    truncString(data) {
+        let l = 65; // TODO move somewhere else
+        if(data && data.length > l) {
+            return data.substring(0, l - 6) + " [...]";
+        }
+        return data;
+    },
+
     view() {
         let t = this;
         return m("div", [
@@ -268,7 +276,7 @@ export const Table = {
                                                         cssClass = ".sorted-by";
                                                     }
                                                     i++;
-                                                    cs.push(m("td.tdat" + cssClass, data));
+                                                    cs.push(m("td.tdat" + cssClass, Table.truncString(data)));
                                                 }
                                             );
                                             return cs;
