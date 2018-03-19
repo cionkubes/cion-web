@@ -1,0 +1,41 @@
+div.masonry-container {
+  column-gap: 4rem;
+}
+
+div.tile {
+  h3 {
+    display: inline-block;
+  }
+  display: inline-block;
+  margin: 0;
+  width: 100%;
+  .comp {
+    display: inline-block;
+    width: 100%;
+    break-inside: avoid;
+  }
+}
+
+@media (max-width: 1200px) {
+  div.masonry-container {
+    column-count: 1;
+  }
+}
+
+@media (min-width: 1200px) {
+  div.masonry-container {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 2200px) {
+  div.masonry-container {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 3000px) {
+  div.masonry-container {
+    column-count: 4;
+  }
+}

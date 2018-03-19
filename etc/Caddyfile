@@ -1,0 +1,13 @@
+0.0.0.0:80
+index spa-entry.html
+
+ext .html
+errors error.log
+
+proxy /api/v1/socket {$API_HOST}:{$API_PORT} {
+    websocket
+}
+
+proxy /api {$API_HOST}:{$API_PORT} {
+    transparent
+}

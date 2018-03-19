@@ -1,4 +1,6 @@
 FROM joshix/caddy
 
-COPY src/www /var/www/html
-COPY src/Caddyfile /var/www/html
+COPY lib /var/www/html
+COPY etc/Caddyfile /etc/caddy/Caddyfile
+
+CMD ["-conf", "/etc/caddy/Caddyfile"]

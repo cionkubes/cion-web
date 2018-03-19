@@ -1,0 +1,18 @@
+div.minimizable {
+  div.minimize-title {
+    h3 {
+      display: inline-block;
+    }
+
+    button.minimize {
+      display: inline-block;
+      font-size: 1.7rem;
+      height: 3rem;
+      line-height: 1rem;
+      margin: 0 1rem;
+      padding: 0;
+      text-align: center;
+      width: 3rem;
+    }
+  }
+}

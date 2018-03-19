@@ -1,0 +1,139 @@
+@import "../../style/colors";
+
+.clickable {
+  cursor: pointer;
+}
+
+.sorted-by {
+  background-color: $color-tertiary;
+}
+
+td.tdat,
+th.thead {
+  padding: 0.75rem;
+}
+
+@media (min-width: 80rem) {
+  .cion-table-header {
+    grid-template-areas: "search page-browser go-to-field page-length";
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 80rem) {
+  .cion-table-header {
+    grid-template-areas: "search go-to-field" "page-browser page-length";
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+  }
+}
+
+.cion-table-header {
+  display: grid;
+  grid-column-gap: 1rem;
+
+  * {
+    margin-bottom: 0.4rem;
+  }
+
+  div.search-container {
+    grid-area: search;
+
+    div.search-field {
+      display: grid;
+      grid-template-areas: "search-field search-activate search-tooltip";
+      grid-template-columns: 1fr auto auto;
+
+      input {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        grid-area: search-field;
+      }
+
+      button {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        grid-area: search-activate;
+        padding: 0 1.4rem;
+      }
+
+      div.search-tooltip {
+        grid-area: search-tooltip;
+      }
+    }
+  }
+
+  div.go-to-container {
+    grid-area: go-to-field;
+
+    div.go-to-descriptor {
+      float: left;
+      margin-right: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+    input.go-to-input {
+      float: right;
+      width: 8.5rem;
+    }
+  }
+
+  div.page-length-container {
+    grid-area: page-length;
+
+    div.page-length-descriptor {
+      float: left;
+      margin-right: 0.5rem;
+      padding-top: 0.5rem;
+    }
+
+    select.page-length-selector {
+      float: left;
+      width: 7rem;
+    }
+  }
+
+  ul.page-list {
+    grid-area: page-browser;
+    padding: 0;
+    text-align: center;
+
+    li.page-list-element {
+      border-right: 1px solid $color-quaternary;
+      display: inline-block;
+      list-style-type: none;
+      //margin-right: 0.5rem;
+
+      span {
+        color: $color-cion-primary;
+        display: inline-block;
+        padding: 0.2rem 1.6rem;
+        user-select: none;
+
+        &.page-link {
+          cursor: pointer;
+        }
+      }
+    }
+
+    li.page-list-element-first {
+      border-bottom-left-radius: 0.5rem;
+      border-left: 1px solid $color-quaternary;
+      border-top-left-radius: 0.5rem;
+    }
+
+    li.page-list-element-last {
+      border-bottom-right-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    li.page-list-element-link:hover {
+      background-color: $color-cion-primary;
+
+      span.page-link {
+        color: $color-initial;
+      }
+    }
+  }
+}

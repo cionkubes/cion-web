@@ -1,0 +1,86 @@
+@import "~style/colors";
+
+.cion-task-update {
+  height: 3rem;
+}
+
+.overview {
+  height: 40rem;
+  border: 0.1rem solid $color-cion-primary;
+  border-radius: 0.3rem;
+  overflow-y: scroll;
+}
+
+blockquote.event {
+  border-color: $color-cion-secondary;
+  border-bottom: 1px solid;
+  margin: 0.3rem;
+  padding: 0 0 0 0.5rem;
+
+  .task-icon {
+    display: inline-block;
+    float: right;
+    height: 2rem;
+    margin: 0.3rem;
+    width: 2rem;
+  }
+
+  span.event-type {
+    display: inline-block;
+    float: right;
+    color: $color-cion-secondary;
+    margin-right: 0.2rem;
+  }
+
+  &.erroneous {
+    border-color: $color-cion-erroneous;
+
+    .task-icon {
+      svg path {
+        fill: $color-cion-erroneous;
+        stroke: $color-cion-erroneous;
+      }
+    }
+  }
+
+  &.processing {
+    border-color: $color-cion-primary;
+
+    .task-icon {
+      animation: spin 0.8s linear infinite;
+      border: 0.3rem solid;
+      border-radius: 50%;
+      border-top-color: lighten($color-primary, 60%);
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  &.ready {
+    border-color: $color-cion-primary;
+
+    .task-icon {
+      animation: done 1s ease-in forwards;
+      stroke-dashoffset: 0;
+      stroke-width: 15;
+    }
+  }
+
+  &.done {
+    border-color: $color-cion-done;
+    .task-icon {
+      svg path {
+        fill: $color-cion-done;
+        stroke: $color-cion-done;
+      }
+    }
+  }
+}
