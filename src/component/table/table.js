@@ -221,7 +221,7 @@ export const Table = {
 
     truncString(data) {
         let l = 65; // TODO move somewhere else
-        if(data && data.length > l) {
+        if (data && data.length > l) {
             return data.substring(0, l - 6) + " [...]";
         }
         return data;
@@ -279,7 +279,7 @@ export const Table = {
                                                     let c = Table.truncString(data);
                                                     cs.push(row.route ?
                                                         m("td.tdat.anchored" + cssClass, m("a", {href: row.route}, c))
-                                                            : m("td.tdat" + cssClass, c)
+                                                        : m("td.tdat" + cssClass, c)
                                                     );
                                                 }
                                             );

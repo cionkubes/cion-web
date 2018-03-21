@@ -1,22 +1,24 @@
 @import "~style/colors";
 
 .overview {
-  height: 40rem;
   border: 0.1rem solid $color-cion-primary;
   border-radius: 0.3rem;
+  height: 40rem;
   overflow-y: scroll;
 }
 
 blockquote.event {
-  border-color: $color-cion-secondary;
+  // scss-lint:disable PropertyUnits
   border-bottom: 1px solid;
+  border-color: $color-cion-secondary;
   margin: 0.3rem;
-  padding: 0 0 0 0.5rem;
   overflow: hidden;
+  padding: 0;
+  padding-left: 0.5rem;
 
   div.right {
-    float:right;
     display: inline-block;
+    float: right;
 
     .task-icon {
       display: inline-block;
@@ -27,8 +29,6 @@ blockquote.event {
     }
 
     span.event-type {
-      //display: inline-block;
-      //float: right;
       color: $color-cion-secondary;
       margin-right: 0.2rem;
     }
@@ -36,12 +36,10 @@ blockquote.event {
     span.time-ago {
       font-style: italic;
       margin-right: 1rem;
-      //float: right;
     }
   }
 
   div.left {
-    //float:left;
     display: inline-block;
   }
 
@@ -89,6 +87,7 @@ blockquote.event {
 
   &.done {
     border-color: $color-cion-done;
+
     .task-icon {
       svg path {
         fill: $color-cion-done;

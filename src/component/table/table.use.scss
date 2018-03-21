@@ -18,13 +18,14 @@ tr.anchored:hover {
 
 td.tdat {
   padding: 0.75rem;
-}
 
-td.tdat.anchored {
-  padding: 0;
-  a {
-    padding: 0.75rem;
-    display: block;
+  &.anchored {
+    padding: 0;
+
+    a {
+      display: block;
+      padding: 0.75rem;
+    }
   }
 }
 

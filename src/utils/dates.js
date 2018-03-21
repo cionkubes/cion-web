@@ -28,10 +28,10 @@ export function dateDelta(d1, d2) {
             continue;
         }
 
-        parsed = parseVal(val,  key);
+        parsed = parseVal(val, key);
     }
 
-    if(!parsed) {
+    if (!parsed) {
         parsed = "just now";
     }
     return parsed;
