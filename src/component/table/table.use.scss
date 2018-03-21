@@ -18,6 +18,7 @@ tr.anchored:hover {
 
 td.tdat {
   padding: 0.75rem;
+  padding-right: 2.5rem;
   white-space: nowrap;
 
   &.anchored {
@@ -26,6 +27,7 @@ td.tdat {
     a {
       display: block;
       padding: 0.75rem;
+      padding-right: 2.5rem;
     }
   }
 }
