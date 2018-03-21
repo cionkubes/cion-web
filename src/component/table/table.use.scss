@@ -1,4 +1,4 @@
-@import "../../style/colors";
+@import "~style/colors";
 
 .clickable {
   cursor: pointer;
@@ -119,7 +119,6 @@ td.tdat {
       border-right: 1px solid $color-quaternary;
       display: inline-block;
       list-style-type: none;
-      //margin-right: 0.5rem;
 
       span {
         color: $color-cion-primary;
