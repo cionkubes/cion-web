@@ -7,6 +7,7 @@ import "rxjs-es/add/operator/debounceTime";
 import style from "./events.use.scss";
 import { req_with_auth } from "services/api/requests";
 import { createNotification } from "../../notification/panel/panel";
+import { dateDelta, rdbEpochToDate } from "utils/dates";
 
 export const component_name = "Events";
 
@@ -16,11 +17,11 @@ function taskSort(data, key1, key2) {
     let time1 = data[key1].time;
     let time2 = data[key2].time;
 
-    if(status1 === "processing" && status2 === "processing") {
+    if (status1 === "processing" && status2 === "processing") {
         return time2 - time1;
-    } else if(status1 === "processing") {
+    } else if (status1 === "processing") {
         return -1;
-    } else if(status2 === "processing") {
+    } else if (status2 === "processing") {
         return 1;
     }
 
@@ -29,7 +30,7 @@ function taskSort(data, key1, key2) {
 
 const statusSvgMap = {
     erroneous: ErrorSvg,
-    done:Checkmark
+    done: Checkmark
 };
 
 export const Events = {
@@ -70,24 +71,28 @@ export const Events = {
 
     view() {
         let data = this.state.socket_data;
+        let now = new Date();
         return m("div", [
             m("h3", "Events"),
             m("div.overview",
                 pipe(
                     Object.keys(data).sort((key1, key2) => taskSort(data, key1, key2)),
                     map(id => {
-                        console.log(data[id]);
                         let imageName = data[id]["image-name"];
                         let status = data[id]["status"];
-                        return m("blockquote.event." + status, [
-                            status in statusSvgMap
-                                ? m("div.task-icon", m(statusSvgMap[status]))
-                                : m("div.task-icon"),
-                            data[id].environment
-                                ? m("span", imageName + " -> " + data[id]["environment"])
-                                : m("span", imageName),
-                            m("span.event-type", data[id]["event"])
-                        ]);
+                        return m("a", {href: "/#!/log/" + id},
+                            m("blockquote.event." + status, [
+                                m("div.left", data[id].environment
+                                    ? m("span", imageName + " -> " + data[id]["environment"])
+                                    : m("span", imageName)),
+                                m("div.right", [
+                                    m("span.time-ago", dateDelta(rdbEpochToDate(data[id].time), now)),
+                                    m("span.event-type", data[id]["event"]),
+                                    status in statusSvgMap
+                                        ? m("div.task-icon", m(statusSvgMap[status]))
+                                        : m("div.task-icon")
+                                ])
+                            ]));
                     }),
                     Array.from
                 )
