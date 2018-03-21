@@ -8,9 +8,24 @@
   background-color: $color-tertiary;
 }
 
-td.tdat,
 th.thead {
   padding: 0.75rem;
+}
+
+tr.anchored:hover {
+  background-color: $color-tertiary;
+}
+
+td.tdat {
+  padding: 0.75rem;
+}
+
+td.tdat.anchored {
+  padding: 0;
+  a {
+    padding: 0.75rem;
+    display: block;
+  }
 }
 
 @media (min-width: 80rem) {

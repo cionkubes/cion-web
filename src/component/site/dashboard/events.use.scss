@@ -1,9 +1,5 @@
 @import "~style/colors";
 
-.cion-task-update {
-  height: 3rem;
-}
-
 .overview {
   height: 40rem;
   border: 0.1rem solid $color-cion-primary;
@@ -16,20 +12,37 @@ blockquote.event {
   border-bottom: 1px solid;
   margin: 0.3rem;
   padding: 0 0 0 0.5rem;
+  overflow: hidden;
 
-  .task-icon {
+  div.right {
+    float:right;
     display: inline-block;
-    float: right;
-    height: 2rem;
-    margin: 0.3rem;
-    width: 2rem;
+
+    .task-icon {
+      display: inline-block;
+      float: right;
+      height: 2rem;
+      margin: 0.3rem;
+      width: 2rem;
+    }
+
+    span.event-type {
+      //display: inline-block;
+      //float: right;
+      color: $color-cion-secondary;
+      margin-right: 0.2rem;
+    }
+
+    span.time-ago {
+      font-style: italic;
+      margin-right: 1rem;
+      //float: right;
+    }
   }
 
-  span.event-type {
+  div.left {
+    //float:left;
     display: inline-block;
-    float: right;
-    color: $color-cion-secondary;
-    margin-right: 0.2rem;
   }
 
   &.erroneous {

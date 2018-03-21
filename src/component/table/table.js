@@ -269,14 +269,18 @@ export const Table = {
                                         (row) => {
                                             let i = 0;
                                             let cs = [];
-                                            row.forEach(
+                                            row.cols.forEach(
                                                 data => {
                                                     let cssClass = "";
                                                     if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
                                                         cssClass = ".sorted-by";
                                                     }
                                                     i++;
-                                                    cs.push(m("td.tdat" + cssClass, Table.truncString(data)));
+                                                    let c = Table.truncString(data);
+                                                    cs.push(row.route ?
+                                                        m("td.tdat.anchored" + cssClass, m("a", {href: row.route}, c))
+                                                            : m("td.tdat" + cssClass, c)
+                                                    );
                                                 }
                                             );
                                             return cs;
