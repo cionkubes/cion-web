@@ -78,7 +78,6 @@ export const Events = {
                 pipe(
                     Object.keys(data).sort((key1, key2) => taskSort(data, key1, key2)),
                     map(id => {
-                        console.log(dateDelta(new Date(), new Date()));
                         let imageName = data[id]["image-name"];
                         let status = data[id]["status"];
                         return m("a", {href: "/#!/log/" + id},
