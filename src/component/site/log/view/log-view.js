@@ -7,7 +7,7 @@ import style from "./log-view.use.scss";
 export const component_name = "LogView";
 
 export const LogView = site_wrapper({
-    oninit(vnode) {
+    oninit() {
         this.task = {};
         this.id = m.route.param("id");
         req_with_auth({
@@ -29,7 +29,7 @@ export const LogView = site_wrapper({
                 ar.push(this.handleNode(entry));
             }
             if (name) {
-                return [m("label", name), m("div.group", ar)]
+                return [m("label", name), m("div.group", ar)];
             }
             return m("div.group", ar);
         } else if (node.constructor === String
@@ -45,7 +45,7 @@ export const LogView = site_wrapper({
         }
 
         if (name) {
-            return [m("label", name), m("div.group", nodes)]
+            return [m("label", name), m("div.group", nodes)];
         }
 
         return nodes;
