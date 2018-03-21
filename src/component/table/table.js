@@ -247,23 +247,31 @@ export const Table = {
     rowMap(row) {
         return m("tr",
             {class: this.rowClassFunc(row)},
-            pipe(row, this.transformFunc, (row) => {
-                let i = 0;
-                let cs = [];
-                row.cols.forEach(data => {
-                    let cssClass = "";
-                    if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
-                        cssClass = ".sorted-by";
-                    }
-                    i++;
-                    let c = Table.truncString(data);
-                    cs.push(row.route ?
-                        m("td.tdat.anchored" + cssClass, m("a", {href: row.route}, c))
-                        : m("td.tdat" + cssClass, c)
-                    );
-                });
-                return cs;
-            }, Array.from));
+            pipe(row,
+                this.transformFunc,
+                (row) => {
+                    let i = 0;
+                    let cs = [];
+                    row.cols.forEach(data => {
+                        let cssClass = "";
+                        if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
+                            cssClass += ".sorted-by";
+                        }
+
+                        if (i === row.cols.length - 1) {
+                            cssClass += ".last";
+                        }
+
+                        i++;
+                        let c = Table.truncString(data);
+                        cs.push(row.route ?
+                            m("td.tdat.anchored" + cssClass, m("a", {href: row.route}, c))
+                            : m("td.tdat" + cssClass, c)
+                        );
+                    });
+                    // console.log(cs);
+                    return cs;
+                }, Array.from));
     },
 
     view() {
