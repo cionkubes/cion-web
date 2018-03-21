@@ -1,4 +1,6 @@
 export function dateDelta(d1, d2) {
+    // inspired by: https://stackoverflow.com/a/32514236/2845609
+
     let d = Math.abs(d2 - d1) / 1000;
     let r = {};
     let s = {
@@ -15,9 +17,6 @@ export function dateDelta(d1, d2) {
         r[key] = Math.floor(d / s[key]);
         d -= r[key] * s[key];
     });
-
-// for example: {year:0,month:0,week:1,day:2,hour:34,minute:56,second:7}
-//     console.log(r);
 
     let parsed = "";
     for (let key of Object.keys(r)) {
