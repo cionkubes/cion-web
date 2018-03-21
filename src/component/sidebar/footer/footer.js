@@ -10,7 +10,7 @@ export const Footer = {
             m(
                 "a",
                 {
-                    href: "https://github.com/cionkubes/cion"
+                    href: "http://cionkubes.com"
                 },
                 m("div", [m(LogoSvg), m("h4", "cion 1.0.0")])
             )
