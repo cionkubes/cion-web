@@ -86,7 +86,7 @@ export const Events = {
                                     ? m("span", imageName + " -> " + data[id]["environment"])
                                     : m("span", imageName)),
                                 m("div.right", [
-                                    m("span.time-ago", dateDelta(rdbEpochToDate(data[id].time), new Date())),
+                                    m("span.time-ago", dateDelta(rdbEpochToDate(data[id].time), now)),
                                     m("span.event-type", data[id]["event"]),
                                     status in statusSvgMap
                                         ? m("div.task-icon", m(statusSvgMap[status]))
