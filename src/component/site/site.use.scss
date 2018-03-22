@@ -1,0 +1,159 @@
+@import "~style/colors";
+@import "~style/common";
+
+body {
+  background-color: $color-cion-background-primary;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
+
+.container,
+.container-collapsed {
+  display: grid;
+
+  grid-gap: 0;
+
+  grid-template-areas: "header content" "nav content" "user content" "footer content";
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  margin: 0;
+  min-width: 100vw;
+  padding: 0;
+  transition: all 0.1s ease-out;
+}
+
+user {
+  background-color: $color-cion-background-tertiary;
+  grid-area: user;
+  margin: 0;
+  transition: 0.1s;
+}
+
+footer {
+  background-color: $color-cion-quinary;
+  grid-area: footer;
+  margin: 0;
+  transition: 0.1s;
+
+  a {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+
+    * {
+      align-items: baseline;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    img {
+      height: 5rem;
+      padding: 1rem;
+      width: 5rem;
+    }
+  }
+}
+
+.container {
+  grid-template-columns: 20rem 1fr;
+
+  nav a .link-text {
+    display: inline-block;
+  }
+
+  nav a .link-icon {
+    display: inline-block;
+    float: right;
+  }
+}
+
+.container-collapsed {
+  grid-template-columns: 5rem 1fr;
+
+  nav a .link-icon {
+    display: block;
+    float: none;
+  }
+
+  nav a .link-text {
+    display: none;
+  }
+
+  header h2 {
+    display: none;
+  }
+
+  footer h4 {
+    display: none;
+  }
+
+  user div {
+    div.username, div.actions {
+      display: none;
+    }
+  }
+}
+
+header {
+  background-color: $color-cion-quinary;
+  grid-area: header;
+  transition: 0.1s;
+
+  h2 {
+    color: $color-tertiary;
+    display: inline-block;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  #toggle-button {
+    background-color: $color-cion-primary;
+    color: $color-initial;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    font-size: 2rem;
+
+    font-weight: 300;
+    height: 100%;
+    margin: 1rem;
+    padding: 0.8rem 2rem;
+    vertical-align: middle;
+  }
+
+  #toggle-button:hover {
+    background-color: $color-secondary;
+  }
+}
+
+nav {
+  grid-area: nav;
+  transition: 0.1s;
+}
+
+main {
+  background-color: $color-cion-background-secondary;
+  grid-area: content;
+  height: 100%;
+  margin: 0;
+  max-height: 100%;
+  overflow: auto;
+  padding: 1em;
+  transition: 0.1s;
+}
+
+@media (max-height: 768px) {
+  .container {
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 46rem) {
+  .container {
+    grid-template-areas: "header" "nav" "content" "user" "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+  }
+}

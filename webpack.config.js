@@ -1,18 +1,29 @@
 const path = require("path");
 const webpack = require("webpack");
-const CircularDependencyPlugin = require('circular-dependency-plugin');
-const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
+const CircularDependencyPlugin = require("circular-dependency-plugin");
+const CleanObsoleteChunks = require("webpack-clean-obsolete-chunks");
 
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const debug = process.env.NODE_ENV !== "production";
 
+
 const common_plugins = [
+    new HtmlWebpackPlugin({
+        title: "cion",
+        filename: "../spa-entry.html",
+        favicon: "res/favicon.ico",
+        minify: {
+            html5: true
+        },
+        cache: true
+    }),
     new CleanObsoleteChunks(),
     new webpack.DefinePlugin({
-        'process.env': {
+        "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV)
         }
     }),
@@ -21,36 +32,36 @@ const common_plugins = [
         debug: debug,
         sourceMap: debug
     }),
-    new CircularDependencyPlugin({failOnError: true}),
+    new CircularDependencyPlugin({ failOnError: true }),
     new CommonsChunkPlugin({
-        name: 'app',
+        name: "app",
         children: true,
         minChunks: 2,
         async: true
     }),
     new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        reportFilename: '../../../../reports/webpack-stats.html',
+        analyzerMode: "static",
+        reportFilename: "../../reports/webpack-stats.html",
         openAnalyzer: false
     })
 ];
 
 module.exports = {
-    context: path.resolve(__dirname, "./src/development"),
+    context: path.resolve(__dirname, "./src"),
     entry: {
-        app: path.join("scripts", "app.js")
+        app: path.join("app.js")
     },
     output: {
-        path: path.resolve(__dirname, "./src/www/resources/scripts"),
-        publicPath: "/resources/scripts/",
-        filename: "[name].bundle.js"
+        path: path.resolve(__dirname, "./lib/resources"),
+        publicPath: "/resources/",
+        filename: "[name]-[chunkhash:8].bundle.js"
     },
     resolve: {
         extensions: [
-            ".webpack.js", ".web.js", ".js", ".scss"
+            ".js", ".scss", ".html"
         ],
         modules: [
-            path.resolve(__dirname, './src/development'),
+            path.resolve(__dirname, "./src"),
             "node_modules"
         ]
     },
@@ -60,38 +71,35 @@ module.exports = {
                 test: /\.(svg|ico)$/,
                 use: [
                     {
-                        loader: 'file-loader',
-                        options: {}
+                        loader: "file-loader",
+                        options: {
+                            name: "[name]-[hash:8].[ext]",
+                            outputPath: "assets/"
+                        }
                     }
                 ]
             }, {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-                query: {
-                    presets: [
-                        ['es2015', {modules: false, loose: true}]
-                    ]
-                }
+                loader: "babel-loader",
+                exclude: /node_modules/
             }, {
-                test: /((?!\.useable).{8}|^.{0,7})\.scss$/,
+                test: /((?!\.use).{4}|^.{0,3})\.scss$/,
                 loaders: [
-                    {loader: "style-loader"},
-                    {loader: "css-loader"},
-                    {loader: "sass-loader"}
+                    { loader: "style-loader" },
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
                 ]
-            },
-            {
-                test: /\.useable\.scss$/,
+            }, {
+                test: /\.use\.scss$/,
                 loaders: [
-                    {loader: "style-loader/useable"},
-                    {loader: "css-loader"},
-                    {loader: "sass-loader"}
+                    { loader: "style-loader/useable" },
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
                 ]
             }]
     },
     devtool: debug ?
-        'source-map' : false,
+        "source-map" : false,
     plugins: debug ?
         common_plugins.concat([]) : common_plugins.concat([
             new UglifyJSPlugin({

@@ -4,12 +4,12 @@
   "description": "Web application for cion",
   "main": "src/web/app.py",
   "scripts": {
-    "pack": "webpack --progress --display-error-details",
+    "pack": "webpack --progress --display-error-details --bail",
     "watch": "webpack --watch",
-    "prebuild": "cross-env NODE_ENV=production webpack --progress",
+    "prebuild": "cross-env NODE_ENV=production webpack --progress --display-error-details --bail",
     "build:frontend": "docker build -f Dockerfile . --tag cion/web:latest",
     "build": "run-p build:*",
-    "test": "babel-node --presets node6 src/tests/run.js"
+    "test": "babel-node --presets node6 tests/run.js"
   },
   "repository": "https://github.com/cionkubes/cion-web.git",
   "author": "Erlend <erlentob@stud.ntnu.no>, Harald <haraldfw@stud.ntnu.no>",
@@ -22,22 +22,23 @@
     "babel-preset-node6": "^11.0.0",
     "circular-dependency-plugin": "^4.2.1",
     "cross-env": "^5.0.1",
-    "jasmine": "^2.6.0",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^3.0.4",
+    "jasmine": "^3.1.0",
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.1.1",
-    "css-loader": "^0.28.7",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.18.2",
-    "file-loader": "^1.1.5",
+    "style-loader": "^0.20.3",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
     "webpack": "^3.3.0",
     "webpack-bundle-analyzer": "^2.8.3",
-    "webpack-clean-obsolete-chunks": "^0.2.0"
+    "webpack-clean-obsolete-chunks": "^0.3.0"
   },
   "dependencies": {
     "milligram": "^1.3.0",
     "mithril": "^1.1.3",
-    "queueing-subject": "^0.1.1",
+    "queueing-subject": "^0.2.0",
     "rxjs-es": "^5.0.0-beta.12"
   }
 }
