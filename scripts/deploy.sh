@@ -2,8 +2,6 @@
 set -e
 
 docker --version
-
-NODE_ENV=production webpack --progress --display-error-details --bail
 IMAGE=$(docker build . --quiet)
 
 docker login --username=$DOCKER_USER --password=$DOCKER_PASS

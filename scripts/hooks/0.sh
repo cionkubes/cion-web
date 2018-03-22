@@ -20,7 +20,7 @@ function posthook {
     git add package.json
     git commit -m "New $2 release version $1"
     git checkout -b release/$1
-    git push --set-upstream origin/release/$1
+    git push -u origin release/$1
 
     git tag $1
     git push origin $1
