@@ -2,6 +2,7 @@
 set -e
 
 docker --version
+ls -R lib
 IMAGE=$(docker build . --quiet)
 
 docker login --username=$DOCKER_USER --password=$DOCKER_PASS
