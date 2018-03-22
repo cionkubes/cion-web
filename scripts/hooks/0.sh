@@ -30,5 +30,6 @@ function posthook {
 }
 
 function rollback {
+    git checkout develop
     git reset --hard origin/develop
 }
