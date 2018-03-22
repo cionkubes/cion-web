@@ -40,11 +40,11 @@ const RowCountSelector = {
         return m("div.page-length-container", [
             m("div.page-length-descriptor", "Row-count:"),
             m("select.page-length-selector", {
-                    onchange: m.withAttr("value", val => {
-                        t.pagination.pageLength = val;
-                        t.pagination.updateTable();
-                    }, this)
-                },
+                onchange: m.withAttr("value", val => {
+                    t.pagination.pageLength = val;
+                    t.pagination.updateTable();
+                }, this)
+            },
                 pipe(
                     t.pagination.pageLengthChoices,
                     map(lengthNum => m("option", {
@@ -96,60 +96,59 @@ const PageSelector = {
         }
 
         return m("div", [
-                m("div.cion-table-header", [
-                    m("div.search-container", [
-                        m("div.search-field", [
-                            m("input", {
-                                type: "text",
-                                placeholder: "Search",
-                                oninput: m.withAttr("value", val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
-                                onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
-                            }),
-                            m("button", {
-                                onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
-                            }, ">"),
-                            m("div.search-tooltip", m("div.tooltip", [
-                                    m("div.tooltip-content", "?"),
-                                    m("div.tooltip-text.tooltip-left", [
-                                        m("p", "Search by field from the database using the Lucene query language"),
-                                        m("p", "Apply search: press Enter"),
-                                        m("p", "Time-format: 2017-6-1-16.00.01")
-                                    ])
-                                ])
-                            ),
-                        ]),
-                    ]),
-                    m("ul.page-list", [
-                        m("li.page-list-element.page-list-element-link.page-list-element-first", {
-                                onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
-                            },
-                            m("span.page-link", "<<")),
-                        m("li.page-list-element.page-list-element-link", {
-                                onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
-                            },
-                            m("span.page-link", "<")),
-                        m("li.page-list-element.active-page", {
-                                onclick: m.withAttr("", () => {
-                                    t.pagination.updateTable();
-                                })
-                            },
-                            // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
-                            m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
+            m("div.cion-table-header", [
+                m("div.search-container", [
+                    m("div.search-field", [
+                        m("input", {
+                            type: "text",
+                            placeholder: "Search",
+                            oninput: m.withAttr("value", val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
+                            onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
+                        }),
+                        m("button", {
+                            onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
+                        }, ">"),
+                        m("div.search-tooltip", m("div.tooltip", [
+                            m("div.tooltip-content", "?"),
+                            m("div.tooltip-text.tooltip-left", [
+                                m("p", "Search by field from the database using the Lucene query language"),
+                                m("p", "Apply search: press Enter"),
+                                m("p", "Time-format: 2017-6-1-16.00.01")
+                            ])
+                        ])
                         ),
-                        m("li.page-list-element.page-list-element-link", {
-                                onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
-                            },
-                            m("span.page-link", ">")),
-                        m("li.page-list-element.page-list-element-last.page-list-element-link", {
-                                onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
-                            },
-                            m("span.page-link", ">>")),
                     ]),
-                    m(GoToEntryField, {pagination: t.pagination}),
-                    m(RowCountSelector, {pagination: t.pagination}),
                 ]),
-            ]
-        );
+                m("ul.page-list", [
+                    m("li.page-list-element.page-list-element-link.page-list-element-first", {
+                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
+                    },
+                        m("span.page-link", "<<")),
+                    m("li.page-list-element.page-list-element-link", {
+                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
+                    },
+                        m("span.page-link", "<")),
+                    m("li.page-list-element.active-page", {
+                        onclick: m.withAttr("", () => {
+                            t.pagination.updateTable();
+                        })
+                    },
+                        // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
+                        m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
+                    ),
+                    m("li.page-list-element.page-list-element-link", {
+                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
+                    },
+                        m("span.page-link", ">")),
+                    m("li.page-list-element.page-list-element-last.page-list-element-link", {
+                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
+                    },
+                        m("span.page-link", ">>")),
+                ]),
+                m(GoToEntryField, { pagination: t.pagination }),
+                m(RowCountSelector, { pagination: t.pagination }),
+            ])
+        ]);
     }
 };
 
@@ -246,7 +245,7 @@ export const Table = {
 
     rowMap(row) {
         return m("tr",
-            {class: this.rowClassFunc(row)},
+            { class: this.rowClassFunc(row) },
             pipe(row,
                 this.transformFunc,
                 (row) => {
@@ -265,7 +264,7 @@ export const Table = {
                         i++;
                         let c = Table.truncString(data);
                         cs.push(row.route ?
-                            m("td.tdat.anchored" + cssClass, m("a", {href: row.route}, c))
+                            m("td.tdat.anchored" + cssClass, m("a", { href: row.route }, c))
                             : m("td.tdat" + cssClass, c)
                         );
                     });
@@ -277,7 +276,7 @@ export const Table = {
     view() {
         let t = this;
         return m("div", [
-            m(PageSelector, {pagination: t.pagination}),
+            m(PageSelector, { pagination: t.pagination }),
             // m(LoadingIcon)
             t.loading ? m(LoadingIcon) :
                 m("table", [
