@@ -147,7 +147,7 @@ const PageSelector = {
                 ]),
                 m(GoToEntryField, { pagination: t.pagination }),
                 m(RowCountSelector, { pagination: t.pagination }),
-            ])
+            ]),
         ]);
     }
 };
