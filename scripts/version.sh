@@ -15,19 +15,21 @@ function run_bump {
 
     (set -e; run_if_fn prehook $NEW_VER $1)
     if [ $? -ne 0 ]; then
-        echo Prehook rejected version
+        echo Prehook rejected version $NEW_VER
         exit 1
     fi
 
     (set -e; write_version $NEW_VER $1)
     if [ $? -ne 0 ]; then
         echo Write version failed
+        (set -e; run_if_fn rollback "$MAJOR.$MINOR.$PATCH")
         exit 1
     fi
 
     (set -e; run_if_fn posthook $NEW_VER $1)
     if [ $? -ne 0 ]; then
         echo Posthook failed
+        (set -e; run_if_fn rollback "$MAJOR.$MINOR.$PATCH")
         exit 1
     fi
 }
