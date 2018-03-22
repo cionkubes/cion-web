@@ -26,4 +26,5 @@ function posthook {
     git push origin $1
 
     python -m webbrowser "https://github.com/cionkubes/cion-web/compare/master...release/$1?expand=1"
+    python -m webbrowser "https://github.com/cionkubes/cion-web/compare/develop...release/$1?expand=1"
 }

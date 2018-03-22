@@ -13,11 +13,12 @@ script: yarn run test
 
 before_deploy:
   - yarn run build
+  - VERSION=$(scripts/version.sh get)
 
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash scripts/deploy.sh $(scripts/version.sh get) latest
+    script: bash scripts/deploy.sh $VERSION latest
     on:
       branch: master
   - provider: script
