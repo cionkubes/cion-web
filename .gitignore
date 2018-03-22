@@ -1,7 +1,5 @@
 # Webpack dist build
-src/www/resources
-!src/www/resources/images
-src/www/**/*.bundle.js.map
+lib
 
 # Nmp/yarn
 node_modules
