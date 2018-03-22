@@ -23,6 +23,7 @@ const common_plugins = [
     }),
     new CleanObsoleteChunks(),
     new webpack.DefinePlugin({
+        __VERSION__: JSON.stringify(process.env.npm_package_version),
         "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV)
         }
