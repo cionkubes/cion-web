@@ -10,7 +10,7 @@ import {
     pipe,
     reduce,
     take
-} from '../../src/utils/fp';
+} from "../../src/utils/fp";
 
 describe("map", () => {
     it("should handle falsy values", () => {
@@ -18,7 +18,7 @@ describe("map", () => {
     });
 
     it("should handle undefined values", () => {
-        expect(Array.from(map(b => b, [undefined, 'b']))).toEqual([undefined, 'b']);
+        expect(Array.from(map(b => b, [undefined, "b"]))).toEqual([undefined, "b"]);
     });
 
     it("should be curried", () => {
@@ -63,21 +63,21 @@ describe("curry", () => {
         const fn = (a, b) => a + b;
         const curried = curry(fn);
 
-        expect(curried(_, 'b')('a')).toEqual(fn('a', 'b'));
+        expect(curried(_, "b")("a")).toEqual(fn("a", "b"));
     });
 
     it("should handle all permutations of placeholder args", () => {
         const fn = (a, b, c) => a + b + c;
         const curried = curry(fn);
 
-        expect(curried(_, _, _)('a', 'b', 'c')).toEqual(fn('a', 'b', 'c'));
-        expect(curried(_, _, 'c')('a', 'b')).toEqual(fn('a', 'b', 'c'));
-        expect(curried(_, 'b', _)('a', 'c')).toEqual(fn('a', 'b', 'c'));
-        expect(curried('a', _, _)('b', 'c')).toEqual(fn('a', 'b', 'c'));
-        expect(curried(_, 'b', 'c')('a')).toEqual(fn('a', 'b', 'c'));
-        expect(curried('a', _, 'c')('b')).toEqual(fn('a', 'b', 'c'));
-        expect(curried('a', 'b', _)('c')).toEqual(fn('a', 'b', 'c'));
-        expect(curried('a', 'b', 'c')).toEqual(fn('a', 'b', 'c'));
+        expect(curried(_, _, _)("a", "b", "c")).toEqual(fn("a", "b", "c"));
+        expect(curried(_, _, "c")("a", "b")).toEqual(fn("a", "b", "c"));
+        expect(curried(_, "b", _)("a", "c")).toEqual(fn("a", "b", "c"));
+        expect(curried("a", _, _)("b", "c")).toEqual(fn("a", "b", "c"));
+        expect(curried(_, "b", "c")("a")).toEqual(fn("a", "b", "c"));
+        expect(curried("a", _, "c")("b")).toEqual(fn("a", "b", "c"));
+        expect(curried("a", "b", _)("c")).toEqual(fn("a", "b", "c"));
+        expect(curried("a", "b", "c")).toEqual(fn("a", "b", "c"));
     });
 });
 
