@@ -13,7 +13,7 @@ script: yarn run test
 
 before_deploy:
   - yarn run build
-  - VERSION=$(scripts/version.sh get)
+  - export VERSION=$(scripts/version.sh get)
 
 deploy:
   - provider: script
