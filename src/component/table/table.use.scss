@@ -1,4 +1,4 @@
-@import "../../style/colors";
+@import "~style/colors";
 
 .clickable {
   cursor: pointer;
@@ -8,9 +8,32 @@
   background-color: $color-tertiary;
 }
 
-td.tdat,
 th.thead {
   padding: 0.75rem;
+}
+
+tr.anchored:hover {
+  background-color: $color-tertiary;
+}
+
+td.tdat {
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  white-space: nowrap;
+
+  &.anchored {
+    padding: 0;
+
+    a {
+      display: block;
+      padding: 0.75rem;
+      padding-right: 2.5rem;
+    }
+  }
+}
+
+td.last {
+  width: 99%;
 }
 
 @media (min-width: 80rem) {
@@ -103,7 +126,6 @@ th.thead {
       border-right: 1px solid $color-quaternary;
       display: inline-block;
       list-style-type: none;
-      //margin-right: 0.5rem;
 
       span {
         color: $color-cion-primary;

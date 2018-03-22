@@ -1,35 +1,46 @@
 @import "~style/colors";
 
-.cion-task-update {
-  height: 3rem;
-}
-
 .overview {
-  height: 40rem;
   border: 0.1rem solid $color-cion-primary;
   border-radius: 0.3rem;
+  height: 40rem;
   overflow-y: scroll;
 }
 
 blockquote.event {
-  border-color: $color-cion-secondary;
+  // scss-lint:disable PropertyUnits
   border-bottom: 1px solid;
+  border-color: $color-cion-secondary;
   margin: 0.3rem;
-  padding: 0 0 0 0.5rem;
+  overflow: hidden;
+  padding: 0;
+  padding-left: 0.5rem;
 
-  .task-icon {
+  div.right {
     display: inline-block;
     float: right;
-    height: 2rem;
-    margin: 0.3rem;
-    width: 2rem;
+
+    .task-icon {
+      display: inline-block;
+      float: right;
+      height: 2rem;
+      margin: 0.3rem;
+      width: 2rem;
+    }
+
+    span.event-type {
+      color: $color-cion-secondary;
+      margin-right: 0.2rem;
+    }
+
+    span.time-ago {
+      font-style: italic;
+      margin-right: 1rem;
+    }
   }
 
-  span.event-type {
+  div.left {
     display: inline-block;
-    float: right;
-    color: $color-cion-secondary;
-    margin-right: 0.2rem;
   }
 
   &.erroneous {
@@ -76,6 +87,7 @@ blockquote.event {
 
   &.done {
     border-color: $color-cion-done;
+
     .task-icon {
       svg path {
         fill: $color-cion-done;

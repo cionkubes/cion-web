@@ -219,6 +219,61 @@ export const Table = {
         Table.getTableRows(searchState);
     },
 
+    truncString(data) {
+        let l = 65; // TODO move somewhere else
+        if (data && data.length > l) {
+            return data.substring(0, l - 6) + " [...]";
+        }
+        return data;
+    },
+
+    headMap(headerIndex) {
+        let c = ["th.thead"];
+        let attrs = {};
+        let s = headerIndex;
+        if (Array.isArray(headerIndex)) {
+            c.push("clickable");
+            if (headerIndex[0] === this.sortIndex) {
+                c.push("sorted-by");
+            }
+            attrs = {
+                onclick: m.withAttr("", () => Table.sortTable(headerIndex[0], this), this)
+            };
+            s = headerIndex[0];
+        }
+        return m(c.join("."), attrs, s);
+    },
+
+    rowMap(row) {
+        return m("tr",
+            {class: this.rowClassFunc(row)},
+            pipe(row,
+                this.transformFunc,
+                (row) => {
+                    let i = 0;
+                    let cs = [];
+                    row.cols.forEach(data => {
+                        let cssClass = "";
+                        if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
+                            cssClass += ".sorted-by";
+                        }
+
+                        if (i === row.cols.length - 1) {
+                            cssClass += ".last";
+                        }
+
+                        i++;
+                        let c = Table.truncString(data);
+                        cs.push(row.route ?
+                            m("td.tdat.anchored" + cssClass, m("a", {href: row.route}, c))
+                            : m("td.tdat" + cssClass, c)
+                        );
+                    });
+                    // console.log(cs);
+                    return cs;
+                }, Array.from));
+    },
+
     view() {
         let t = this;
         return m("div", [
@@ -226,59 +281,16 @@ export const Table = {
             // m(LoadingIcon)
             t.loading ? m(LoadingIcon) :
                 m("table", [
-                        m("thead",
-                            m("tr",
-                                pipe(
-                                    t.headers,
-                                    map(headerIndex => {
-                                        let c = ["th.thead"];
-                                        let attrs = {};
-                                        let s = headerIndex;
-                                        if (Array.isArray(headerIndex)) {
-                                            c.push("clickable");
-                                            if (headerIndex[0] === this.sortIndex) {
-                                                c.push("sorted-by");
-                                            }
-                                            attrs = {
-                                                onclick: m.withAttr("", () => Table.sortTable(headerIndex[0], this), this)
-                                            };
-                                            s = headerIndex[0];
-                                        }
-                                        return m(c.join("."), attrs, s);
-                                    }),
-                                    Array.from
-                                )
-                            )
-                        ),
-                        m("tbody",
-                            pipe(
-                                this.rows, // list of dictionaries, where each dict is a row
-                                map(row => m("tr",
-                                    {class: this.rowClassFunc(row)},
-                                    pipe(
-                                        row,
-                                        this.transformFunc,
-                                        (row) => {
-                                            let i = 0;
-                                            let cs = [];
-                                            row.forEach(
-                                                data => {
-                                                    let cssClass = "";
-                                                    if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
-                                                        cssClass = ".sorted-by";
-                                                    }
-                                                    i++;
-                                                    cs.push(m("td.tdat" + cssClass, data));
-                                                }
-                                            );
-                                            return cs;
-                                        },
-                                        Array.from))),
-                                Array.from
-                            )
-                        )
-                    ]
-                )
+                    m("thead", m("tr", pipe(
+                        t.headers,
+                        map(this.headMap.bind(this)),
+                        Array.from))),
+                    m("tbody", pipe(
+                        this.rows, // list of dictionaries, where each dict is a row
+                        map(this.rowMap.bind(this)),
+                        Array.from)
+                    )
+                ])
         ]);
     },
 

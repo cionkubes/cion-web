@@ -3,7 +3,8 @@
 tr.erroneous {
   color: $color-cion-erroneous;
 
-  td {
+  td,
+  a {
     border-color: $color-cion-erroneous;
     color: $color-cion-erroneous;
   }
@@ -14,21 +15,24 @@ thead.tr {
 }
 
 tr.ready {
-  td {
+  td,
+  a {
     border-color: $color-cion-primary;
     color: $color-cion-primary;
   }
 }
 
 tr.done {
-  td {
+  td,
+  a {
     border-color: $color-cion-done;
     color: $color-cion-done;
   }
 }
 
 .task-row.processing {
-  td {
+  td,
+  a {
     border-color: $color-cion-primary;
     color: $color-cion-primary;
   }
