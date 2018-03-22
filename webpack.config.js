@@ -1,12 +1,12 @@
 const path = require("path");
 const webpack = require("webpack");
-const CircularDependencyPlugin = require('circular-dependency-plugin');
-const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
+const CircularDependencyPlugin = require("circular-dependency-plugin");
+const CleanObsoleteChunks = require("webpack-clean-obsolete-chunks");
 
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const debug = process.env.NODE_ENV !== "production";
 
@@ -23,7 +23,7 @@ const common_plugins = [
     }),
     new CleanObsoleteChunks(),
     new webpack.DefinePlugin({
-        'process.env': {
+        "process.env": {
             NODE_ENV: JSON.stringify(process.env.NODE_ENV)
         }
     }),
@@ -34,14 +34,14 @@ const common_plugins = [
     }),
     new CircularDependencyPlugin({ failOnError: true }),
     new CommonsChunkPlugin({
-        name: 'app',
+        name: "app",
         children: true,
         minChunks: 2,
         async: true
     }),
     new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        reportFilename: '../../reports/webpack-stats.html',
+        analyzerMode: "static",
+        reportFilename: "../../reports/webpack-stats.html",
         openAnalyzer: false
     })
 ];
@@ -61,7 +61,7 @@ module.exports = {
             ".js", ".scss", ".html"
         ],
         modules: [
-            path.resolve(__dirname, './src'),
+            path.resolve(__dirname, "./src"),
             "node_modules"
         ]
     },
@@ -80,7 +80,7 @@ module.exports = {
                 ]
             }, {
                 test: /\.js$/,
-                loader: 'babel-loader',
+                loader: "babel-loader",
                 exclude: /node_modules/
             }, {
                 test: /((?!\.use).{4}|^.{0,3})\.scss$/,
@@ -99,7 +99,7 @@ module.exports = {
             }]
     },
     devtool: debug ?
-        'source-map' : false,
+        "source-map" : false,
     plugins: debug ?
         common_plugins.concat([]) : common_plugins.concat([
             new UglifyJSPlugin({
