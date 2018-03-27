@@ -4,6 +4,7 @@ import { req_with_auth } from "services/api/requests";
 import tableStyle from "./table.use.scss";
 import helpStyle from "component/tooltip/tooltip.use.scss";
 import { LoadingIcon } from "component/graphic/loading/loading";
+import { createNotification } from "../notification/panel/panel";
 
 const GoToEntryField = {
     oninit(vnode) {
@@ -210,6 +211,10 @@ export const Table = {
                 t.pagination.totalLength = 0;
                 console.error(response);
                 t.loading = false;
+                createNotification(
+                    "Unable to fetch table rows",
+                    "Check your connection to the database",
+                    "error")
             },
             this: t
         });

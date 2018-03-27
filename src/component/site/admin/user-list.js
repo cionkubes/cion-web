@@ -16,7 +16,8 @@ export const UserList = {
                     this.user_list.push(user);
                 }
             },
-            catch: e => createNotification("Error", e, "error"),
+            catch: e => createNotification("Error fetching users",
+                "Check your connection to the database", "error"),
             this: this
         });
 

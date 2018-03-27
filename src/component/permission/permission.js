@@ -13,7 +13,8 @@ export const PermissionForm = {
                 this.permissionTemplate = e;
             },
             catch: e =>
-                createNotification("Failed to get permission template", e, "error"),
+                createNotification("Failed to fetch permission template",
+                    "Check your connection to the database", "error"),
             this: t
         });
     },

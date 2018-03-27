@@ -14,9 +14,10 @@ export const Services = site_wrapper({
             url: "/api/v1/services",
             method: "GET",
             then: response => this.services = response,
-            catch: response => createNotification(
-                "An error occurred while fetching list", response, "error"
-            ),
+            catch: e => createNotification(
+                "Error occurred while fetching services",
+                "Check your connection to the database",
+                "error"),
             this: this
         });
     },
