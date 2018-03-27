@@ -40,11 +40,11 @@ const RowCountSelector = {
         return m("div.page-length-container", [
             m("div.page-length-descriptor", "Row-count:"),
             m("select.page-length-selector", {
-                onchange: m.withAttr("value", val => {
-                    t.pagination.pageLength = val;
-                    t.pagination.updateTable();
-                }, this)
-            },
+                    onchange: m.withAttr("value", val => {
+                        t.pagination.pageLength = parseInt(val);
+                        t.pagination.updateTable();
+                    }, this)
+                },
                 pipe(
                     t.pagination.pageLengthChoices,
                     map(lengthNum => m("option", {
@@ -82,12 +82,7 @@ const PageSelector = {
     },
 
     view(vnode) {
-        // console.log(this.pagination);
-        let totalPages = Math.ceil(this.pagination.totalLength / this.pagination.pageLength);
-        if (isNaN(totalPages))
-            totalPages = 0;
         let t = this;
-        t.pagination.totalPages = totalPages;
 
         if (t.pagination.totalPages === 0) {
             t.pagination.activePage = 0;
@@ -109,40 +104,40 @@ const PageSelector = {
                             onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
                         }, ">"),
                         m("div.search-tooltip", m("div.tooltip", [
-                            m("div.tooltip-content", "?"),
-                            m("div.tooltip-text.tooltip-left", [
-                                m("p", "Search by field from the database using the Lucene query language"),
-                                m("p", "Apply search: press Enter"),
-                                m("p", "Time-format: 2017-6-1-16.00.01")
+                                m("div.tooltip-content", "?"),
+                                m("div.tooltip-text.tooltip-left", [
+                                    m("p", "Search by field from the database using the Lucene query language"),
+                                    m("p", "Apply search: press Enter"),
+                                    m("p", "Time-format: 2017-6-1-16.00.01")
+                                ])
                             ])
-                        ])
                         ),
                     ]),
                 ]),
                 m("ul.page-list", [
                     m("li.page-list-element.page-list-element-link.page-list-element-first", {
-                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
-                    },
+                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
+                        },
                         m("span.page-link", "<<")),
                     m("li.page-list-element.page-list-element-link", {
-                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
-                    },
+                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
+                        },
                         m("span.page-link", "<")),
                     m("li.page-list-element.active-page", {
-                        onclick: m.withAttr("", () => {
-                            t.pagination.updateTable();
-                        })
-                    },
+                            onclick: m.withAttr("", () => {
+                                t.pagination.updateTable();
+                            })
+                        },
                         // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
                         m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
                     ),
                     m("li.page-list-element.page-list-element-link", {
-                        onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
-                    },
+                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
+                        },
                         m("span.page-link", ">")),
                     m("li.page-list-element.page-list-element-last.page-list-element-link", {
-                        onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
-                    },
+                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
+                        },
                         m("span.page-link", ">>")),
                 ]),
                 m(GoToEntryField, { pagination: t.pagination }),
@@ -156,12 +151,15 @@ export const Table = {
     getTableRows(state, wantedPage) {
         let t = state;
         let acPage = t.pagination.activePage;
+        let totalPages = Math.ceil(t.pagination.totalLength / t.pagination.pageLength);
+        if (isNaN(totalPages))
+            totalPages = 0;
+        t.pagination.totalPages = totalPages;
 
         if (wantedPage !== undefined) {
             acPage = wantedPage;
-        } else {
-            acPage = 0;
         }
+
         // TODO: active page larger than total pages. Has to be fixed in backend and frontend
         if (acPage + 1 >= t.pagination.totalPages) {
             acPage = t.pagination.totalPages - 1;
@@ -180,22 +178,32 @@ export const Table = {
             url: t.resourceEndpoint + "?" + m.buildQueryString({
                 pageStart: pageStart,
                 pageLength: t.pagination.pageLength,
-                sortIndex: t.sortIndex,
-                reverseSort: t.reverseSort,
+                sortIndex: t.pagination.sortIndex,
+                reverseSort: t.pagination.reverseSort,
                 searchTerm: t.pagination.term
             }),
             method: "GET",
             then: function (response) {
                 response.rows.forEach(row => t.rows.push(row));
-                t.pagination.totalLength = response.totalLength;
+                let resLength = parseInt(response.totalLength);
+                t.pagination.totalLength = resLength;
 
                 // TODO: not accurate, use resultset to calculate pageEnd accurately
                 t.pagination.pageStart = parseInt(pageStart) + 1;
-                t.pagination.pageEnd = pageStart + t.pagination.pageLength;
-                let resLength = parseInt(response.totalLength);
+
+                if (t.pagination.pageStart > resLength - t.pagination.pageLength) {
+                    t.pagination.pageStart = resLength - t.pagination.pageLength;
+                }
+
+                if (t.pagination.pageStart < 0) {
+                    t.pagination.pageStart = 0;
+                }
+
+                t.pagination.pageEnd = parseInt(pageStart) + t.pagination.pageLength;
                 if (t.pagination.pageEnd > resLength) {
                     t.pagination.pageEnd = resLength;
                 }
+
                 t.loading = false;
             },
             catch: (response) => {
@@ -207,15 +215,15 @@ export const Table = {
         });
     },
 
-    sortTable(index, searchState) {
-        let prevIndex = searchState.sortIndex;
-        searchState.sortIndex = index;
+    sortTable(index, state) {
+        let prevIndex = state.pagination.sortIndex;
+        state.pagination.sortIndex = index;
         if (prevIndex === index) {
-            searchState.reverseSort = !searchState.reverseSort;
+            state.pagination.reverseSort = !state.pagination.reverseSort;
         } else {
-            searchState.reverseSort = false;
+            state.pagination.reverseSort = false;
         }
-        Table.getTableRows(searchState);
+        Table.getTableRows(state);
     },
 
     truncString(data) {
@@ -232,7 +240,7 @@ export const Table = {
         let s = headerIndex;
         if (Array.isArray(headerIndex)) {
             c.push("clickable");
-            if (headerIndex[0] === this.sortIndex) {
+            if (headerIndex[0] === this.pagination.sortIndex) {
                 c.push("sorted-by");
             }
             attrs = {
@@ -253,7 +261,7 @@ export const Table = {
                     let cs = [];
                     row.cols.forEach(data => {
                         let cssClass = "";
-                        if (Array.isArray(this.headers[i]) && this.sortIndex === this.headers[i][0]) {
+                        if (Array.isArray(this.headers[i]) && this.pagination.sortIndex === this.headers[i][0]) {
                             cssClass += ".sorted-by";
                         }
 
@@ -317,15 +325,21 @@ export const Table = {
 
         this.rows = [];
 
-        this.sortIndex = vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time";
-        this.reverseSort = false;
+        this.compName = vnode.attrs.compName ? vnode.attrs.compName : btoa(this.resourceEndpoint);
 
-        this.pagination = {};
-        this.pagination.term = "";
-        this.pagination.pageLengthChoices = vnode.attrs.pageLengthChoices ? vnode.attrs.pageLengthChoices : [10, 20, 50, 100];
-        this.pagination.totalLength = 0;
-        this.pagination.activePage = 0;
-        this.pagination.pageLength = vnode.attrs.pageLength ? vnode.attrs.pageLength : 20;
+        // this.sortIndex = vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time";
+        // this.reverseSort = false;
+
+        let paginationStorage = this.loadState();
+        this.pagination = {
+            sortIndex: this.getStoredValue(paginationStorage, ["sortIndex"], vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time"),
+            reverseSort: this.getStoredValue(paginationStorage, ["reverseSort"], false),
+            term: this.getStoredValue(paginationStorage, ["term"], ""),
+            pageLengthChoices: vnode.attrs.pageLengthChoices ? vnode.attrs.pageLengthChoices : [10, 20, 50, 100],
+            totalLength: this.getStoredValue(paginationStorage, ["totalLength"], 0),
+            activePage: this.getStoredValue(paginationStorage, ["activePage"], 0),
+            pageLength: this.getStoredValue(paginationStorage, ["pageLength"], vnode.attrs.pageLength ? vnode.attrs.pageLength : 20),
+        };
 
         this.pagination.pageStart = this.pagination.activePage * this.pagination.pageLength + 1;
         this.pagination.pageEnd = this.pagination.pageStart + this.pagination.pageLength;
@@ -337,6 +351,25 @@ export const Table = {
         Table.getTableRows(this);
     },
 
+    getStoredValue(storage, keyList, defaultValue) {
+        let d = storage;
+        if (!storage) {
+            return defaultValue;
+        }
+        let foundVal = false;
+        for (let key of keyList) {
+            if (!d.hasOwnProperty(key)) {
+                break;
+            }
+            foundVal = true;
+            d = storage[key];
+            if (!d) {
+                break;
+            }
+        }
+        return foundVal ? d : defaultValue;
+    },
+
     oncreate() {
         tableStyle.ref();
         helpStyle.ref();
@@ -345,5 +378,21 @@ export const Table = {
     onremove() {
         tableStyle.unref();
         helpStyle.unref();
+        this.saveState();
+    },
+
+    saveState() {
+        localStorage.setItem(this.createKey(), JSON.stringify(this.pagination));
+    },
+
+    loadState() {
+        return JSON.parse(localStorage.getItem(this.createKey()));
+    },
+
+    createKey() {
+        let t = "table";
+        let username = localStorage.getItem("username");
+        let compName = this.compName;
+        return [t, compName, username].join(".");
     }
 };
