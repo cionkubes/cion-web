@@ -36,14 +36,15 @@ export class ResetPasswordForm {
         }
         req_with_auth({
             url: "/api/v1/user/setpassword",
-            method: "POST",
+            method: "PUT",
             data: {
                 "old-password": oldPassword,
                 "new-password": newPassword,
                 "repeat-password": repeatPassword
             },
             then: () => {
-                createNotification("Success", "User was created", "success");
+                createNotification("Success", "Password was reset", "success");
+                m.route.set("/");
             },
             catch: e => createNotification("Error", e, "error"),
             this: t
@@ -68,7 +69,7 @@ export class ResetPasswordForm {
                 oninput: m.withAttr("value", this.setRepeatPassword, this),
                 placeholder: "Repeat new password"
             }),
-            m("button", {onclick: this.resetPassword.bind(this)}, "Submit")
+            m("button", { onclick: this.resetPassword.bind(this) }, "Submit")
         ]);
     }
 }

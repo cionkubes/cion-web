@@ -3,6 +3,7 @@ import { req_with_auth } from "services/api/requests";
 import { site_wrapper } from "component/site/site-wrapper";
 import { createNotification } from "component/notification/panel/panel";
 import style from "./log-view.use.scss";
+import { rdbEpochToDate } from "utils/dates";
 
 export const component_name = "LogView";
 
@@ -21,7 +22,7 @@ export const LogView = site_wrapper({
         });
     },
 
-    handleNode(node, name) {
+    handleNode(node, name, parseFunc) {
         let nodes = [];
         if (node.constructor === Array) {
             let ar = [];
@@ -32,16 +33,24 @@ export const LogView = site_wrapper({
                 return [m("label", name), m("div.group", ar)];
             }
             return m("div.group", ar);
-        } else if (node.constructor === String
-            || node.constructor === Number) {
-            nodes.push(m("span.block", node));
-        } else {
+        } else if (typeof node === 'object' && node !== null && !(node instanceof Date)) {
             let ar = [];
             for (let key of Object.keys(node)) {
                 let dict = node[key];
-                ar.push(this.handleNode(dict, key));
+                if (key === "time") {
+                    ar.push(this.handleNode(dict, key, e => rdbEpochToDate(e).toLocaleString()));
+                } else {
+                    ar.push(this.handleNode(dict, key));
+                }
             }
             nodes.push(ar);
+        } else {
+
+            if (parseFunc) {
+                node = parseFunc(node);
+            }
+
+            nodes.push(m("span.block", node));
         }
 
         if (name) {

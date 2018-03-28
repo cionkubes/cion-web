@@ -20,7 +20,7 @@ export const EditUser = site_wrapper({
                     }
                 }
             },
-            catch: e => createNotification("Failed to get permission", e, "error"),
+            catch: e => createNotification("Failed to fetch user's permissions", "Check your connection", "error"),
             this: this
         });
     },
