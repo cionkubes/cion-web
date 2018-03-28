@@ -5,6 +5,10 @@ import tableStyle from "./table.use.scss";
 import helpStyle from "component/tooltip/tooltip.use.scss";
 import { LoadingIcon } from "component/graphic/loading/loading";
 import { createNotification } from "../notification/panel/panel";
+import {
+    registerUnloadFunc,
+    unregisterUnloadFunc
+} from "../site/site-wrapper";
 
 const GoToEntryField = {
     oninit(vnode) {
@@ -307,6 +311,7 @@ export const Table = {
     },
 
     oninit(vnode) {
+        registerUnloadFunc(this.saveState, this);
         if (!vnode.attrs.resourceEndpoint) {
             throw new Error(
                 "Unable to create table without any content. Make sure to " +
@@ -381,6 +386,7 @@ export const Table = {
     },
 
     onremove() {
+        unregisterUnloadFunc(this.saveState, this);
         tableStyle.unref();
         helpStyle.unref();
         this.saveState();
