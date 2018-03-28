@@ -9,22 +9,17 @@ import site_style from "./site.use.scss";
 const UnloadFuncs = {};
 
 export function registerUnloadFunc(func, thisArg) {
-    console.log("unload", "adding func");
     let k = createUnloadFuncKey(func, thisArg);
     if (!(k in UnloadFuncs)) {
         if (thisArg) {
             func = func.bind(thisArg);
         }
         UnloadFuncs[k] = func;
-        console.log("unload", "added func");
     }
-    console.log("unload", "add", "current funcs", Object.keys(UnloadFuncs).length);
 }
 
 export function unregisterUnloadFunc(func, thisArg) {
-    console.log("unload", "removing func");
     delete UnloadFuncs[createUnloadFuncKey(func, thisArg)];
-    console.log("unload", "remove", "current funcs", Object.keys(UnloadFuncs).length);
 }
 
 function createUnloadFuncKey(func, thisArg) {
