@@ -74,11 +74,9 @@ export const CreateUserForm = {
                     placeholder: "Repeat Password"
                 })
             ]),
-            m("label", [
-                "Permissions",
-                m(PermissionForm, {permissions: this.permissions}),
-                m("button", {onclick: m.withAttr("", this.send, this)}, "Submit")
-            ]),
+            m("label", "Permissions"),
+            m(PermissionForm, {permissions: this.permissions}),
+            m("button", {onclick: m.withAttr("", this.send, this)}, "Submit")
         ]);
     }
 };
