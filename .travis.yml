@@ -30,7 +30,7 @@ deploy:
     skip_cleanup: true
     script: bash scripts/deploy.sh nightly
     on:
-      condition: $TRAVIS_EVENT_TYPE = cron
+      condition: "$TRAVIS_EVENT_TYPE = cron"
 
 env:
   global:
