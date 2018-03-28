@@ -43,7 +43,6 @@ export function site_wrapper(component) {
                     }
                 }
                 if (ret.length > 0) {
-                    console.log("returing to onbeforeunload", ret);
                     return ret;
                 }
             };
