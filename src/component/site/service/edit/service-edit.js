@@ -4,25 +4,29 @@ import { site_wrapper } from "component/site/site-wrapper";
 import { createNotification } from "component/notification/panel/panel";
 import { req_with_auth } from "services/api/requests";
 import service_style from "./service-edit.use.scss";
+import { TaskLogs } from "../../../task-logs/task-logs";
 
 export const component_name = "Service";
 
-class State {
-    constructor() {
+export const Service = site_wrapper({
+    oninit() {
+        this.service_name = m.route.param("service");
+
         this.selectedImage = "";
         this.selectedEnv = "";
-        this.service_name = "";
         this.data = {
             environments: {},
             "images-deployed": []
         };
-    }
 
-    static editService(vnode) {
+        this.fetch();
+    },
+
+    editService(vnode) {
         m.route.set("/service/" + vnode.state.service_name + "/edit/");
-    }
+    },
 
-    static deleteService(vnode) {
+    deleteService(vnode) {
         let sname = vnode.state.service_name;
         req_with_auth({
             url: "/api/v1/service/" + sname,
@@ -37,25 +41,48 @@ class State {
                 )
         });
         m.route.set("/services");
-    }
+    },
 
-    static setSelImage(img, vnode) {
-        // this is too hacky, but until I find a better way it has to be this way
+    setSelImage(img, vnode) {
         vnode.state.selectedImage = img;
-    }
+    },
 
-    static setSelEnv(env, vnode) {
+    setSelEnv(env, vnode) {
         vnode.state.selectedEnv = env;
-    }
+    },
 
     canDeploy() {
         return this.selectedImage !== "" && this.selectedEnv !== "";
-    }
+    },
+
+    sendDeploy(vnode) {
+        let state = vnode.state;
+        req_with_auth({
+            method: "POST",
+            url: "/api/v1/create/task",
+            data: {
+                environment: state.selectedEnv,
+                "image-name": state.selectedImage,
+                "service-name": state.service_name
+            },
+            then: function () {
+                createNotification(
+                    "Task created",
+                    "Update service task created successfully",
+                    "success"
+                );
+            },
+            catch: function (e) {
+                console.error(e);
+            }
+        });
+    },
 
     fetch() {
         let state = this;
+        console.log(this);
         req_with_auth({
-            url: "/api/v1/service/" + this.service_name,
+            url: "/api/v1/service/" + state.service_name,
             method: "GET",
             then: response => (state.data = response),
             catch: function () {
@@ -65,50 +92,18 @@ class State {
                     "Please confirm that the service exists and that you are connected to the server",
                     "error"
                 );
-            }
-        });
-    }
-
-    sendDeploy(vnode) {
-        let state = vnode.state;
-        req_with_auth({
-            method: "POST",
-            url: "/api/v1/create/task",
-            data: {
-                environment: state.selectedEnv,
-                image: state.selectedImage
             },
-            then: function () {
-                createNotification(
-                    "Success!",
-                    "Update service task created successfully",
-                    "success"
-                );
-            },
-            catch: function (e) {
-                console.error(e);
-            }
+            this: this
         });
-    }
-}
-
-export const Service = site_wrapper({
-    oninit(vnode) {
-        let state = new State();
-        state.service_name = m.route.param("service");
-        state.fetch();
-        vnode.state = state;
     },
+
     view(vnode) {
         return m("div.home", [
             m("h1", [
                 vnode.state.service_name,
-                // m("button", {style: "float: right;", onclick: () => State.editService(vnode)}, "Edit"),
-                m(
-                    "button.red",
-                    {
+                m("button.red", {
                         style: "float: right;",
-                        onclick: () => State.deleteService(vnode)
+                        onclick: () => this.deleteService(vnode)
                     },
                     "Delete"
                 )
@@ -145,47 +140,45 @@ export const Service = site_wrapper({
                 m("div", [
                     m("h3", "Deploy"),
                     m("div.deploy_grid", [
-                        m(
-                            "select.deploy_select",
-                            {
-                                onchange: m.withAttr("value", val =>
-                                    State.setSelImage(val, vnode)
-                                )
-                            },
-                            [
-                                m("option", {value: ""}, "Image"),
-                                pipe(
-                                    vnode.state.data["images-deployed"],
-                                    map(img => m("option", {value: img}, img)),
-                                    Array.from
-                                )
-                            ]
-                        ),
-                        m(
-                            "select.deploy_select",
-                            {
-                                onchange: m.withAttr("value", val =>
-                                    State.setSelEnv(val, vnode)
-                                )
-                            },
-                            [
-                                m("option", {value: ""}, "Environment"),
-                                pipe(
-                                    Object.keys(vnode.state.data.environments),
-                                    map(k => m("option", {value: k}, k)),
-                                    Array.from
-                                )
-                            ]
-                        ),
-                        m(
-                            "button",
-                            {
+                        m("input[type=text]", {
+                            placeholder: "Image",
+                            onchange: m.withAttr("value", val => this.setSelImage(val, vnode)),
+                            list: "image-list"
+                        }),
+                        m("datalist[id=image-list]", pipe(
+                            vnode.state.data["images-deployed"],
+                            map(img => m("option", { value: img }, img)),
+                            Array.from
+                        )),
+                        m("select.deploy_select", {
+                            onchange: m.withAttr("value", val => this.setSelEnv(val, vnode))
+                        }, [
+                            m("option", {
+                                value: "",
+                                disabled: "disabled",
+                                selected: "selected"
+                            }, "Environment"),
+                            pipe(
+                                Object.keys(vnode.state.data.environments),
+                                map(k => m("option", { value: k }, k)),
+                                Array.from
+                            )
+                        ]),
+                        m("button", {
                                 disabled: !vnode.state.canDeploy(),
                                 onclick: () => vnode.state.sendDeploy(vnode)
-                            },
-                            "Deploy"
+                            }, "Deploy"
                         )
                     ])
+                ]),
+                m("div", [
+                    m("h3", "Service update history"),
+                    m(TaskLogs, {
+                        compName: "service-logs-" + this.service_name,
+                        term: "service-name:\"^" + this.service_name + "$\"",
+                        overrides: ["term", "pageLength"],
+                        pageLength: 10
+                    })
                 ])
             ])
         ]);

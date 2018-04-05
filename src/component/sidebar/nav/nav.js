@@ -6,7 +6,7 @@ import { AdminSvg } from "component/graphic/sidebar/admin/admin";
 import { LogsSvg } from "component/graphic/sidebar/logs/logs";
 import { ConfSvg } from "component/graphic/sidebar/conf-edit/conf-edit";
 import { CloudSvg } from "component/graphic/sidebar/services/services";
-import { ClusterSvg } from "component/graphic/sidebar/cluster/cluster";
+import { EnvironmentSvg } from "component/graphic/sidebar/environment/environment";
 import style from "./nav.use.scss";
 
 const links = {
@@ -15,7 +15,7 @@ const links = {
     logs: ["Logs", m(LogsSvg)],
     confeditor: ["Config", m(ConfSvg)],
     services: ["Services", m(CloudSvg)],
-    cluster: ["Cluster", m(ClusterSvg)]
+    environments: ["Environments", m(EnvironmentSvg)]
 };
 
 export const Menu = {

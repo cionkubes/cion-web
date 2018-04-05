@@ -4,8 +4,9 @@ import { req_with_auth } from "services/api/requests";
 import permissionsStyle from "./permission.use.scss";
 
 export const PermissionForm = {
-    oninit() {
+    oninit(vnode) {
         let t = this;
+        this.permissions = vnode.attrs.permissions;
         req_with_auth({
             url: "/api/v1/permissions/permission-def",
             method: "GET",
@@ -155,7 +156,6 @@ export const PermissionForm = {
     },
 
     oncreate(vnode) {
-        this.permissions = vnode.attrs.permissions;
         permissionsStyle.ref();
     },
 

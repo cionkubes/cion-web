@@ -1,6 +1,6 @@
 import m from "mithril";
 
-export const ClusterSvg = {
+export const EnvironmentSvg = {
     view() {
         return m(
             "svg", {

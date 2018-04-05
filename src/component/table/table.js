@@ -2,13 +2,13 @@ import m from "mithril";
 import { map, pipe } from "utils/fp";
 import { req_with_auth } from "services/api/requests";
 import tableStyle from "./table.use.scss";
-import helpStyle from "component/tooltip/tooltip.use.scss";
 import { LoadingIcon } from "component/graphic/loading/loading";
 import { createNotification } from "../notification/panel/panel";
 import {
     registerUnloadFunc,
     unregisterUnloadFunc
 } from "../site/site-wrapper";
+import { TooltipBox } from "../tooltip/tooltip-box";
 
 const GoToEntryField = {
     oninit(vnode) {
@@ -97,29 +97,29 @@ const PageSelector = {
 
         return m("div", [
             m("div.cion-table-header", [
-                m("div.search-container", [
+                !vnode.attrs.componentsToHide.includes("SearchContainer") ? m("div.search-container", [
                     m("div.search-field", [
                         m("input", {
                             type: "text",
                             placeholder: "Search",
+                            value: vnode.state.pagination.term,
                             oninput: m.withAttr("value", val => PageSelector.setSearchTerm(val, vnode.state.pagination)),
                             onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
                         }),
                         m("button", {
                             onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
                         }, ">"),
-                        m("div.search-tooltip", m("div.tooltip", [
-                                m("div.tooltip-content", "?"),
-                                m("div.tooltip-text.tooltip-left", [
-                                    m("p", "Search by field from the database using the Lucene query language"),
-                                    m("p", "Apply search: press Enter"),
-                                    m("p", "Time-format: 2017-6-1-16.00.01")
-                                ])
-                            ])
+                        m("div.search-tooltip",
+                            m(TooltipBox, {
+                                lines: [
+                                    "Search by field from the database using the Lucene query language",
+                                    "Apply search: press Enter",
+                                    "Time-format: 2017-6-1-16.00.01"]
+                            })
                         ),
                     ]),
-                ]),
-                m("ul.page-list", [
+                ]) : null,
+                !vnode.attrs.componentsToHide.includes("PageList") ? m("ul.page-list", [
                     m("li.page-list-element.page-list-element-link.page-list-element-first", {
                             onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
                         },
@@ -144,9 +144,9 @@ const PageSelector = {
                             onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
                         },
                         m("span.page-link", ">>")),
-                ]),
-                m(GoToEntryField, { pagination: t.pagination }),
-                m(RowCountSelector, { pagination: t.pagination }),
+                ]) : null,
+                !vnode.attrs.componentsToHide.includes("GoToEntryField") ? m(GoToEntryField, { pagination: t.pagination }) : null,
+                !vnode.attrs.componentsToHide.includes("RowCountSelector") ? m(RowCountSelector, { pagination: t.pagination }) : null,
             ]),
         ]);
     }
@@ -215,10 +215,7 @@ export const Table = {
                 t.pagination.totalLength = 0;
                 console.error(response);
                 t.loading = false;
-                createNotification(
-                    "Unable to fetch table rows",
-                    "Check your connection to the database",
-                    "error")
+                createNotification(response, "", "error")
             },
             this: t
         });
@@ -290,10 +287,13 @@ export const Table = {
                 }, Array.from));
     },
 
-    view() {
+    view(vnode) {
         let t = this;
         return m("div", [
-            m(PageSelector, { pagination: t.pagination }),
+            m(PageSelector, {
+                pagination: t.pagination,
+                componentsToHide: vnode.attrs.componentsToHide ? vnode.attrs.componentsToHide : []
+            }),
             // m(LoadingIcon)
             t.loading ? m(LoadingIcon) :
                 m("table", [
@@ -340,15 +340,17 @@ export const Table = {
         // this.sortIndex = vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time";
         // this.reverseSort = false;
 
+        this.overrides = vnode.attrs.overrides;
+
         let paginationStorage = this.loadState();
         this.pagination = {
-            sortIndex: this.getStoredValue(paginationStorage, ["sortIndex"], vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time"),
-            reverseSort: this.getStoredValue(paginationStorage, ["reverseSort"], false),
-            term: this.getStoredValue(paginationStorage, ["term"], ""),
+            sortIndex: this.getStoredValue(paginationStorage, "sortIndex", vnode.attrs.sortIndex ? vnode.attrs.sortIndex : "time"),
+            reverseSort: this.getStoredValue(paginationStorage, "reverseSort", false),
+            term: this.getStoredValue(paginationStorage, "term", vnode.attrs.term),
             pageLengthChoices: vnode.attrs.pageLengthChoices ? vnode.attrs.pageLengthChoices : [10, 20, 50, 100],
-            totalLength: this.getStoredValue(paginationStorage, ["totalLength"], 0),
-            activePage: this.getStoredValue(paginationStorage, ["activePage"], 0),
-            pageLength: this.getStoredValue(paginationStorage, ["pageLength"], vnode.attrs.pageLength ? vnode.attrs.pageLength : 20),
+            totalLength: this.getStoredValue(paginationStorage, "totalLength", 0),
+            activePage: this.getStoredValue(paginationStorage, "activePage", 0),
+            pageLength: this.getStoredValue(paginationStorage, "pageLength", vnode.attrs.pageLength ? vnode.attrs.pageLength : 20),
         };
 
         this.pagination.pageStart = this.pagination.activePage * this.pagination.pageLength + 1;
@@ -361,34 +363,23 @@ export const Table = {
         Table.getTableRows(this);
     },
 
-    getStoredValue(storage, keyList, defaultValue) {
-        let d = storage;
-        if (!storage) {
+    getStoredValue(storage, key, defaultValue) {
+        if (!storage || (this.overrides && this.overrides.includes(key))) {
             return defaultValue;
         }
-        let foundVal = false;
-        for (let key of keyList) {
-            if (!d.hasOwnProperty(key)) {
-                break;
-            }
-            foundVal = true;
-            d = storage[key];
-            if (!d) {
-                break;
-            }
+        if (storage.hasOwnProperty(key)) {
+            return storage[key]
         }
-        return foundVal ? d : defaultValue;
+        return defaultValue;
     },
 
     oncreate() {
         tableStyle.ref();
-        helpStyle.ref();
     },
 
     onremove() {
         unregisterUnloadFunc(this.saveState, this);
         tableStyle.unref();
-        helpStyle.unref();
         this.saveState();
     },
 
