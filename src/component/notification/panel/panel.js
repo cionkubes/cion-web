@@ -7,7 +7,7 @@ const State = {
     notifications: [],
     delNotif(notif) {
         State.notifications.splice(State.notifications.indexOf(notif), 1);
-        // m.redraw();
+        m.redraw();
     }
 };
 
