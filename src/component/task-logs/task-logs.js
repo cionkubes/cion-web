@@ -5,6 +5,7 @@ import logsStyle from "./task-logs.use.scss";
 import { TaskErrorSvg } from "../graphic/error/task_error";
 import { TaskCompleteSvg } from "../graphic/complete/task_complete";
 import { TaskReadySvg } from "../graphic/ready/task_ready";
+import { TaskProcessingSvg } from "../graphic/processing/task_processing";
 
 const data_map = {
     "new-image": ["image-name"],
@@ -27,7 +28,8 @@ function get_data_fields(row) {
 const statusSvgMap = {
     erroneous: TaskErrorSvg,
     done: TaskCompleteSvg,
-    ready: TaskReadySvg
+    ready: TaskReadySvg,
+    processing: TaskProcessingSvg
 };
 
 export const TaskLogs = {
