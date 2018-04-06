@@ -3,6 +3,6 @@ import svgpath from "./task_complete.svg";
 
 export const TaskCompleteSvg = {
     view() {
-        return m("img", {src: svgpath});
+        return m("img", { src: svgpath, title: "complete" });
     }
 };
