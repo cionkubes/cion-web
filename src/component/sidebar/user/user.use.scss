@@ -20,14 +20,21 @@ div.profile {
   grid-area: profile;
   height: 5rem;
   margin: 0;
+  padding: 0;
   width: 5rem;
 
   a {
     display: block;
 
+    height: 5rem;
+    margin: 0;
+    width: 5rem;
+
     img {
+      height: 5rem;
       margin: 0;
       padding: 0.8rem;
+      width: 5rem;
     }
   }
 }
@@ -37,8 +44,8 @@ div.username {
 
   p {
     color: $color-cion-primary;
-    font-size: 1.6rem;
-    line-height: 2.5rem;
+    font-size: 1.5rem;
+    line-height: 2.4rem;
     margin: 0;
   }
 }

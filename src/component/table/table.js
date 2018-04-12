@@ -295,18 +295,21 @@ export const Table = {
                 componentsToHide: vnode.attrs.componentsToHide ? vnode.attrs.componentsToHide : []
             }),
             // m(LoadingIcon)
+
             t.loading ? m(LoadingIcon) :
-                m("table", [
-                    m("thead", m("tr", pipe(
-                        t.headers,
-                        map(this.headMap.bind(this)),
-                        Array.from))),
-                    m("tbody", pipe(
-                        this.rows, // list of dictionaries, where each dict is a row
-                        map(this.rowMap.bind(this)),
-                        Array.from)
-                    )
-                ])
+                m("div.scroll",
+                    m("table", [
+                        m("thead", m("tr", pipe(
+                            t.headers,
+                            map(this.headMap.bind(this)),
+                            Array.from))),
+                        m("tbody", pipe(
+                            this.rows, // list of dictionaries, where each dict is a row
+                            map(this.rowMap.bind(this)),
+                            Array.from)
+                        )
+                    ])
+                )
         ]);
     },
 
