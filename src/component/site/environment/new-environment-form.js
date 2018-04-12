@@ -1,6 +1,7 @@
 import m from "mithril";
 import { req_with_auth } from "../../../services/api/requests";
 import { createNotification } from "../../notification/panel/panel";
+import { TooltipBox } from "../../tooltip/tooltip-box";
 
 export const NewEnvironmentForm = {
     setEnvSelected(value) {
@@ -33,13 +34,13 @@ export const NewEnvironmentForm = {
         return m("form", { onsubmit: this.send.bind(this) }, [
             m("label", [
                 "Name", m("input[type=text]", {
-                    placeholder: "Name",
+                    placeholder: "Name of the environment",
                     onchange: m.withAttr("value", val => this.form.name = val, this)
                 })
             ]),
             m("label", [
                 "Tag-match", m("input[type=text]", {
-                    placeholder: "Tag-match",
+                    placeholder: "E.g. \\d+\\.\\d+\\.\\d+-rc.*",
                     onchange: m.withAttr("value", val => this.form["tag-match"] = val, this)
                 })
             ]),
@@ -47,7 +48,7 @@ export const NewEnvironmentForm = {
                 "Connection mode", m("select", {
                     onchange: m.withAttr("value", val => this.setEnvSelected(val), this)
                 }, [
-                    m("option[value=tls]", "TLS"),
+                    m("option[value=tls]", "Docker TLS"),
                     m("option[value=from_env]", "Docker socket")
                 ])
             ]),
@@ -56,25 +57,25 @@ export const NewEnvironmentForm = {
                     m("div", { style: "margin-left: 2rem;" }, [
                         m("label", [
                             "URL", m("input[type=text]", {
-                                placeholder: "URL",
+                                placeholder: "E.g. tcp://10.68.4.60:2376",
                                 onchange: m.withAttr("value", val => this.form.tls.url = val, this)
                             })
                         ]),
                         m("label", [
                             "CA", m("input[type=text]", {
-                                placeholder: "CA",
+                                placeholder: "E.g. /run/secrets/ca.pem",
                                 onchange: m.withAttr("value", val => this.form.tls.ca = val, this)
                             })
                         ]),
                         m("label", [
-                            "Cert", m("input[type=text]", {
-                                placeholder: "Certificate",
+                            "Cert", m(TooltipBox, {lines: []}), m("input[type=text]", {
+                                placeholder: "E.g. /run/secrets/qa.cert.pem",
                                 onchange: m.withAttr("value", val => this.form.tls.cert = val, this)
                             })
                         ]),
                         m("label", [
                             "Key", m("input[type=text]", {
-                                placeholder: "Certificate key",
+                                placeholder: "E.g. /run/secrets/qa.key.pem",
                                 onchange: m.withAttr("value", val => this.form.tls.key = val, this)
                             })
                         ])

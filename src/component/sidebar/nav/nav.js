@@ -19,15 +19,18 @@ const links = {
 };
 
 export const Menu = {
-    view() {
-        return m(
-            "nav",
-            {role: "navigation"},
+    oninit(vnode) {
+        this.sidebarState = vnode.attrs.sidebarState;
+    },
+    view(vnode) {
+        return m("nav", { role: "navigation" },
             pipe(
                 Object.keys(links),
                 map(k =>
-                    m("a", {href: "/#!/" + k}, [
-                        m("span.link-text", links[k][0]),
+                    m("a", { href: "/#!/" + k }, [
+                        !vnode.state.sidebarState.collapsed
+                            ? m("span.link-text", links[k][0])
+                            : null,
                         m("div.dash-icon", links[k][1])
                     ])
                 ),

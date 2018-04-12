@@ -4,6 +4,7 @@ import { Events } from "./events";
 import style from "./dashboard.use.scss";
 import { MLContainer } from "../../masonry/ml-container";
 import { MLPanel } from "../../masonry/ml-panel";
+import { Counts } from "./counts/counts";
 
 export const component_name = "Dashboard";
 
@@ -13,6 +14,11 @@ export const Dashboard = site_wrapper({
             m("h1", "Dashboard"),
             m(MLContainer, [
                 m(MLPanel, {class: "events"}, m(Events)),
+                m(MLPanel, m(Counts)),
+                m(MLPanel, m(Counts)),
+                m(MLPanel, m(Counts)),
+                m(MLPanel, m(Counts)),
+                m(MLPanel, m(Counts)),
             ])
         ]);
     },

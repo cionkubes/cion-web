@@ -14,7 +14,6 @@ div.user-content {
   margin: 0;
   padding: 0;
   transition: all 0.1s ease-out;
-  width: 100%;
 }
 
 div.profile {
@@ -23,9 +22,13 @@ div.profile {
   margin: 0;
   width: 5rem;
 
-  * {
-    margin: auto;
-    padding: 0.8rem;
+  a {
+    display: block;
+
+    img {
+      margin: 0;
+      padding: 0.8rem;
+    }
   }
 }
 

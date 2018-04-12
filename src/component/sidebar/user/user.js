@@ -6,9 +6,10 @@ import { req_with_auth } from "services/api/requests";
 export const User = {
     username: "",
     gravatar: "",
-    oninit() {
+    oninit(vnode) {
         this.username = localStorage.getItem("username");
         this.gravatar = localStorage.getItem("gravatar-url");
+        this.sidebarState = vnode.attrs.sidebarState;
     },
     postLogout() {
         localStorage.removeItem("auth-token");
@@ -33,21 +34,24 @@ export const User = {
         let t = this;
         return m(
             "user",
-            {role: "banner"},
+            { role: "banner" },
             m("div.user-content", [
-                m("div.profile", m("img", {src: t.gravatar})),
-                m("div.username", m("p", t.username)),
-                m("div.actions", [
-                    m("a", {href: "/#!/profile"}, "profile"),
-                    m(
-                        "a",
-                        {
-                            href: "#",
-                            onclick: this.logout.bind(this)
-                        },
-                        "logout"
+                m("div.profile",
+                    m("a", { href: "/#!/profile" },
+                        m("img", { src: t.gravatar })
                     )
-                ])
+                ),
+                !this.sidebarState.collapsed
+                    ? [m("div.username", m("p", t.username)),
+                        m("div.actions", [
+                            m("a", { href: "/#!/profile" }, "profile"),
+                            m("a", {
+                                    href: "#",
+                                    onclick: this.logout.bind(this)
+                                }, "logout"
+                            )
+                        ])]
+                    : null
             ])
         );
     },

@@ -5,6 +5,8 @@ import { createNotification } from "component/notification/panel/panel";
 import { req_with_auth } from "services/api/requests";
 import service_style from "./service-edit.use.scss";
 import { TaskLogs } from "../../../task-logs/task-logs";
+import { MLContainer } from "../../../masonry/ml-container";
+import { MLPanel } from "../../../masonry/ml-panel";
 
 export const component_name = "Service";
 
@@ -108,37 +110,38 @@ export const Service = site_wrapper({
                     "Delete"
                 )
             ]),
-            m("div", [
-                m("table", [
-                    m("tr", [
-                        m("th", "Environment"),
-                        m("th", "Last deployed image"),
-                        m("th", "Deployed at")
-                    ]),
-                    pipe(
-                        Object.keys(vnode.state.data.environments),
-                        map(k => {
-                            let epoch = vnode.state.data.environments[k]["time"];
-                            let timeString;
-                            if (!epoch) {
-                                timeString = "NA";
-                            } else {
-                                let date = new Date(0);
-                                date.setUTCSeconds(epoch);
-                                timeString = date.toLocaleString();
-                            }
+            m(MLContainer, [
+                m(MLPanel, { comp_title: "Deployed images" },
+                    m("table", [
+                        m("tr", [
+                            m("th", "Environment"),
+                            m("th", "Last deployed image"),
+                            m("th", "Deployed at")
+                        ]),
+                        pipe(
+                            Object.keys(vnode.state.data.environments),
+                            map(k => {
+                                let epoch = vnode.state.data.environments[k]["time"];
+                                let timeString;
+                                if (!epoch) {
+                                    timeString = "NA";
+                                } else {
+                                    let date = new Date(0);
+                                    date.setUTCSeconds(epoch);
+                                    timeString = date.toLocaleString();
+                                }
 
-                            return m("tr", [
-                                m("td", k),
-                                m("td", vnode.state.data.environments[k]["image-name"]),
-                                m("td", timeString)
-                            ]);
-                        }),
-                        Array.from
-                    )
-                ]),
-                m("div", [
-                    m("h3", "Deploy"),
+                                return m("tr", [
+                                    m("td", k),
+                                    m("td", vnode.state.data.environments[k]["image-name"]),
+                                    m("td", timeString)
+                                ]);
+                            }),
+                            Array.from
+                        )
+                    ])
+                ),
+                m(MLPanel, { comp_title: "Deploy" }, [
                     m("div.deploy_grid", [
                         m("input[type=text]", {
                             placeholder: "Image",
@@ -170,16 +173,16 @@ export const Service = site_wrapper({
                             }, "Deploy"
                         )
                     ])
-                ]),
-                m("div", [
-                    m("h3", "Service update history"),
-                    m(TaskLogs, {
-                        compName: "service-logs-" + this.service_name,
-                        term: "service-name:\"^" + this.service_name + "$\"",
-                        overrides: ["term", "pageLength"],
-                        pageLength: 10
-                    })
                 ])
+            ]),
+            m("div", [
+                m("h3", "Service update history"),
+                m(TaskLogs, {
+                    compName: "service-logs-" + this.service_name,
+                    term: "service-name:\"^" + this.service_name + "$\"",
+                    overrides: ["term", "pageLength"],
+                    pageLength: 10
+                })
             ])
         ]);
     },
