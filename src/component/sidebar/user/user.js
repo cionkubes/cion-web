@@ -36,8 +36,8 @@ export const User = {
             "user",
             { role: "banner" },
             m("div.user-content", [
-                m("div.profile",
-                    m("a", { href: "/#!/profile" },
+                m("a.profile", { href: "/#!/profile" },
+                    m("div.pic",
                         m("img", { src: t.gravatar })
                     )
                 ),

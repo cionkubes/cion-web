@@ -17,9 +17,9 @@ body {
   grid-template-areas: "header content" "nav content" "user content" "footer content";
   grid-template-columns: 20rem 1fr;
   grid-template-rows: auto 1fr auto;
-  height: 100vh;
+  height: 100%;
   margin: 0;
-  min-width: 100vw;
+  min-width: 100%;
   padding: 0;
 
   transition: all 0.1s ease-out;
@@ -68,6 +68,7 @@ footer {
 
 .collapsed {
   grid-template-columns: 5rem 1fr;
+
   #toggle-button {
     margin: 0.5rem;
   }
@@ -124,6 +125,12 @@ main {
 }
 
 @media (max-width: 768px) {
+  body {
+    height: auto;
+    max-width: 100%;
+    min-height: 100vh;
+  }
+
   .scroll {
     overflow-x: auto;
     overflow-y: hidden;
@@ -134,9 +141,8 @@ main {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto 1fr auto;
     height: auto;
+    max-width: 100%;
     min-height: 100vh;
-
-    overflow-x: hidden;
 
     nav a {
       .link-text {
@@ -146,6 +152,7 @@ main {
 
     main {
       height: auto;
+      max-width: 100%;
       overflow-x: auto;
       padding-bottom: 0;
     }
