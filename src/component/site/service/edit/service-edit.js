@@ -145,7 +145,7 @@ export const Service = site_wrapper({
                     m("div.deploy_grid", [
                         m("input[type=text]", {
                             placeholder: "Image",
-                            onchange: m.withAttr("value", val => this.setSelImage(val, vnode)),
+                            oninput: m.withAttr("value", val => this.setSelImage(val, vnode)),
                             list: "image-list"
                         }),
                         m("datalist[id=image-list]", pipe(
