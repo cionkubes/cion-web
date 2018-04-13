@@ -43,7 +43,7 @@ const State = {
             },
             catch: () =>
                 createNotification(
-                    "Unable to fetch swarms",
+                    "Unable to fetch environments",
                     "Check your connection to the server.",
                     "error"
                 )

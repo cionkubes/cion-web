@@ -27,7 +27,10 @@ export const Menu = {
             pipe(
                 Object.keys(links),
                 map(k =>
-                    m("a", { href: "/#!/" + k }, [
+                    m("a", {
+                        href: "/#!/" + k,
+                        title: links[k][0]
+                    }, [
                         !vnode.state.sidebarState.collapsed
                             ? m("span.link-text", links[k][0])
                             : null,

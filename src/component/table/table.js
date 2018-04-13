@@ -30,7 +30,8 @@ const GoToEntryField = {
                         }
                     }
                     return true;
-                }
+                },
+                title: "Go to specific entry"
             })
         ]);
     }
@@ -107,7 +108,8 @@ const PageSelector = {
                             onkeypress: val => val.keyCode === 13 ? vnode.state.pagination.updateTable() : true
                         }),
                         m("button", {
-                            onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this)
+                            onclick: m.withAttr("", () => vnode.state.pagination.updateTable(), this),
+                            title: "Apply search"
                         }, ">"),
                         m("div.search-tooltip",
                             m(TooltipBox, {
@@ -121,27 +123,27 @@ const PageSelector = {
                 ]) : null,
                 !vnode.attrs.componentsToHide.includes("PageList") ? m("ul.page-list", [
                     m("li.page-list-element.page-list-element-link.page-list-element-first", {
-                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this)
+                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(0, t.pagination), this),
+                            title: "Go to first page"
                         },
                         m("span.page-link", "<<")),
                     m("li.page-list-element.page-list-element-link", {
-                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this)
+                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(-1, t.pagination), this),
+                            title: "Go to previous page"
                         },
                         m("span.page-link", "<")),
-                    m("li.page-list-element.active-page", {
-                            onclick: m.withAttr("", () => {
-                                t.pagination.updateTable();
-                            })
-                        },
+                    m("li.page-list-element.active-page",
                         // m('span', (this.pagination.activePage + 1) + " / " + this.pagination.totalPages)
                         m("span", t.pagination.pageStart.toLocaleString() + " - " + t.pagination.pageEnd.toLocaleString() + " of " + t.pagination.totalLength.toLocaleString())
                     ),
                     m("li.page-list-element.page-list-element-link", {
-                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this)
+                            onclick: m.withAttr("", () => PageSelector.incDecActivePage(1, t.pagination), this),
+                            title: "Go to next page"
                         },
                         m("span.page-link", ">")),
                     m("li.page-list-element.page-list-element-last.page-list-element-link", {
-                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this)
+                            onclick: m.withAttr("", () => PageSelector.goToSpecificPage(t.pagination.totalPages - 1, t.pagination), this),
+                            title: "Go to last page"
                         },
                         m("span.page-link", ">>")),
                 ]) : null,
