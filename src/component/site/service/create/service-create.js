@@ -13,7 +13,7 @@ const State = {
     serviceName: "",
     imageName: "",
     checkHandle(cb) {
-        cb = cb.srcElement;
+        cb = cb.target;
         State.swarmsAdded[cb.id] = cb.checked;
     },
     setServiceName(v) {
@@ -52,6 +52,7 @@ const State = {
         });
     },
     submit: function () {
+        console.log(State.swarmsAdded);
         let envs = pipe(
             Object.keys(State.swarmsAdded),
             filter(d => State.swarmsAdded[d]),
