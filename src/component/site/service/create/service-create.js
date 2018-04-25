@@ -1,5 +1,5 @@
 import m from "mithril";
-import { map, pipe, filter } from "utils/fp";
+import { map, pipe, filter, pluck } from "utils/fp";
 import { createNotification } from "component/notification/panel/panel";
 import { site_wrapper } from "component/site/site-wrapper";
 import { req_with_auth } from "services/api/requests";
@@ -13,7 +13,7 @@ const State = {
     serviceName: "",
     imageName: "",
     checkHandle(cb) {
-        cb = cb.srcElement;
+        cb = cb.target;
         State.swarmsAdded[cb.id] = cb.checked;
     },
     setServiceName(v) {
@@ -28,30 +28,33 @@ const State = {
             method: "GET",
             then: function (response) {
                 State.swarmCheckBoxes = pipe(
-                    Object.keys(response.document),
-                    map(d =>
+                    response,
+                    pluck("name"),
+                    map(swarm_name =>
                         m("div", [
                             m("input", {
                                 type: "checkbox",
                                 onchange: State.checkHandle,
-                                id: d
+                                id: swarm_name
                             }),
-                            m("label.label-inline", {for: d}, d)
+                            m("label.label-inline", {for: swarm_name}, swarm_name)
                         ])
                     ),
                     Array.from
                 );
                 State.swarms = response;
             },
-            catch: () =>
+            catch() {
                 createNotification(
                     "Unable to fetch swarms",
                     "Check your connection to the server.",
                     "error"
                 )
+            }
         });
     },
     submit: function () {
+        console.log(State.swarmsAdded);
         let envs = pipe(
             Object.keys(State.swarmsAdded),
             filter(d => State.swarmsAdded[d]),
