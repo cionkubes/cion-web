@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 node_js:
-  - node
+  - lts/*
 services:
   - docker
 cache:
@@ -23,14 +23,14 @@ deploy:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: bash scripts/deploy.sh develop
-    on:
-      branch: develop
-  - provider: script
-    skip_cleanup: true
     script: bash scripts/deploy.sh nightly
     on:
       condition: "$TRAVIS_EVENT_TYPE = cron"
+  - provider: script
+    skip_cleanup: true
+    script: bash scripts/deploy.sh develop
+    on:
+      branch: develop
 
 env:
   global:
