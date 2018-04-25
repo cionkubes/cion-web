@@ -112,6 +112,10 @@ export const filter = curry((predicate, iterable) => {
     };
 });
 
+export const pluck = curry((property, iterable) => {
+    return map(obj => obj[property], iterable)
+});
+
 export function isfunction(obj) {
     return Object.prototype.toString.call(obj) === "[object Function]";
 }
