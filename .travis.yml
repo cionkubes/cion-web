@@ -26,6 +26,7 @@ deploy:
     script: bash scripts/deploy.sh nightly
     on:
       condition: "$TRAVIS_EVENT_TYPE = cron"
+      branch: develop
   - provider: script
     skip_cleanup: true
     script: bash scripts/deploy.sh develop
