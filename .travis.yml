@@ -32,6 +32,7 @@ deploy:
     script: bash scripts/deploy.sh develop
     on:
       branch: develop
+      condition: "$TRAVIS_EVENT_TYPE != cron"
 
 env:
   global:
