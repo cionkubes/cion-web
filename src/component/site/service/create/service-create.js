@@ -22,7 +22,7 @@ const State = {
     },
     fetch: function () {
         req_with_auth({
-            url: "/api/v1/document/swarms",
+            url: "/api/v1/document/environments",
             method: "GET",
             then: function (response) {
                 State.swarmCheckBoxes = pipe(

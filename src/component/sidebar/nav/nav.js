@@ -3,6 +3,7 @@ import { map, pipe } from "utils/fp";
 
 import { DashboardSvg } from "component/graphic/sidebar/dashboard/dashboard";
 import { AdminSvg } from "component/graphic/sidebar/admin/admin";
+import { WebhookSvg } from "component/graphic/sidebar/webhooks/webhooks";
 import { LogsSvg } from "component/graphic/sidebar/logs/logs";
 import { ConfSvg } from "component/graphic/sidebar/conf-edit/conf-edit";
 import { CloudSvg } from "component/graphic/sidebar/services/services";
@@ -15,7 +16,8 @@ const links = {
     logs: ["Logs", m(LogsSvg)],
     confeditor: ["Config", m(ConfSvg)],
     services: ["Services", m(CloudSvg)],
-    environments: ["Environments", m(EnvironmentSvg)]
+    environments: ["Environments", m(EnvironmentSvg)],
+    webhooks: ["Webhooks", m(WebhookSvg)]
 };
 
 export const Menu = {

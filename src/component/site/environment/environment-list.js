@@ -10,6 +10,7 @@ export const EnvironmentList = {
             pageLength: vnode.attrs.pageLength,
             pageLengthChoices: [10, 20, 50, 100],
             compName: "environment-list",
+            sortIndex: "name",
             headers: [
                 "Name",
                 "Mode",
@@ -17,13 +18,10 @@ export const EnvironmentList = {
                 "Data"
             ],
             transformFunc(row) {
-                let name = Object.keys(row)[0];
-
-                row = row[name];
-
+                let name = row["name"];
                 let mode = row["mode"];
                 let tagMatch = row["tag-match"];
-                let data = "";
+                let data = "NA";
                 if (mode === "tls") {
                     data = pipe(
                         Object.keys(row["tls"]),
@@ -33,8 +31,7 @@ export const EnvironmentList = {
                 }
 
                 return {
-                    cols: [name, mode , tagMatch, data],
-                    route: "/#!/log/" + row["id"]
+                    cols: [name, mode , tagMatch, data]
                 };
             },
             rowClassFunc: row => ""

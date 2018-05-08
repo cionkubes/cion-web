@@ -26,5 +26,6 @@ route(document.body, "/", {
     "/user/:username":   lazy_load_component(() => System.import("component/site/user-edit/user-edit.js")),
     "/services/create":  lazy_load_component(() => System.import("component/site/service/create/service-create.js")),
     "/profile":          lazy_load_component(() => System.import("component/site/profile/profile.js")),
-    "/environments":     lazy_load_component(() => System.import("component/site/environment/environment.js"))
+    "/environments":     lazy_load_component(() => System.import("component/site/environment/environment.js")),
+    "/webhooks":         lazy_load_component(() => System.import("component/site/webhooks/webhooks.js"))
 });
