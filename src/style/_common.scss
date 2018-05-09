@@ -3,8 +3,8 @@
 @import "~style/colors";
 
 select {
-  -webkit-appearance: none;
   -moz-appearance: none;
+  -webkit-appearance: none;
   text-indent: 0;
   text-overflow: "";
 }
@@ -14,7 +14,7 @@ select:focus {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 1rem;
 }
 
 ::-webkit-scrollbar-thumb {

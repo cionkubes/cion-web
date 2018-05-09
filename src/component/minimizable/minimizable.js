@@ -14,7 +14,8 @@ export const Minimizable = {
             m("div.minimize-title", [
                 m("h3", this.comp_title),
                 m("button.minimize", {
-                    onclick: m.withAttr('', () => this.minimized = !this.minimized, this)
+                    onclick: m.withAttr('', () => this.minimized = !this.minimized, this),
+                    title: this.minimized ? "Expand" : "Collapse"
                 }, this.minimized ? "+" : "-"),
             ]),
             m("div.comp", this.minimized ? null : m(this.comp, this.comp_attrs))

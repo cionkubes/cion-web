@@ -3,28 +3,22 @@ import m from "mithril";
 import { LogoSvg } from "component/graphic/logo/logo";
 import version from "utils/version";
 
-import style from "./footer.use.scss";
-
 export const Footer = {
+
+    oninit(vnode) {
+        this.sidebarState = vnode.attrs.sidebarState;
+    },
     view() {
         return m(
             "footer",
             { role: "banner" },
-            m(
-                "a",
-                {
-                    href: "http://cionkubes.com"
-                },
-                m("div", [m(LogoSvg), m("h4", `cion ${version()}`)])
+            m("a", { href: "http://cionkubes.com" }, [
+                    m(LogoSvg),
+                    !this.sidebarState.collapsed
+                        ? m("h4", `cion ${version()}`)
+                        : null
+                ]
             )
         );
-    },
-
-    oncreate() {
-        style.ref();
-    },
-
-    onremove() {
-        style.unref();
     }
 };

@@ -13,11 +13,11 @@ import {
 } from "../../src/utils/fp";
 
 describe("map", () => {
-    it("should handle falsy values", () => {
+    it("should handle falsy entry", () => {
         expect(Array.from(map(b => !b, [true, false]))).toEqual([false, true]);
     });
 
-    it("should handle undefined values", () => {
+    it("should handle undefined entry", () => {
         expect(Array.from(map(b => b, [undefined, "b"]))).toEqual([undefined, "b"]);
     });
 

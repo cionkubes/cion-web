@@ -1,0 +1,14 @@
+@import "~style/colors";
+
+.fields {
+  border: 0.1rem solid $color-cion-primary;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+}
+
+
+
+button.create-entry {
+  grid-area: delete;
+  padding: 0 1.4rem;
+}
