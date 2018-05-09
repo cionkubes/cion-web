@@ -2,35 +2,20 @@ import m from "mithril";
 import style from "./entry-field.use.scss";
 
 export const EntryField = {
-    oninit(vnode) {
-        this.entry = vnode.attrs.entry;
-        this.id = vnode.attrs.id;
-        this.removeEntry = vnode.attrs.removeEntry;
-    },
-
-    setName(value){
-        this.entry.name = value;
-    },
-
-    setValue(value){
-        this.entry.value = value;
-    },
-
-    view() {
+    view(vnode) {
         let t = this;
         return m("div.entry", [
             m("input[type=text].name", {
-                oninput: m.withAttr("value", this.setName, this),
+                oninput: m.withAttr("value", (val) => vnode.attrs.entry.name = val),
                 placeholder: "Name"
-            }, this.name),
+            }),
             m("input[type=text].value", {
-                oninput: m.withAttr("value", this.setValue),
+                oninput: m.withAttr("value", (val) => vnode.attrs.entry.name = val),
                 placeholder: "Value"
-            }, this.value),
+            }),
             m("button.delete", {
-                onclick: () => t.removeEntry(t.id)
-            }, "-"),
-            this.id
+                onclick: () => vnode.attrs.removeEntry(vnode.attrs.id)
+            }, "-")
         ]);
     },
     oncreate() {

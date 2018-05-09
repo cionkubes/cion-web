@@ -13,6 +13,7 @@ export const CreateWebhookForm = {
         this.url = "";
         this.headers = {};
         this.triggers = {};
+        this.body = "";
     },
 
     setVal(name, value) {
@@ -81,6 +82,12 @@ export const CreateWebhookForm = {
                 "Triggers"
             ]),
             m(MultiValueEntry, { "entries": this.triggers }),
+            m("label", {title: "Body of the webhook-request. Uses python.format. So you will need to escape squiggly brakcets ({, })"}, [
+                "Body"
+            ]),
+            m("textarea", {
+                oninput: m.withAttr("value", val => this.body = val, this)
+            }),
             m("button", { onclick: m.withAttr("", this.send, this) }, "Submit")
         ]);
     }

@@ -6,7 +6,10 @@
   padding: 0.3rem;
 }
 
-
+textarea {
+  resize: vertical;
+  width: 100%;
+}
 
 button.create-entry {
   grid-area: delete;

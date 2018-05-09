@@ -10,13 +10,9 @@ export const MultiValueEntry = {
     },
 
     getId() {
-        return this.increment++;
+        let a = this.increment++;
+        return a.toString();
     },
-
-    // setVal(id, name, value, t) {
-    //     t.entries[id].name = name;
-    //     t.entries[id].value = value;
-    // },
 
     removeEntry(id, t) {
         delete t.entries[id];
@@ -41,7 +37,7 @@ export const MultiValueEntry = {
                                 name: val.name,
                                 value: val.value,
                                 entry: val,
-                                removeEntry: (id) => delete t.entries[id]
+                                removeEntry: id => delete t.entries[id]
                             })
                         }),
                         Array.from
