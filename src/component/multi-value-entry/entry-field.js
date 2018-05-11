@@ -10,7 +10,7 @@ export const EntryField = {
                 placeholder: "Name"
             }),
             m("input[type=text].value", {
-                oninput: m.withAttr("value", (val) => vnode.attrs.entry.name = val),
+                oninput: m.withAttr("value", (val) => vnode.attrs.entry.value = val),
                 placeholder: "Value"
             }),
             m("button.delete", {

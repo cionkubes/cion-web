@@ -27,5 +27,6 @@ route(document.body, "/", {
     "/services/create":  lazy_load_component(() => System.import("component/site/service/create/service-create.js")),
     "/profile":          lazy_load_component(() => System.import("component/site/profile/profile.js")),
     "/environments":     lazy_load_component(() => System.import("component/site/environment/environment.js")),
-    "/webhooks":         lazy_load_component(() => System.import("component/site/webhooks/webhooks.js"))
+    "/webhooks":         lazy_load_component(() => System.import("component/site/webhooks/webhooks.js")),
+    "/webhook/:id":      lazy_load_component(() => System.import("component/site/webhook-view/webhook-view.js"))
 });

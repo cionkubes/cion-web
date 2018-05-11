@@ -91,8 +91,8 @@ export const Events = {
                                     m("span.time-ago", dateDelta(rdbEpochToDate(data[id].time), now)),
                                     m("span.event-type", data[id]["event"]),
                                     status in statusSvgMap
-                                        ? m("div.task-icon", m(statusSvgMap[status]))
-                                        : m("div.task-icon")
+                                        ? m("div.entity-icon", m(statusSvgMap[status]))
+                                        : m("div.entity-icon")
                                 ])
                             ]));
                     }),

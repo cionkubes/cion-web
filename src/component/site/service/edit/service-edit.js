@@ -61,7 +61,7 @@ export const Service = site_wrapper({
         let state = vnode.state;
         req_with_auth({
             method: "POST",
-            url: "/api/v1/create/task",
+            url: "/api/v1/create/entity",
             data: {
                 environment: state.selectedEnv,
                 "image-name": state.selectedImage,
@@ -70,7 +70,7 @@ export const Service = site_wrapper({
             then: function () {
                 createNotification(
                     "Task created",
-                    "Update service task created successfully",
+                    "Update service entity created successfully",
                     "success"
                 );
             },

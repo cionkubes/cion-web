@@ -1,0 +1,45 @@
+@import "~style/colors";
+
+div.scroll {
+  margin-bottom: 1rem;
+}
+
+div.top {
+  animation: fade-in 0.25s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+div.group {
+  animation: fade-in 0.25s;
+  border-left: $color-quinary solid 2px;
+  margin: 1rem 1rem 0;
+  padding: 0 0.5rem;
+  vertical-align: top;
+}
+
+label {
+  margin: 0.5rem 0 0;
+}
+
+span.block {
+  display: block;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+button.delete {
+  background-color: $color-cion-erroneous;
+  grid-area: delete;
+  padding: 0 1.4rem;
+}

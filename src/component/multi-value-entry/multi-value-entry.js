@@ -14,16 +14,11 @@ export const MultiValueEntry = {
         return a.toString();
     },
 
-    removeEntry(id, t) {
-        delete t.entries[id];
-        m.redraw();
-    },
-
     createVal() {
-        this.entries[this.getId()] = { "name": "", "value": "" }
+        this.entries[ this.getId() ] = { "name": "", "value": "" }
     },
 
-    view() {
+    view(vnode) {
         let t = this;
         return m("div", [
             m("div.fields",
@@ -31,20 +26,21 @@ export const MultiValueEntry = {
                     pipe(
                         Object.keys(this.entries),
                         map(id => {
-                            let val = this.entries[id];
+                            let val = this.entries[ id ];
                             return m(EntryField, {
                                 id: id,
                                 name: val.name,
                                 value: val.value,
                                 entry: val,
-                                removeEntry: id => delete t.entries[id]
+                                removeEntry: id => delete t.entries[ id ]
                             })
                         }),
                         Array.from
                     ) : "NA"
             ),
             m("button.create-entry",
-                { onclick: m.withAttr("", this.createVal, this) }, "+")
+                { onclick: m.withAttr("", this.createVal, this) },
+                vnode.attrs.button_text ? vnode.attrs.button_text : "+")
         ]);
     },
     oncreate() {

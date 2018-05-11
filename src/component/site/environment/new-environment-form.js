@@ -79,10 +79,7 @@ export const NewEnvironmentForm = {
     },
 
     send(e) {
-        console.log(e);
         e.preventDefault();
-        console.log("send activated", this.form.mode);
-        console.log(this);
         req_with_auth({
             url: "/api/v1/environment/create",
             method: "POST",

@@ -23,6 +23,9 @@ div.tooltip {
     visibility: hidden;
     width: 40rem;
     z-index: 1;
+    p {
+      margin-bottom: 0.5rem;
+    }
   }
 
   div.tooltip-content {

@@ -1,10 +1,11 @@
 import m from "mithril";
 import { map, pipe } from "utils/fp";
 import { MultiValueEntry } from "../../multi-value-entry/multi-value-entry";
-// import { createNotification } from "component/notification/panel/panel";
-// import { req_with_auth } from "services/api/requests";
+import { TooltipBox } from "component/tooltip/tooltip-box";
+import { createNotification } from "component/notification/panel/panel";
+import { req_with_auth } from "services/api/requests";
 
-const events = ["new-image", "service-update"];
+const events = [ "new-image", "service-update" ];
 
 
 export const CreateWebhookForm = {
@@ -17,35 +18,32 @@ export const CreateWebhookForm = {
     },
 
     setVal(name, value) {
-        this[name] = value;
+        this[ name ] = value;
+    },
+
+    convertMultiValueEntry(d) {
+        let r = {};
+        for (let key of Object.keys(d)) {
+            let v = d[ key ];
+            r[ v[ "name" ] ] = v[ "value" ];
+        }
+        return r;
     },
 
     send() {
-        // let username = this.username;
-        // let password = this.password;
-        // let repeatPassword = this.repeatPassword;
-        // if (repeatPassword !== password) {
-        //     createNotification(
-        //         "Password mismatch",
-        //         "Make sure password fields match",
-        //         "error"
-        //     );
-        //     return;
-        // }
-        //
-        // req_with_auth({
-        //     url: "/api/v1/create/user",
-        //     method: "POST",
-        //     data: {
-        //         username: username,
-        //         password: password,
-        //         "repeat-password": repeatPassword,
-        //         permissions: this.permissions
-        //     },
-        //     then: () => createNotification("Success", "User was created", "success"),
-        //     catch: e => createNotification("Error", e, "error")
-        // });
-        console.log("Send triggered");
+        req_with_auth({
+            url: "/api/v1/webhook",
+            method: "POST",
+            data: {
+                "url": this.url,
+                "event": this.event,
+                "on": this.convertMultiValueEntry(this.triggers),
+                "headers": this.convertMultiValueEntry(this.headers),
+                "data": this.body
+            },
+            then: () => createNotification("Success", "Webhook was created", "success"),
+            catch: e => createNotification("Error", e, "error")
+        });
     },
 
     view() {
@@ -77,13 +75,22 @@ export const CreateWebhookForm = {
             m("label", [
                 "Headers"
             ]),
-            m(MultiValueEntry, { "entries": this.headers }),
+            m(MultiValueEntry, { "entries": this.headers, button_text: "Add Header" }),
             m("label", [
                 "Triggers"
             ]),
-            m(MultiValueEntry, { "entries": this.triggers }),
-            m("label", {title: "Body of the webhook-request. Uses python.format. So you will need to escape squiggly brakcets ({, })"}, [
-                "Body"
+            m(MultiValueEntry, { "entries": this.triggers, button_text: "Add Trigger" }),
+            m("label", [
+                "Body",
+                m(TooltipBox, {
+                    side: "right",
+                    character: "!",
+                    lines: [
+                        "Uses python.format. So you will need to escape squiggly brackets ({, })",
+                        m("a", { href: "https://www.python.org/dev/peps/pep-3101/" },
+                            "https://www.python.org/dev/peps/pep-3101/")
+                    ]
+                })
             ]),
             m("textarea", {
                 oninput: m.withAttr("value", val => this.body = val, this)

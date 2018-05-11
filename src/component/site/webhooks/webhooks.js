@@ -21,6 +21,7 @@ export const Webhooks = site_wrapper({
                     })
                 )
             ]),
+            // TODO: WebhookList is updated each time an entry is updated in entry-field
             m("div", [
                 m("h3", "Webhooks"),
                 m(WebhookList)
