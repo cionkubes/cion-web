@@ -1,5 +1,6 @@
 import m from "mithril";
 import { map, pipe } from "utils/fp";
+import { dateToRdbEpoch } from "utils/dates";
 import { site_wrapper } from "component/site/site-wrapper";
 import { createNotification } from "component/notification/panel/panel";
 import { req_with_auth } from "services/api/requests";
@@ -7,6 +8,7 @@ import service_style from "./service-edit.use.scss";
 import { TaskLogs } from "../../../task-logs/task-logs";
 import { MLContainer } from "../../../masonry/ml-container";
 import { MLPanel } from "../../../masonry/ml-panel";
+import { rdbEpochToDate } from "../../../../utils/dates";
 
 export const component_name = "Service";
 
@@ -20,6 +22,7 @@ export const Service = site_wrapper({
             environments: {},
             "images-deployed": []
         };
+        this.schedule = false;
 
         this.fetch();
     },
@@ -61,7 +64,7 @@ export const Service = site_wrapper({
         let state = vnode.state;
         req_with_auth({
             method: "POST",
-            url: "/api/v1/create/entity",
+            url: "/api/v1/create/task",
             data: {
                 environment: state.selectedEnv,
                 "image-name": state.selectedImage,
@@ -70,7 +73,33 @@ export const Service = site_wrapper({
             then: function () {
                 createNotification(
                     "Task created",
-                    "Update service entity created successfully",
+                    "Update service task created successfully",
+                    "success"
+                );
+            },
+            catch: function (e) {
+                console.error(e);
+            }
+        });
+    },
+
+    sendScheduledDeploy(vnode) {
+        let state = vnode.state;
+
+        req_with_auth({
+            method: "POST",
+            url: "/api/v1/schedule/task",
+            data: {
+                at: dateToRdbEpoch(state.scheduleAt),
+                event: "service-update",
+                environment: state.selectedEnv,
+                "image-name": state.selectedImage,
+                service: state.service_name
+            },
+            then: function () {
+                createNotification(
+                    "Task created",
+                    "Update service task created successfully",
                     "success"
                 );
             },
@@ -167,9 +196,21 @@ export const Service = site_wrapper({
                                 Array.from
                             )
                         ]),
+                        m("label", [
+                            m("input[type=checkbox]", { onchange: m.withAttr("", () => this.schedule = !this.schedule, this) }),
+                            "Schedule"
+                        ]),
+                        m("label", [
+                            m("div", { hidden: !this.schedule }, "Schedule for deployment at"),
+                            m("input[type=datetime-local]", {
+                                hidden: !this.schedule,
+                                onchange: m.withAttr("value", val => this.scheduleAt = val, this)
+                            }),
+                        ]),
+                        // m("input[type=date]"),
                         m("button", {
                                 disabled: !vnode.state.canDeploy(),
-                                onclick: () => vnode.state.sendDeploy(vnode)
+                                onclick: () => this.schedule ? vnode.state.sendScheduledDeploy(vnode) : vnode.state.sendDeploy(vnode)
                             }, "Deploy"
                         )
                     ])
