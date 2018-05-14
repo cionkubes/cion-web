@@ -63,8 +63,8 @@ export const TaskLogs = {
                 return {
                     cols: [
                         status in statusSvgMap
-                            ? m("div.entity-icon", m(statusSvgMap[status]))
-                            : m("div.entity-icon"),
+                            ? m("div.task-icon", m(statusSvgMap[status]))
+                            : m("div.task-icon"),
                         timeString,
                         row["event"],
                         status,
