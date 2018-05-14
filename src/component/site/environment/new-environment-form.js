@@ -81,7 +81,7 @@ export const NewEnvironmentForm = {
     send(e) {
         e.preventDefault();
         req_with_auth({
-            url: "/api/v1/environment",
+            url: "/api/v1/environment/create",
             method: "POST",
             data: this.form,
             then: () => createNotification("Environment added", "", "success"),
