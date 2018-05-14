@@ -1,0 +1,17 @@
+@import "~style/colors";
+
+.fields {
+  border: 0.1rem solid $color-cion-primary;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+}
+
+textarea {
+  resize: vertical;
+  width: 100%;
+}
+
+button.create-entry {
+  grid-area: delete;
+  margin-top: 0.5rem;
+}

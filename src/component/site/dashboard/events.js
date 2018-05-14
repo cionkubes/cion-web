@@ -1,13 +1,14 @@
 import m from "mithril";
-import { ErrorSvg } from "component/graphic/error/error";
-import { Checkmark } from "component/graphic/checkmark/checkmark";
 import { map, pipe } from "utils/fp";
 import { changefeed } from "services/api/reactive";
 import "rxjs-es/add/operator/debounceTime";
 import style from "./events.use.scss";
 import { req_with_auth } from "services/api/requests";
-import { createNotification } from "../../notification/panel/panel";
+import { createNotification } from "component/notification/panel/panel";
 import { dateDelta, rdbEpochToDate } from "utils/dates";
+import { TaskErrorSvg } from "component/graphic/error/task_error";
+import { TaskCompleteSvg } from "component/graphic/complete/task_complete";
+import { TaskReadySvg } from "component/graphic/ready/task_ready";
 
 export const component_name = "Events";
 
@@ -29,8 +30,9 @@ function taskSort(data, key1, key2) {
 }
 
 const statusSvgMap = {
-    erroneous: ErrorSvg,
-    done: Checkmark
+    erroneous: TaskErrorSvg,
+    done: TaskCompleteSvg,
+    ready: TaskReadySvg
 };
 
 export const Events = {
@@ -80,7 +82,7 @@ export const Events = {
                     map(id => {
                         let imageName = data[id]["image-name"];
                         let status = data[id]["status"];
-                        return m("a", {href: "/#!/log/" + id},
+                        return m("a", { href: "/#!/log/" + id },
                             m("blockquote.event." + status, [
                                 m("div.left", data[id].environment
                                     ? m("span", imageName + " -> " + data[id]["environment"])

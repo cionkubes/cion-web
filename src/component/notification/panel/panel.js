@@ -24,8 +24,7 @@ export const NotificationPanel = {
     view() {
         return m(
             "div.panel",
-            m(
-                "div.colwrap",
+            m("div.colwrap",
                 pipe(
                     State.notifications,
                     map(notif =>

@@ -1,10 +1,8 @@
 import m from "mithril";
-import { map, pipe, filter } from "utils/fp";
+import { map, pipe, filter, pluck } from "utils/fp";
 import { createNotification } from "component/notification/panel/panel";
 import { site_wrapper } from "component/site/site-wrapper";
 import { req_with_auth } from "services/api/requests";
-
-export const component_name = "ServiceCreate";
 
 const State = {
     swarms: {},
@@ -13,7 +11,7 @@ const State = {
     serviceName: "",
     imageName: "",
     checkHandle(cb) {
-        cb = cb.srcElement;
+        cb = cb.target;
         State.swarmsAdded[cb.id] = cb.checked;
     },
     setServiceName(v) {
@@ -24,34 +22,37 @@ const State = {
     },
     fetch: function () {
         req_with_auth({
-            url: "/api/v1/document/swarms",
+            url: "/api/v1/document/environments",
             method: "GET",
             then: function (response) {
                 State.swarmCheckBoxes = pipe(
-                    Object.keys(response.document),
-                    map(d =>
+                    response,
+                    pluck("name"),
+                    map(swarm_name =>
                         m("div", [
                             m("input", {
                                 type: "checkbox",
                                 onchange: State.checkHandle,
-                                id: d
+                                id: swarm_name
                             }),
-                            m("label.label-inline", {for: d}, d)
+                            m("label.label-inline", {for: swarm_name}, swarm_name)
                         ])
                     ),
                     Array.from
                 );
                 State.swarms = response;
             },
-            catch: () =>
+            catch() {
                 createNotification(
-                    "Unable to fetch swarms",
+                    "Unable to fetch environments",
                     "Check your connection to the server.",
                     "error"
                 )
+            }
         });
     },
     submit: function () {
+        console.log(State.swarmsAdded);
         let envs = pipe(
             Object.keys(State.swarmsAdded),
             filter(d => State.swarmsAdded[d]),
@@ -59,7 +60,7 @@ const State = {
         );
 
         req_with_auth({
-            url: "/api/v1/list/create",
+            url: "/api/v1/services/create",
             method: "POST",
             data: {
                 environments: envs,
@@ -77,13 +78,12 @@ const State = {
     }
 };
 
-export const ServiceCreate = site_wrapper({
+export const ServiceCreateForm = {
     oninit() {
         State.fetch();
     },
     view() {
-        return m("div.home", [
-            m("h1", "Create service"),
+        return m("div", [
             m("label[for=servicename]", "Service name"),
             m("input#servicename[type=text]", {
                 oninput: m.withAttr("value", State.setServiceName)
@@ -97,4 +97,4 @@ export const ServiceCreate = site_wrapper({
             m("button", {onclick: State.submit}, "Create service")
         ]);
     }
-});
+};

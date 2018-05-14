@@ -4,6 +4,7 @@ import { req_with_auth } from "services/api/requests";
 import { createNotification } from "component/notification/panel/panel";
 import { ListRow } from "component/clickable-table-row/table-row";
 import { rdbEpochToDate } from "../../../utils/dates";
+import { Table } from "../../table/table";
 
 export const UserList = {
     oninit() {
@@ -16,7 +17,8 @@ export const UserList = {
                     this.user_list.push(user);
                 }
             },
-            catch: e => createNotification("Error", e, "error"),
+            catch: e => createNotification("Error fetching users",
+                "Check your connection to the database", "error"),
             this: this
         });
 
@@ -25,33 +27,29 @@ export const UserList = {
     view(vnode) {
         return m("div", [
             m("table", [
-                m(
-                    "thead",
+                m("thead",
                     m("tr", [
                         m("th", "Username"),
                         m("th", "Created")
                     ])
                 ),
-                m(
-                    "tbody",
-                    pipe(
-                        vnode.state.user_list.sort((a, b) =>
-                            a["username"].localeCompare(b["username"])
-                        ),
-                        map(user => {
-                            let username = user["username"];
-                            let timeString = rdbEpochToDate(user["time_created"]).toLocaleString();
+                m("tbody", pipe(
+                    vnode.state.user_list.sort((a, b) =>
+                        a["username"].localeCompare(b["username"])
+                    ),
+                    map(user => {
+                        let username = user["username"];
+                        let timeString = rdbEpochToDate(user["time_created"]).toLocaleString();
 
-                            return m(ListRow, {
-                                route: "/user/" + username,
-                                cols: [
-                                    username,
-                                    timeString
-                                ]
-                            });
-                        }),
-                        Array.from
-                    )
+                        return m(ListRow, {
+                            route: "/user/" + username,
+                            cols: [
+                                username,
+                                timeString
+                            ]
+                        });
+                    }),
+                    Array.from)
                 )
             ])
         ]);

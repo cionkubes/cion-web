@@ -28,7 +28,8 @@ const State = {
             },
             catch: function (e) {
                 console.error(e);
-                createNotification("Request error", e, "error");
+                createNotification("Error occured when fetching configs",
+                    "Check your connection to the database", "error");
             }
         });
     }

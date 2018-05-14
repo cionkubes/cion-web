@@ -21,9 +21,12 @@ route(document.body, "/", {
     "/logs":             lazy_load_component(() => System.import("component/site/logs/logs.js")),
     "/log/:id":          lazy_load_component(() => System.import("component/site/log/view/log-view.js")),
     "/confeditor":       lazy_load_component(() => System.import("component/site/conf-edit/conf-edit.js")),
-    "/services":         lazy_load_component(() => System.import("component/site/service/list/services.js")),
+    "/services":         lazy_load_component(() => System.import("component/site/service/services.js")),
     "/service/:service": lazy_load_component(() => System.import("component/site/service/edit/service-edit.js")),
     "/user/:username":   lazy_load_component(() => System.import("component/site/user-edit/user-edit.js")),
     "/services/create":  lazy_load_component(() => System.import("component/site/service/create/service-create.js")),
-    "/profile":          lazy_load_component(() => System.import("component/site/profile/profile.js"))
+    "/profile":          lazy_load_component(() => System.import("component/site/profile/profile.js")),
+    "/environments":     lazy_load_component(() => System.import("component/site/environment/environment.js")),
+    "/webhooks":         lazy_load_component(() => System.import("component/site/webhooks/webhooks.js")),
+    "/webhook/:id":      lazy_load_component(() => System.import("component/site/webhook-view/webhook-view.js"))
 });
