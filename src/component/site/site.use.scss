@@ -9,19 +9,29 @@ body {
   width: 100vw;
 }
 
-.container,
-.container-collapsed {
+.container {
   display: grid;
 
   grid-gap: 0;
 
   grid-template-areas: "header content" "nav content" "user content" "footer content";
+  grid-template-columns: 20rem 1fr;
   grid-template-rows: auto 1fr auto;
-  height: 100vh;
+  height: 100%;
   margin: 0;
-  min-width: 100vw;
+  min-width: 100%;
   padding: 0;
+
   transition: all 0.1s ease-out;
+
+  nav a .link-text {
+    display: inline-block;
+  }
+
+  nav a .link-icon {
+    display: inline-block;
+    float: right;
+  }
 }
 
 user {
@@ -34,65 +44,33 @@ user {
 footer {
   background-color: $color-cion-quinary;
   grid-area: footer;
-  margin: 0;
   transition: 0.1s;
 
   a {
-    height: 100%;
-    margin: 0;
-    width: 100%;
-
-    * {
-      align-items: baseline;
-      display: inline-block;
-      vertical-align: middle;
-    }
+    display: block;
+    text-align: center;
 
     img {
+      display: inline-block;
       height: 5rem;
-      padding: 1rem;
+      padding: 0.8rem;
+      vertical-align: middle;
       width: 5rem;
     }
+
+    h4 {
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
+    }
   }
 }
 
-.container {
-  grid-template-columns: 20rem 1fr;
-
-  nav a .link-text {
-    display: inline-block;
-  }
-
-  nav a .link-icon {
-    display: inline-block;
-    float: right;
-  }
-}
-
-.container-collapsed {
+.collapsed {
   grid-template-columns: 5rem 1fr;
 
-  nav a .link-icon {
-    display: block;
-    float: none;
-  }
-
-  nav a .link-text {
-    display: none;
-  }
-
-  header h2 {
-    display: none;
-  }
-
-  footer h4 {
-    display: none;
-  }
-
-  user div {
-    div.username, div.actions {
-      display: none;
-    }
+  #toggle-button {
+    margin: 0.5rem;
   }
 }
 
@@ -109,18 +87,15 @@ header {
   }
 
   #toggle-button {
-    background-color: $color-cion-primary;
-    color: $color-initial;
-    cursor: pointer;
     display: inline-block;
     float: right;
-    font-size: 2rem;
-
-    font-weight: 300;
-    height: 100%;
+    font-size: 1.7rem;
+    height: 4rem;
+    line-height: 1rem;
     margin: 1rem;
-    padding: 0.8rem 2rem;
-    vertical-align: middle;
+    padding: 0;
+    text-align: center;
+    width: 4rem;
   }
 
   #toggle-button:hover {
@@ -144,16 +119,48 @@ main {
   transition: 0.1s;
 }
 
-@media (max-height: 768px) {
-  .container {
-    min-height: 100vh;
-  }
+.scroll {
+  margin: 0;
+  overflow: auto;
 }
 
-@media (max-width: 46rem) {
+@media (max-width: 768px) {
+  body {
+    height: auto;
+    max-width: 100%;
+    min-height: 100vh;
+  }
+
+  .scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
   .container {
-    grid-template-areas: "header" "nav" "content" "user" "footer";
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto auto;
+    grid-template-areas: "header header" "nav nav" "content content" "user footer";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    height: auto;
+    max-width: 100%;
+    min-height: 100vh;
+
+    nav a {
+      .link-text {
+        display: none;
+      }
+    }
+
+    main {
+      height: auto;
+      max-width: 100%;
+      overflow-x: auto;
+      padding-bottom: 0;
+    }
+  }
+
+  .collapsed {
+    grid-template-areas: "nav user header" "content content content" "footer footer footer";
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: auto 1fr auto;
   }
 }

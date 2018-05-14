@@ -4,8 +4,6 @@ import { createNotification } from "component/notification/panel/panel";
 import { site_wrapper } from "component/site/site-wrapper";
 import { req_with_auth } from "services/api/requests";
 
-export const component_name = "ServiceCreate";
-
 const State = {
     swarms: {},
     swarmsAdded: {},
@@ -24,7 +22,7 @@ const State = {
     },
     fetch: function () {
         req_with_auth({
-            url: "/api/v1/document/swarms",
+            url: "/api/v1/document/environments",
             method: "GET",
             then: function (response) {
                 State.swarmCheckBoxes = pipe(
@@ -46,7 +44,7 @@ const State = {
             },
             catch() {
                 createNotification(
-                    "Unable to fetch swarms",
+                    "Unable to fetch environments",
                     "Check your connection to the server.",
                     "error"
                 )
@@ -80,13 +78,12 @@ const State = {
     }
 };
 
-export const ServiceCreate = site_wrapper({
+export const ServiceCreateForm = {
     oninit() {
         State.fetch();
     },
     view() {
-        return m("div.home", [
-            m("h1", "Create service"),
+        return m("div", [
             m("label[for=servicename]", "Service name"),
             m("input#servicename[type=text]", {
                 oninput: m.withAttr("value", State.setServiceName)
@@ -100,4 +97,4 @@ export const ServiceCreate = site_wrapper({
             m("button", {onclick: State.submit}, "Create service")
         ]);
     }
-});
+};

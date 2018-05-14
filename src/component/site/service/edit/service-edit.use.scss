@@ -1,15 +1,14 @@
 @import "~style/colors";
 
-//.deploy_select {
-//  display: inline;
-//  float: left;
-//}
-
-.deploy_grid {
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-areas: "select" "select" "button";
-  grid-template-columns: 1fr auto auto;
+input[type=datetime-local] {
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+  border: 0.1rem solid $color-quaternary;
+  border-radius: .4rem;
+  box-shadow: none;
+  box-sizing: inherit;
+  height: 3.8rem;
+  padding: .6rem 1.0rem;
 }
 
 .red {

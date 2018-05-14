@@ -35,7 +35,7 @@ export function site_wrapper(component) {
         oninit() {
             window.onbeforeunload = (e) => {
                 let ret = [];
-                for(let key in UnloadFuncs) {
+                for (let key in UnloadFuncs) {
                     let func = UnloadFuncs[key];
                     let r = func(e);
                     if (r) {
@@ -48,14 +48,22 @@ export function site_wrapper(component) {
                 }
             };
         },
-        view: () => {
+        view() {
+            let collapsed = JSON.parse(localStorage.getItem("sidebarState.collapsed"));
+            let sidebarState = { collapsed: collapsed };
             return [
-                m("div.container", { id: "main-container" }, [
-                    m(Header),
-                    m(Menu),
-                    m("main", { role: "main" }, m(component)),
-                    m(User),
-                    m(Footer)
+                m("div.container", {
+                    id: "main-container",
+                    class: sidebarState.collapsed ? "collapsed" : ""
+                }, [
+                    m(Header, { sidebarState: sidebarState }),
+                    m(Menu, { sidebarState: sidebarState }),
+                    m("main", {
+                        role: "main",
+                        sidebarState: sidebarState
+                    }, m(component)),
+                    m(User, { sidebarState: sidebarState }),
+                    m(Footer, { sidebarState: sidebarState })
                 ]),
                 m(NotificationPanel)
             ];

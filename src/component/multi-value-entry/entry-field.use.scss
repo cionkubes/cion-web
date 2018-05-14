@@ -1,0 +1,26 @@
+@import "~style/colors";
+
+.entry {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-areas: "name value delete";
+  grid-template-columns: 0.8fr 1fr auto;
+}
+
+input.name, input.value, button.delete {
+  margin: 0.3rem;
+}
+
+input.name {
+  grid-area: name;
+}
+
+input.value {
+  grid-area: value;
+}
+
+button.delete {
+  background-color: $color-cion-erroneous;
+  grid-area: delete;
+  padding: 0 1.4rem;
+}

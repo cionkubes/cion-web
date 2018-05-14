@@ -36,6 +36,10 @@ td.last {
   width: 99%;
 }
 
+table {
+  margin-bottom: 0;
+}
+
 @media (min-width: 80rem) {
   .cion-table-header {
     grid-template-areas: "search page-browser go-to-field page-length";
@@ -71,6 +75,7 @@ td.last {
       input {
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
+        font-family: "Lucida Console", Monaco, monospace;
         grid-area: search-field;
       }
 

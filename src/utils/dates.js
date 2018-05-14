@@ -50,3 +50,7 @@ export function rdbEpochToDate(ep) {
     date.setUTCSeconds(ep);
     return date;
 }
+
+export function dateToRdbEpoch(date) {
+    return new Date(date).getTime() / 1000;
+}

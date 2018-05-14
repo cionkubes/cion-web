@@ -5,15 +5,21 @@
   position: absolute;
   width: 100vw;
   bottom: 0;
+  max-width: 100%;
+
   div.colwrap {
     float: right;
     blockquote {
       width: 25rem;
       margin-top: 0;
       margin-bottom: 1.5rem;
+      margin-right: 1.5rem;
+      background-color: $color-cion-background-transparent;
+
       h6 {
         margin-bottom: 0.5rem;
       }
+
       p {
         font-size: 1.2rem;
       }
