@@ -220,7 +220,7 @@ export const Service = site_wrapper({
                 m("h3", "Service update history"),
                 m(TaskLogs, {
                     compName: "service-logs-" + this.service_name,
-                    term: "service-name:\"^" + this.service_name + "$\"",
+                    term: "service:\"^" + this.service_name + "$\"",
                     overrides: ["term", "pageLength"],
                     pageLength: 10
                 })
