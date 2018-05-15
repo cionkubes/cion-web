@@ -24,7 +24,7 @@ const K8sForm = {
                 m("label", { title: "File-path to base64-encoded service account token" }, [
                     "Token", m("input[type=text]", {
                         placeholder: "E.g. /run/secrets/kube.token",
-                        onchange: m.withAttr("value", val => state.form.tls.cert = val, this)
+                        onchange: m.withAttr("value", val => state.form.tls.token = val, this)
                     })
                 ])
             ])
@@ -71,10 +71,10 @@ const DockerTLSForm = {
 export const NewEnvironmentForm = {
     setModeSelected(value) {
         this.form.mode = value;
-        if (value === "tls") {
-            this.form.tls = {};
-        } else {
+        if (value === "from_env") {
             delete this.form["tls"];
+        } else {
+            this.form.tls = {};
         }
     },
 
