@@ -1,6 +1,6 @@
 {
   "name": "cion",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Web application for cion",
   "main": "src/web/app.py",
   "scripts": {

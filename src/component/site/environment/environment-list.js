@@ -22,10 +22,10 @@ export const EnvironmentList = {
                 let mode = row["mode"];
                 let tagMatch = row["tag-match"];
                 let data = "NA";
-                if (mode === "tls") {
+                if (mode !== "from_env") {
                     data = pipe(
                         Object.keys(row["tls"]),
-                        map(key => key + ": " + row[key]),
+                        map(key => key + ": " + row["tls"][key]),
                         Array.from
                     ).join(", ");
                 }
